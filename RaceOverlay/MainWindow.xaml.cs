@@ -9,17 +9,27 @@ namespace RaceOverlay;
 /// <summary>
 /// Interaction Printic for MainWindow.xaml
 /// </summary>
+
+#pragma warning disable CA2211 // Non-constant fields should not be visible
 public partial class MainWindow : Window
 {
+    // Data Getter
     public static IRSDKSharper IrsdkSharper = null!;
 
-    private Inputs _inputs;
+    // Overlays
+    private Inputs _inputs = null!;
+    
     public MainWindow()
     {
         InitializeComponent();
         _initIRacingData();
-        _inputs = new Inputs();
+        _initOverlays();
         
+    }
+
+    private void _initOverlays()
+    {
+        _inputs = new Inputs();
     }
 
     private void _initIRacingData()
@@ -48,29 +58,29 @@ public partial class MainWindow : Window
         IrsdkSharper.Stop();
     }
 
-    private void OnException( Exception exception )
+    private static void OnException( Exception exception )
     {
         Debug.Print( "OnException() fired!" );
     }
 
-    private void OnConnected()
+    private static void OnConnected()
     {
         Debug.Print( "OnConnected() fired!" );
     }
 
-    private void OnDisconnected()
+    private static void OnDisconnected()
     {
         Debug.Print( "OnDisconnected() fired!" );
     }
 
-    private void OnSessionInfo()
+    private static void OnSessionInfo()
     {
         var trackName = IrsdkSharper.Data.SessionInfo.WeekendInfo.TrackName;
 
         Debug.Print( $"OnSessionInfo fired! Track name is {trackName}." );
     }
 
-    private void OnTelemetryData()
+    private static void OnTelemetryData()
     {
         var lapDistPct = IrsdkSharper.Data.GetFloat( "CarIdxLapDistPct", 5 );
 
