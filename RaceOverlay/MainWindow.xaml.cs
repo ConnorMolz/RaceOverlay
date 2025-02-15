@@ -7,7 +7,7 @@ using RaceOverlay.Overlays.Inputs;
 namespace RaceOverlay;
 
 /// <summary>
-/// Interaction Printic for MainWindow.xaml
+/// Interaction Printing for MainWindow.xaml
 /// </summary>
 
 #pragma warning disable CA2211 // Non-constant fields should not be visible
@@ -49,7 +49,7 @@ public partial class MainWindow : Window
         // this means fire the OnTelemetryData event every 30 data frames (2 times a second)
         IrsdkSharper.UpdateInterval = 30; 
 
-        // lets go!
+        // let's go!
         IrsdkSharper.Start();
     }
     
