@@ -10,7 +10,7 @@
         <Button
             Width="40"
             Height="40"
-            Click="Open_Inputs"
+            Click="Toggle_Inputs"
             ></Button>
     </Grid>
 </Window>

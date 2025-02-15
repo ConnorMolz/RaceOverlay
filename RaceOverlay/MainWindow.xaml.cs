@@ -92,8 +92,15 @@ public partial class MainWindow : Window
         Debug.Print( "OnStopped() fired!" );
     }
     
-    private void Open_Inputs(object sender, RoutedEventArgs e)
+    private void Toggle_Inputs(object sender, RoutedEventArgs e)
     {
-        _inputs.Show();
+        if (_inputs.IsVisible)
+        {
+            _inputs.Hide();
+        }
+        else
+        {
+            _inputs.Show();
+        }
     }
 }
