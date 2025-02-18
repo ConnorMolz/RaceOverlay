@@ -9,6 +9,13 @@ public class Mapper
     {
         iRacingData data = new();
         
+        // Map Session Data
+        data.SessionData.TimeLeft = irsdkSharper.Data.GetFloat("SessionTimeRemain");
+        data.SessionData.TimeTotal = irsdkSharper.Data.GetFloat("SessionTimeTotal");
+        data.SessionData.LapsLeft = irsdkSharper.Data.GetInt("SessionLapsRemain");
+        data.SessionData.LapsTotal = irsdkSharper.Data.GetInt("SessionLapsTotal");
+        data.SessionData.LapsLeftEstimated = irsdkSharper.Data.GetInt("SessionLapsRemainEx");
+        
         // Map Inputs
         data.Inputs.Clutch = irsdkSharper.Data.GetFloat("Clutch");
         data.Inputs.Throttle = irsdkSharper.Data.GetFloat("Throttle");

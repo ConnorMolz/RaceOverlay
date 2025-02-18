@@ -4,4 +4,6 @@ public class iRacingData
 {
     public LocalCarTelemetry LocalCarTelemetry { get; set; }
     public Inputs Inputs { get; set; }
+    
+    public SessionData SessionData { get; set; }
 }
