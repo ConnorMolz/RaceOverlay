@@ -68,7 +68,7 @@ public class Mapper
         data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");
         data.LocalCarTelemetry.Speed = irsdkSharper.Data.GetFloat("Speed");
         
-        // FUel Level and Press
+        // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
         data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
         
@@ -80,6 +80,24 @@ public class Mapper
         // Water Temp and level
         data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
         data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
+        
+        
+        // Map Weather Data
+        data.WeatherData.AirTemp = irsdkSharper.Data.GetFloat("AirTemp");
+        data.WeatherData.TrackTemp = irsdkSharper.Data.GetFloat("TrackTemp");
+        data.WeatherData.RelativeHumidity = irsdkSharper.Data.GetFloat("RelativeHumidity");
+        data.WeatherData.FogLevel = irsdkSharper.Data.GetFloat("FogLevel");
+        data.WeatherData.TrackTempCrew = irsdkSharper.Data.GetFloat("TrackTempCrew");
+        data.WeatherData.Skies = irsdkSharper.Data.GetFloat("Skies");
+        data.WeatherData.TrackWetness = irsdkSharper.Data.GetFloat("TrackWetness");
+        data.WeatherData.Precipitation = irsdkSharper.Data.GetFloat("Precipitation");
+        data.WeatherData.WindDir = irsdkSharper.Data.GetFloat("WindDir");
+        data.WeatherData.WindVel = irsdkSharper.Data.GetFloat("WindVel");
+        data.WeatherData.WeatherDeclaredWet = irsdkSharper.Data.GetBool("WeatherDeclaredWet");
+        data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
+        data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
+        
+        // Return Dataset
         return data;
     }
 }

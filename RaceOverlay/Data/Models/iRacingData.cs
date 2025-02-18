@@ -6,4 +6,5 @@ public class iRacingData
     public Inputs Inputs { get; set; }
     
     public SessionData SessionData { get; set; }
+    public WeatherData WeatherData { get; set; }
 }
