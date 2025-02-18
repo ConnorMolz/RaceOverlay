@@ -13,7 +13,7 @@ namespace RaceOverlay;
 #pragma warning disable CA2211 // Non-constant fields should not be visible
 public partial class MainWindow : Window
 {
-    // Data Getter
+    // iRacingData Getter
     public static IRSDKSharper IrsdkSharper = null!;
 
     // Overlays
