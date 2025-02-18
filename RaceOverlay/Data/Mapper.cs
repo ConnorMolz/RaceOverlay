@@ -10,6 +10,8 @@ public class Mapper
         iRacingData data = new();
         
         // Map LocalCarTelemetry
+        
+        // Map Tyres
         data.LocalCarTelemetry.FrontLeft = new Tyre(
             irsdkSharper.Data.GetFloat("LFcoldPressure"),
             irsdkSharper.Data.GetFloat("LFtempCL"),
@@ -47,6 +49,23 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRwearR")
         );
         
+        // Gear, RPM, Speed
+        data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
+        data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");
+        data.LocalCarTelemetry.Speed = irsdkSharper.Data.GetFloat("Speed");
+        
+        // FUel Level and Press
+        data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
+        data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
+        
+        // Oil Temp, Press and level
+        data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
+        data.LocalCarTelemetry.OilPressure = irsdkSharper.Data.GetFloat("OilPress");
+        data.LocalCarTelemetry.OilLevel = irsdkSharper.Data.GetFloat("OilLevel");
+        
+        // Water Temp and level
+        data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
+        data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
         return data;
     }
 }
