@@ -9,6 +9,13 @@ public class Mapper
     {
         iRacingData data = new();
         
+        // Map Inputs
+        data.Inputs.Clutch = irsdkSharper.Data.GetFloat("Clutch");
+        data.Inputs.Throttle = irsdkSharper.Data.GetFloat("Throttle");
+        data.Inputs.Brake = irsdkSharper.Data.GetFloat("Brake");
+        data.Inputs.Steering = irsdkSharper.Data.GetFloat("SteeringWheelAngle");
+        data.Inputs.Handbrake = irsdkSharper.Data.GetFloat("HandbrakeRaw"); // Todo: Need to check this
+        
         // Map LocalCarTelemetry
         
         // Map Tyres
