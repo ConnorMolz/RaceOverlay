@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Windows;
 using HerboldRacing;
-using RaceOverlay.Overlays.Inputs;
+using RaceOverlay.Data;
+using RaceOverlay.Data.Models;
+using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
 
@@ -15,6 +17,7 @@ public partial class MainWindow : Window
 {
     // iRacingData Getter
     public static IRSDKSharper IrsdkSharper = null!;
+    public static iRacingData IRacingData = new ();
 
     // Overlays
     private Inputs _inputs = null!;
@@ -82,9 +85,7 @@ public partial class MainWindow : Window
 
     private static void OnTelemetryData()
     {
-        var lapDistPct = IrsdkSharper.Data.GetFloat( "CarIdxLapDistPct", 5 );
-
-        Debug.Print( $"OnTelemetryData fired! Lap dist pct for the 6th car in the array is {lapDistPct}." );
+        IRacingData = Mapper.MapData(IrsdkSharper);
     }
 
     private static void OnStopped()

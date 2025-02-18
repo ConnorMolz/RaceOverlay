@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Media;
 using HerboldRacing;
+using RaceOverlay.Data.Models;
 
 namespace RaceOverlay.Overlays.Inputs;
 
@@ -12,14 +13,14 @@ public partial class Inputs : Window
     private double _clutch;
     private int _gear;
     private double _speed;
-    
-    IRSDKSharper IrsdkSharper = null!;
+
+    private iRacingData data;
     
     public Inputs()
     {
         InitializeComponent();
         DrawHardcodedData();
-        IrsdkSharper = MainWindow.IrsdkSharper;
+        data = MainWindow.IRacingData;
         _getData();
     }
 
@@ -72,6 +73,10 @@ public partial class Inputs : Window
 
     private void _getData()
     {
-        Console.WriteLine(IrsdkSharper.Data.TelemetryDataProperties.Capacity);
+        _throttle = data.Inputs.Throttle;
+        _brake = data.Inputs.Brake;
+        _clutch = data.Inputs.Clutch;
+        _gear = data.LocalCarTelemetry.Gear;
+        _speed = data.LocalCarTelemetry.Speed;
     }
 }
