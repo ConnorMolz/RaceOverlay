@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using HerboldRacing;
@@ -14,13 +15,13 @@ public partial class Inputs : Window
     private int _gear;
     private double _speed;
 
-    private iRacingData data;
+    private iRacingData _data;
     
     public Inputs()
     {
         InitializeComponent();
         DrawHardcodedData();
-        data = MainWindow.IRacingData;
+        _data = MainWindow.IRacingData;
         _getData();
     }
 
@@ -73,10 +74,23 @@ public partial class Inputs : Window
 
     private void _getData()
     {
-        _throttle = data.Inputs.Throttle;
-        _brake = data.Inputs.Brake;
-        _clutch = data.Inputs.Clutch;
-        _gear = data.LocalCarTelemetry.Gear;
-        _speed = data.LocalCarTelemetry.Speed;
+        try
+        {
+            _throttle = _data.Inputs.Throttle;
+            _brake = _data.Inputs.Brake;
+            _clutch = _data.Inputs.Clutch;
+            _gear = _data.LocalCarTelemetry.Gear;
+            _speed = _data.LocalCarTelemetry.Speed;
+        }
+        catch (TargetInvocationException e)
+        {
+            Console.WriteLine("IRacing data not available yet.");
+            Console.WriteLine(e);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error getting iRacing data: " + e.Message);
+        }
+        
     }
 }
