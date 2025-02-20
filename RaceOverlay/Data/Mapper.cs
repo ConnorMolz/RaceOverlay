@@ -63,6 +63,32 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRwearR")
         );
         
+        // Map Dampers
+        data.LocalCarTelemetry.FrontLeftDamper = new Damper(
+            irsdkSharper.Data.GetFloat("LFshockDefl"),
+            irsdkSharper.Data.GetFloat("LFshockDefST"),
+            irsdkSharper.Data.GetFloat("LFshockVel"),
+            irsdkSharper.Data.GetFloat("LFshockVelST")
+        );
+        data.LocalCarTelemetry.FrontRightDamper = new Damper(
+            irsdkSharper.Data.GetFloat("RFshockDefl"),
+            irsdkSharper.Data.GetFloat("RFshockDefST"),
+            irsdkSharper.Data.GetFloat("RFshockVel"),
+            irsdkSharper.Data.GetFloat("RFshockVelST")
+        );
+        data.LocalCarTelemetry.RearLeftDamper = new Damper(
+            irsdkSharper.Data.GetFloat("LRshockDefl"),
+            irsdkSharper.Data.GetFloat("LRshockDefST"),
+            irsdkSharper.Data.GetFloat("LRshockVel"),
+            irsdkSharper.Data.GetFloat("LRshockVelST")
+        );
+        data.LocalCarTelemetry.RearRightDamper = new Damper(
+            irsdkSharper.Data.GetFloat("RRshockDefl"),
+            irsdkSharper.Data.GetFloat("RRshockDefST"),
+            irsdkSharper.Data.GetFloat("RRshockVel"),
+            irsdkSharper.Data.GetFloat("RRshockVelST")
+        );
+        
         // Gear, RPM, Speed
         data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
         data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");

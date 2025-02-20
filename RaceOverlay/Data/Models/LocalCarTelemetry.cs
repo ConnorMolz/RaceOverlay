@@ -8,6 +8,11 @@ public class LocalCarTelemetry
     public Tyre RearLeftTyre { get; set; }
     public Tyre RearRightTyre { get; set; }
     
+    //Dampers
+    public Damper FrontLeftDamper { get; set; }
+    public Damper FrontRightDamper { get; set; }
+    public Damper RearLeftDamper { get; set; }
+    public Damper RearRightDamper { get; set; }
     
     
     public int CurrentRPM { get; set; }
