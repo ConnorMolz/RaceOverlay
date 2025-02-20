@@ -1,5 +1,4 @@
-OnTelemetryData() fired!
-System.Collections.Generic.Dictionary`2+KeyCollection[System.String,HerboldRacing.IRacingSdkDatum]
+
 SessionTime
 SessionTick
 SessionNum
