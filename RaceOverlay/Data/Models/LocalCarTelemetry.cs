@@ -2,10 +2,13 @@ namespace RaceOverlay.Data.Models;
 
 public class LocalCarTelemetry
 {
-    public Tyre FrontLeft { get; set; }
-    public Tyre FrontRight { get; set; }
-    public Tyre RearLeft { get; set; }
-    public Tyre RearRight { get; set; }
+    //Tiers
+    public Tyre FrontLeftTyre { get; set; }
+    public Tyre FrontRightTyre { get; set; }
+    public Tyre RearLeftTyre { get; set; }
+    public Tyre RearRightTyre { get; set; }
+    
+    
     
     public int CurrentRPM { get; set; }
     public int Gear { get; set; }

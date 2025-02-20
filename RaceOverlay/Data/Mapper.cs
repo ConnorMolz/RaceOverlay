@@ -26,7 +26,7 @@ public class Mapper
         // Map LocalCarTelemetry
         
         // Map Tyres
-        data.LocalCarTelemetry.FrontLeft = new Tyre(
+        data.LocalCarTelemetry.FrontLeftTyre = new Tyre(
             irsdkSharper.Data.GetFloat("LFcoldPressure"),
             irsdkSharper.Data.GetFloat("LFtempCL"),
             irsdkSharper.Data.GetFloat("LFtempCM"),
@@ -35,7 +35,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFwearC"),
             irsdkSharper.Data.GetFloat("LFwearR")
             );
-        data.LocalCarTelemetry.FrontRight = new Tyre(
+        data.LocalCarTelemetry.FrontRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RFcoldPressure"),
             irsdkSharper.Data.GetFloat("RFtempCL"),
             irsdkSharper.Data.GetFloat("RFtempCM"),
@@ -44,7 +44,7 @@ public class Mapper
         irsdkSharper.Data.GetFloat("RFwearC"),
         irsdkSharper.Data.GetFloat("RFwearR")
         );
-        data.LocalCarTelemetry.RearLeft = new Tyre(
+        data.LocalCarTelemetry.RearLeftTyre = new Tyre(
             irsdkSharper.Data.GetFloat("LRcoldPressure"),
             irsdkSharper.Data.GetFloat("LRtempCL"),
             irsdkSharper.Data.GetFloat("LRtempCM"),
@@ -53,7 +53,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LRwearC"),
             irsdkSharper.Data.GetFloat("LRwearR")
         );
-        data.LocalCarTelemetry.RearRight = new Tyre(
+        data.LocalCarTelemetry.RearRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RRcoldPressure"),
             irsdkSharper.Data.GetFloat("RRtempCL"),
             irsdkSharper.Data.GetFloat("RRtempCM"),
