@@ -29,6 +29,20 @@ public class LocalCarTelemetry
     public float WaterTemp { get; set; }
     public float WaterLevel { get; set; }
     
+    // Battery (GPT Only)
+    public float EngeryLevelPct { get; set; } = 0;
+    
+    // Lap data
+    public int Lap { get; set; }
     
     
+    // Brakes
+    public float BrakeBias { get; set; }
+    
+    // Car Electronics
+    public int Tc1 { get; set; }
+    public int Tc2 { get; set; }
+    public int Abs { get; set; }
+
+
 }

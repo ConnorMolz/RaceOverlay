@@ -107,6 +107,19 @@ public class Mapper
         data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
         data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
         
+        // Energy Level (GPT Only)
+        data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct");
+        
+        // Lap Data
+        data.LocalCarTelemetry.Lap = irsdkSharper.Data.GetInt("Lap");
+        
+        // Drive Assistants
+        data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
+        data.LocalCarTelemetry.Tc1 = irsdkSharper.Data.GetInt("dcTractionControl");
+        data.LocalCarTelemetry.Tc2 = irsdkSharper.Data.GetInt("dcTractionControl2");
+        //data.LocalCarTelemetry.Abs = irsdkSharper.Data.GetInt("ABS");
+        
+        
         
         // Map Weather Data
         data.WeatherData.AirTemp = irsdkSharper.Data.GetFloat("AirTemp");
