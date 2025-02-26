@@ -15,42 +15,44 @@
         </Grid.ColumnDefinitions>
         
 
-        <!-- Middle section with vertical bars -->
+        <!-- section with input bars -->
         <StackPanel Grid.Column="1" 
                     Orientation="Horizontal" 
                     Margin="10,0"
                     VerticalAlignment="Bottom">
-            <!-- Bar 1 -->
+            <!-- Bar 1 (Clutch) -->
             <Grid Height="100">
                 <Rectangle Width="10" 
                            Height="100" 
                            Fill="#FF2A2A2A"/>  
-                <Rectangle Width="10" 
+                <Rectangle x:Name="ClutchBar"
+                           Width="10" 
                            Height="70" 
-                           Fill="#FF333333"
+                           Fill="#FF0000FF"
                            VerticalAlignment="Bottom"/>
             </Grid>
             
-            <!-- Bar 2 -->
+            <!-- Bar 2 (Brake)-->
             <Grid Height="100" Margin="5,0">
                 <Rectangle Width="10" 
                            Height="100" 
                            Fill="#FF2A2A2A"/>  
-                <Rectangle Width="10" 
+                <Rectangle x:Name="BrakeBar"
+                           Width="10" 
                            Height="80" 
-                           Fill="#FF333333"
+                           Fill="#FFFF0000"
                            VerticalAlignment="Bottom"/>
             </Grid>
             
-            <!-- Bar 3 with background -->
+            <!-- Bar 3 (Throttle) -->
             <Grid Height="100">
                 <Rectangle Width="10" 
                            Height="100" 
                            Fill="#FF2A2A2A"/>  
-                <Rectangle x:Name="BarLevel"
+                <Rectangle x:Name="ThrottleBar"
                            Width="10" 
                            Height="75" 
-                           Fill="#FF4CAF50"
+                           Fill="#FF00FF00"
                            VerticalAlignment="Bottom"/>
             </Grid>
         </StackPanel>
@@ -63,7 +65,7 @@
                      Height="80"/>
             <StackPanel VerticalAlignment="Center" 
                        HorizontalAlignment="Center">
-                <TextBlock x:Name="SpeedText"
+                <TextBlock x:Name="GearText"
                          Text="4" 
                          Foreground="White" 
                          FontSize="24" 
@@ -72,7 +74,7 @@
                          Foreground="White" 
                          FontSize="12" 
                          HorizontalAlignment="Center"/>
-                <TextBlock x:Name="SpeedSubText"
+                <TextBlock x:Name="SpeedText"
                          Text="124" 
                          Foreground="White" 
                          FontSize="12" 

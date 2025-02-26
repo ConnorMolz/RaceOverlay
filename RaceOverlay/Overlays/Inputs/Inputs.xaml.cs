@@ -22,6 +22,10 @@ public partial class Inputs : Window
         _getData();
     }
 
+    private void _updateWindow()
+    {
+        
+    }
    
 
     private void _getData()
