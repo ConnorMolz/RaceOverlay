@@ -46,8 +46,8 @@ public partial class MainWindow : Window
         IrsdkSharper.OnTelemetryData += OnTelemetryData;
         IrsdkSharper.OnStopped += OnStopped;
 
-        // this means fire the OnTelemetryData event every 30 data frames (2 times a second)
-        IrsdkSharper.UpdateInterval = 30; 
+        // this means fire the OnTelemetryData event every 10 data frames (6 times a second)
+        IrsdkSharper.UpdateInterval = 10; 
 
         // let's go!
         IrsdkSharper.Start();

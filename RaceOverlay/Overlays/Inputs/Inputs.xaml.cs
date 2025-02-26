@@ -21,6 +21,18 @@ public partial class Inputs : Window
         IrsdkSharper = MainWindow.IrsdkSharper;
         _getData();
         _updateWindow();
+        
+        Thread updateThread = new Thread(() =>
+        {
+            while (IsVisible)
+            {
+                _getData();
+                _updateWindow();
+            }
+        }); 
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
 
     private void _updateWindow()
@@ -35,6 +47,6 @@ public partial class Inputs : Window
 
     private void _getData()
     {
-        Console.WriteLine(IrsdkSharper.Data.TelemetryDataProperties.Capacity);
+        _gear = 
     }
 }
