@@ -1,7 +1,7 @@
 <Window x:Class="RaceOverlay.Overlays.Inputs.Inputs"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Telemetry Display" Height="150" Width="600"
+        Title="Telemetry Display" Height="130" Width="180"
         Background="#FF1E1E1E"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -13,39 +13,51 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
+        
 
-        <!-- Left section with line graph -->
-        <Border Grid.Column="0" 
-                BorderBrush="#FF333333" 
-                BorderThickness="1" 
-                Background="#FF252525">
-            <Canvas x:Name="GraphCanvas" Height="100">
-                <Polyline x:Name="GreenLine" 
-                         Stroke="LimeGreen" 
-                         StrokeThickness="2"/>
-                <Polyline x:Name="RedLine" 
-                         Stroke="Red" 
-                         StrokeThickness="2"/>
-            </Canvas>
-        </Border>
-
-        <!-- Middle section with vertical bars -->
+        <!-- section with input bars -->
         <StackPanel Grid.Column="1" 
                     Orientation="Horizontal" 
-                    Margin="10,0">
-            <Rectangle Width="10" 
-                       Height="100" 
-                       Fill="#FF333333"/>
-            <Rectangle Width="10" 
-                       Height="100" 
-                       Fill="#FF333333" 
-                       Margin="5,0"/>
-            <Rectangle Width="10" 
-                       Height="100" 
-                       Fill="#FF4CAF50"/>
+                    Margin="10,0"
+                    VerticalAlignment="Bottom">
+            <!-- Bar 1 (Clutch) -->
+            <Grid Height="100">
+                <Rectangle Width="10" 
+                           Height="100" 
+                           Fill="#FF2A2A2A"/>  
+                <Rectangle x:Name="ClutchBar"
+                           Width="10" 
+                           Height="70" 
+                           Fill="#FF0000FF"
+                           VerticalAlignment="Bottom"/>
+            </Grid>
+            
+            <!-- Bar 2 (Brake)-->
+            <Grid Height="100" Margin="5,0">
+                <Rectangle Width="10" 
+                           Height="100" 
+                           Fill="#FF2A2A2A"/>  
+                <Rectangle x:Name="BrakeBar"
+                           Width="10" 
+                           Height="80" 
+                           Fill="#FFFF0000"
+                           VerticalAlignment="Bottom"/>
+            </Grid>
+            
+            <!-- Bar 3 (Throttle) -->
+            <Grid Height="100">
+                <Rectangle Width="10" 
+                           Height="100" 
+                           Fill="#FF2A2A2A"/>  
+                <Rectangle x:Name="ThrottleBar"
+                           Width="10" 
+                           Height="75" 
+                           Fill="#FF00FF00"
+                           VerticalAlignment="Bottom"/>
+            </Grid>
         </StackPanel>
 
-        <!-- Right section with speed display -->
+        <!-- speed display -->
         <Grid Grid.Column="2">
             <Ellipse Stroke="White" 
                      StrokeThickness="2" 
@@ -53,7 +65,8 @@
                      Height="80"/>
             <StackPanel VerticalAlignment="Center" 
                        HorizontalAlignment="Center">
-                <TextBlock Text="4" 
+                <TextBlock x:Name="GearText"
+                         Text="4" 
                          Foreground="White" 
                          FontSize="24" 
                          HorizontalAlignment="Center"/>
@@ -61,11 +74,13 @@
                          Foreground="White" 
                          FontSize="12" 
                          HorizontalAlignment="Center"/>
-                <TextBlock Text="124" 
+                <TextBlock x:Name="SpeedText"
+                         Text="124" 
                          Foreground="White" 
                          FontSize="12" 
                          HorizontalAlignment="Center"/>
             </StackPanel>
+            
         </Grid>
     </Grid>
 </Window>

@@ -20,57 +20,32 @@ public partial class Inputs : Window
     public Inputs()
     {
         InitializeComponent();
-        DrawHardcodedData();
-        _data = MainWindow.IRacingData;
+        IrsdkSharper = MainWindow.IrsdkSharper;
         _getData();
+        _updateWindow();
+        
+        Thread updateThread = new Thread(() =>
+        {
+            while (IsVisible)
+            {
+                _getData();
+                _updateWindow();
+            }
+        }); 
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
 
-    private void DrawHardcodedData()
+    private void _updateWindow()
     {
-        // Sample data points for green line
-        List<Point> greenPoints = new List<Point>
-        {
-            new Point(0, 80),
-            new Point(50, 20),
-            new Point(100, 20),
-            new Point(150, 80),
-            new Point(200, 80),
-            new Point(250, 20),
-            new Point(300, 40)
-        };
-
-        // Sample data points for red line
-        List<Point> redPoints = new List<Point>
-        {
-            new Point(0, 80),
-            new Point(50, 80),
-            new Point(100, 20),
-            new Point(150, 80),
-            new Point(200, 80),
-            new Point(250, 80),
-            new Point(300, 80)
-        };
-
-        // Scale points to fit canvas
-        ScalePoints(greenPoints);
-        ScalePoints(redPoints);
-
-        // Set points to polylines
-        GreenLine.Points = new PointCollection(greenPoints);
-        RedLine.Points = new PointCollection(redPoints);
+        ThrottleBar.Height = _throttle * 100;
+        BrakeBar.Height = _brake * 100;
+        ClutchBar.Height = _clutch * 100;
+        GearText.Text = _gear.ToString();
+        SpeedText.Text = _speed.ToString("F0");
     }
-
-    private void ScalePoints(List<Point> points)
-    {
-        // Scale Y values to fit canvas (inverted because WPF coordinates go top-down)
-        for (int i = 0; i < points.Count; i++)
-        {
-            points[i] = new Point(
-                points[i].X,
-                100 - points[i].Y
-            );
-        }
-    }
+   
 
     private void _getData()
     {
