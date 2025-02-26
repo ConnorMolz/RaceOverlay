@@ -20,11 +20,16 @@ public partial class Inputs : Window
         InitializeComponent();
         IrsdkSharper = MainWindow.IrsdkSharper;
         _getData();
+        _updateWindow();
     }
 
     private void _updateWindow()
     {
-        
+        ThrottleBar.Height = _throttle * 100;
+        BrakeBar.Height = _brake * 100;
+        ClutchBar.Height = _clutch * 100;
+        GearText.Text = _gear.ToString();
+        SpeedText.Text = _speed.ToString("F0");
     }
    
 
