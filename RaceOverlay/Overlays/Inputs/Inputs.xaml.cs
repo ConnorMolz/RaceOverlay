@@ -1,6 +1,8 @@
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using HerboldRacing;
+using RaceOverlay.Data.Models;
 
 namespace RaceOverlay.Overlays.Inputs;
 
@@ -12,8 +14,8 @@ public partial class Inputs : Window
     private double _clutch;
     private int _gear;
     private double _speed;
-    
-    IRSDKSharper IrsdkSharper = null!;
+
+    private iRacingData _data;
     
     public Inputs()
     {
@@ -47,6 +49,23 @@ public partial class Inputs : Window
 
     private void _getData()
     {
-        _gear = 
+        try
+        {
+            _throttle = _data.Inputs.Throttle;
+            _brake = _data.Inputs.Brake;
+            _clutch = _data.Inputs.Clutch;
+            _gear = _data.LocalCarTelemetry.Gear;
+            _speed = _data.LocalCarTelemetry.Speed;
+        }
+        catch (TargetInvocationException e)
+        {
+            Console.WriteLine("IRacing data not available yet.");
+            Console.WriteLine(e);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error getting iRacing data: " + e.Message);
+        }
+        
     }
 }
