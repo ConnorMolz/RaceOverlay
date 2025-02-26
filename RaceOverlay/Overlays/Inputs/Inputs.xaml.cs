@@ -1,7 +1,5 @@
 using System.Reflection;
 using System.Windows;
-using System.Windows.Media;
-using HerboldRacing;
 using RaceOverlay.Data.Models;
 
 namespace RaceOverlay.Overlays.Inputs;
@@ -20,7 +18,6 @@ public partial class Inputs : Window
     public Inputs()
     {
         InitializeComponent();
-        IrsdkSharper = MainWindow.IrsdkSharper;
         _getData();
         _updateWindow();
         

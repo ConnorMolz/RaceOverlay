@@ -18,6 +18,9 @@ public partial class MainWindow : Window
     // iRacingData Getter
     public static IRSDKSharper IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
+    
+    // Threads
+    private static Thread dataThread = null!;
 
     // Overlays
     private Inputs _inputs = null!;
@@ -27,6 +30,16 @@ public partial class MainWindow : Window
         InitializeComponent();
         _initIRacingData();
         _initOverlays();
+        
+        dataThread = new Thread(() =>
+        {
+            while (true)
+            {
+                IRacingData = Mapper.MapData(IrsdkSharper);
+            }
+        });
+        
+        dataThread.IsBackground = true;
         
     }
 
@@ -86,10 +99,12 @@ public partial class MainWindow : Window
     private static void OnTelemetryData()
     {
         IRacingData = Mapper.MapData(IrsdkSharper);
+        dataThread.Start();
     }
 
     private static void OnStopped()
     {
+        dataThread.Interrupt();
         Debug.Print( "OnStopped() fired!" );
     }
     
