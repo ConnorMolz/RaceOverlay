@@ -9,7 +9,8 @@ public class Damper
         ShockVelocity = shockVelocity;
         ShockVelocityST = shockVelocitySt;
     }
-
+    
+    public Damper(){}
     private float ShockDeflection { get; set; }
     private float SchockDeflectionST { get; set; }
     float ShockVelocity { get; set; }

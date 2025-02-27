@@ -28,4 +28,6 @@ public class Tyre
         WearCenter = wearCenter;
         WearRight = wearRight;
     }
+    
+    public Tyre(){}
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using HerboldRacing;
 using RaceOverlay.Data.Models;
 
@@ -32,7 +33,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFtempCM"),
             irsdkSharper.Data.GetFloat("LFtempCR"),
             irsdkSharper.Data.GetFloat("LFwearL"),
-            irsdkSharper.Data.GetFloat("LFwearC"),
+            irsdkSharper.Data.GetFloat("LFwearM"),
             irsdkSharper.Data.GetFloat("LFwearR")
             );
         data.LocalCarTelemetry.FrontRightTyre = new Tyre(
@@ -41,7 +42,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RFtempCM"),
             irsdkSharper.Data.GetFloat("RFtempCR"),
         irsdkSharper.Data.GetFloat("RFwearL"),
-        irsdkSharper.Data.GetFloat("RFwearC"),
+        irsdkSharper.Data.GetFloat("RFwearM"),
         irsdkSharper.Data.GetFloat("RFwearR")
         );
         data.LocalCarTelemetry.RearLeftTyre = new Tyre(
@@ -50,7 +51,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LRtempCM"),
             irsdkSharper.Data.GetFloat("LRtempCR"),
             irsdkSharper.Data.GetFloat("LRwearL"),
-            irsdkSharper.Data.GetFloat("LRwearC"),
+            irsdkSharper.Data.GetFloat("LRwearM"),
             irsdkSharper.Data.GetFloat("LRwearR")
         );
         data.LocalCarTelemetry.RearRightTyre = new Tyre(
@@ -59,34 +60,34 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRtempCM"),
             irsdkSharper.Data.GetFloat("RRtempCR"),
             irsdkSharper.Data.GetFloat("RRwearL"),
-            irsdkSharper.Data.GetFloat("RRwearC"),
+            irsdkSharper.Data.GetFloat("RRwearM"),
             irsdkSharper.Data.GetFloat("RRwearR")
         );
         
         // Map Dampers
         data.LocalCarTelemetry.FrontLeftDamper = new Damper(
             irsdkSharper.Data.GetFloat("LFshockDefl"),
-            irsdkSharper.Data.GetFloat("LFshockDefST"),
+            irsdkSharper.Data.GetFloat("LFshockDefl_ST"),
             irsdkSharper.Data.GetFloat("LFshockVel"),
-            irsdkSharper.Data.GetFloat("LFshockVelST")
+            irsdkSharper.Data.GetFloat("LFshockVel_ST")
         );
         data.LocalCarTelemetry.FrontRightDamper = new Damper(
             irsdkSharper.Data.GetFloat("RFshockDefl"),
-            irsdkSharper.Data.GetFloat("RFshockDefST"),
+            irsdkSharper.Data.GetFloat("RFshockDefl_ST"),
             irsdkSharper.Data.GetFloat("RFshockVel"),
-            irsdkSharper.Data.GetFloat("RFshockVelST")
+            irsdkSharper.Data.GetFloat("RFshockVel_ST")
         );
         data.LocalCarTelemetry.RearLeftDamper = new Damper(
             irsdkSharper.Data.GetFloat("LRshockDefl"),
-            irsdkSharper.Data.GetFloat("LRshockDefST"),
+            irsdkSharper.Data.GetFloat("LRshockDefl_ST"),
             irsdkSharper.Data.GetFloat("LRshockVel"),
-            irsdkSharper.Data.GetFloat("LRshockVelST")
+            irsdkSharper.Data.GetFloat("LRshockVel_ST")
         );
         data.LocalCarTelemetry.RearRightDamper = new Damper(
             irsdkSharper.Data.GetFloat("RRshockDefl"),
-            irsdkSharper.Data.GetFloat("RRshockDefST"),
+            irsdkSharper.Data.GetFloat("RRshockDefl_ST"),
             irsdkSharper.Data.GetFloat("RRshockVel"),
-            irsdkSharper.Data.GetFloat("RRshockVelST")
+            irsdkSharper.Data.GetFloat("RRshockVel_ST")
         );
         
         // Gear, RPM, Speed
@@ -108,19 +109,53 @@ public class Mapper
         data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
         
         // Energy Level (GPT Only)
-        data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct");
+        try
+        {
+            data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine("Car has no ERS System");
+        }
+        
         
         // Lap Data
         data.LocalCarTelemetry.Lap = irsdkSharper.Data.GetInt("Lap");
         
         // Drive Assistants
         data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
-        data.LocalCarTelemetry.Tc1 = irsdkSharper.Data.GetInt("dcTractionControl");
-        data.LocalCarTelemetry.Tc2 = irsdkSharper.Data.GetInt("dcTractionControl2");
-        //data.LocalCarTelemetry.Abs = irsdkSharper.Data.GetInt("ABS");
-        
-        
-        
+        try
+        {
+            data.LocalCarTelemetry.Tc1 = irsdkSharper.Data.GetInt("dcTractionControl");
+        }
+        catch (Exception e)
+        {
+            
+        }
+
+        try
+        {
+            data.LocalCarTelemetry.Tc2 = irsdkSharper.Data.GetInt("dcTractionControl2");
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+
+        try
+        {
+            data.LocalCarTelemetry.Abs = irsdkSharper.Data.GetInt("dcABS");
+        }
+        catch (Exception e)
+        {
+            
+        }
+
+
+
+
+
+
         // Map Weather Data
         data.WeatherData.AirTemp = irsdkSharper.Data.GetFloat("AirTemp");
         data.WeatherData.TrackTemp = irsdkSharper.Data.GetFloat("TrackTemp");

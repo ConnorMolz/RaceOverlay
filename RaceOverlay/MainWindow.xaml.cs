@@ -110,7 +110,6 @@ public partial class MainWindow : Window
     private static void OnTelemetryData()
     {
         IRacingData = Mapper.MapData(IrsdkSharper);
-        dataThread.Start();
     }
 
     private static void OnStopped()

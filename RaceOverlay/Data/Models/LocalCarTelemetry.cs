@@ -2,6 +2,19 @@ namespace RaceOverlay.Data.Models;
 
 public class LocalCarTelemetry
 {
+    public LocalCarTelemetry()
+    {
+        FrontLeftTyre = new Tyre();
+        FrontRightTyre = new Tyre();
+        RearLeftTyre = new Tyre();
+        RearRightTyre = new Tyre();
+        
+        FrontLeftDamper = new Damper();
+        FrontRightDamper = new Damper();
+        RearLeftDamper = new Damper();
+        RearRightDamper = new Damper();
+    }
+    
     //Tiers
     public Tyre FrontLeftTyre { get; set; }
     public Tyre FrontRightTyre { get; set; }
