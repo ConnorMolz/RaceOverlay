@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RaceOverlay"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Race Overlay" 
         Height="450" 
         Width="800"
         WindowStartupLocation="Manual"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Background="#FF1E1E1E"
+        Foreground="White" >
     <Grid Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,6 +18,8 @@
         </Grid.ColumnDefinitions>
         
         <ListView x:Name="OverlayList" 
+                  Background="#FF1E1E1E"
+                  Foreground="White" 
                   Grid.Column="0" 
                   SelectionChanged="OverlaySelectionChanged"
                   Width="180"
@@ -30,17 +33,38 @@
         
         <Grid Grid.Column="1"
               HorizontalAlignment="Left"
-              Width="100">
+              Width="300">
+            <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <TextBlock Name="OverlayNameText" 
+                       Foreground="White" 
                        Grid.Column="0"
                        Grid.Row="0"
+                       TextAlignment="Center"
+                       FontSize="20"
                        Text=""></TextBlock>
-        </Grid>
-        
-        <Button Grid.Column="2"
-            Width="40"
-            Height="40"
-            Click="Toggle_Inputs"
-            ></Button>
+            <TextBlock Name="OverlayDescriptionText"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     Text=""
+                     FontSize="15"
+                     TextWrapping="Wrap"
+                     Foreground="White" 
+                     TextAlignment="Justify"/>
+            <Button Grid.Column="0"
+                    Background="#FF3E3E3E"
+                    Foreground="White" 
+                    Grid.Row="2"
+                    Click="Toggle_Overlay"
+                    Content="Toggle Overlay"
+                    Height="30"
+                    Width="300"
+                    Visibility="Hidden"
+                    Name="ToggleOverlayButton"/>
+            
     </Grid>
+        </Grid>
 </Window>
