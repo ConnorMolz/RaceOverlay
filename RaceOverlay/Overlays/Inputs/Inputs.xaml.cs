@@ -18,15 +18,26 @@ public partial class Inputs : Window
     public Inputs()
     {
         InitializeComponent();
-        _getData();
-        _updateWindow();
+        //_getData();
+        //_updateWindow();
         
         Thread updateThread = new Thread(() =>
         {
-            while (IsVisible)
+            while (true)
             {
-                _getData();
-                _updateWindow();
+                if (IsVisible)
+                {
+                    _getData();
+                    
+                    // Use Dispatcher to update UI from background thread
+                    Dispatcher.Invoke(() =>
+                    {
+                        _updateWindow();
+                    });
+                }
+                
+                // Add a small delay to prevent high CPU usage
+                Thread.Sleep(16); // ~60 updates per second
             }
         }); 
         
