@@ -48,7 +48,7 @@ public partial class Inputs : Overlay
             _data = MainWindow.IRacingData;
             _throttle = _data.Inputs.Throttle;
             _brake = _data.Inputs.Brake;
-            _clutch = _data.Inputs.Clutch;
+            _clutch = 1 - _data.Inputs.Clutch;
             _gear = _data.LocalCarTelemetry.Gear;
             _speed = _data.LocalCarTelemetry.Speed;
         }
