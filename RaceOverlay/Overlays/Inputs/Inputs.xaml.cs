@@ -33,11 +33,19 @@ public partial class Inputs : Overlay
 
     public override void _updateWindow()
     {
-        ThrottleBar.Height = _throttle * 100;
-        BrakeBar.Height = _brake * 100;
-        ClutchBar.Height = _clutch * 100;
-        GearText.Text = _gear.ToString();
-        SpeedText.Text = _speed.ToString("F0");
+        try
+        {
+            ThrottleBar.Height = _throttle * 100;
+            BrakeBar.Height = _brake * 100;
+            ClutchBar.Height = _clutch * 100;
+            GearText.Text = _gear.ToString();
+            SpeedText.Text = _speed.ToString("F0");
+        }
+        catch (Exception e)
+        {
+            //ignore
+        }
+        
     }
    
 
