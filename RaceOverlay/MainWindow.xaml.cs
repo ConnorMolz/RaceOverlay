@@ -53,7 +53,7 @@ public partial class MainWindow : Window
         List<Overlay> overlays = new List<Overlay>();
         
         // Add here every Overlay
-        overlays.Add(_inputs);
+        overlays.Add(new Inputs());
         
         OverlayList.ItemsSource = overlays;
         

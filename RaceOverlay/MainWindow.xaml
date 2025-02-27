@@ -16,16 +16,20 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         
-        <ListView x:Name="OverlayList" Grid.Column="0" 
-                  SelectionChanged="OverlaySelectionChanged">
+        <ListView x:Name="OverlayList" 
+                  Grid.Column="0" 
+                  SelectionChanged="OverlaySelectionChanged"
+                  Width="180"
+                  HorizontalAlignment="Left">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding OverlayName}" Padding="5"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Canvas Grid.Column="1"></Canvas>
         
-        <Button Grid.Column="1"
+        <Button Grid.Column="2"
             Width="40"
             Height="40"
             Click="Toggle_Inputs"
