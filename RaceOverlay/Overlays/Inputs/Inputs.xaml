@@ -6,7 +6,7 @@
         Background="#FF1E1E1E"
         WindowStyle="None"
         AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
         ResizeMode="NoResize">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>

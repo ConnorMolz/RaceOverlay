@@ -5,9 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RaceOverlay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button
+        Title="MainWindow" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize">
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        
+        <ListView x:Name="ItemsListView" Grid.Column="0" 
+                  SelectionChanged="OverlaySelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Padding="5"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <Button Grid.Column="1"
             Width="40"
             Height="40"
             Click="Toggle_Inputs"

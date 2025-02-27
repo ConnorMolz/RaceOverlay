@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using HerboldRacing;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
+using RaceOverlay.Internals;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -124,5 +126,16 @@ public partial class MainWindow : Window
     {
         base.OnClosed(e);
         Application.Current.Shutdown();
+    }
+
+    private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Overlay selectedItem = ItemsListView.SelectedItem as Overlay;
+            
+        if (selectedItem != null)
+        {
+            // Get Data from Overlay
+            
+        }
     }
 }
