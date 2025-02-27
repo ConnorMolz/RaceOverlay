@@ -112,6 +112,7 @@ public partial class MainWindow : Window
     
     private void Toggle_Inputs(object sender, RoutedEventArgs e)
     {
+        
         if (_inputs.IsVisible)
         {
             _inputs.Hide();
@@ -130,9 +131,9 @@ public partial class MainWindow : Window
 
     private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        Overlay selectedItem = ItemsListView.SelectedItem as Overlay;
+        Overlay selectedOverlay = ItemsListView.SelectedItem as Overlay;
             
-        if (selectedItem != null)
+        if (selectedOverlay != null)
         {
             // Get Data from Overlay
             

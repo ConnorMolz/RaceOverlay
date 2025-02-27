@@ -4,6 +4,9 @@ namespace RaceOverlay.Internals;
 
 public abstract class Overlay: Window
 {
+     public String OverlayName { get; set; }
+     public String OverlayDescription { get; set; }
+     
      public virtual void _updateWindow(){}
      public virtual void _getData(){}
 
