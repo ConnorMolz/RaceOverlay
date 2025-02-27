@@ -21,11 +21,6 @@ public partial class MainWindow : Window
     public static IRSDKSharper IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     
-    // Threads
-    private static Thread dataThread = null!;
-
-    // Overlays
-    private Inputs _inputs = null!;
     
     public MainWindow()
     {
@@ -33,23 +28,10 @@ public partial class MainWindow : Window
         _initIRacingData();
         _initOverlays();
         
-        dataThread = new Thread(() =>
-        {
-            while (true)
-            {
-                IRacingData = Mapper.MapData(IrsdkSharper);
-            }
-        });
-        
-        dataThread.IsBackground = true;
-        
     }
 
     private void _initOverlays()
     {
-        // Demo Code TODO: Remove
-        _inputs = new Inputs();
-
         List<Overlay> overlays = new List<Overlay>();
         
         // Add here every Overlay
@@ -113,7 +95,6 @@ public partial class MainWindow : Window
 
     private static void OnStopped()
     {
-        dataThread.Interrupt();
         Debug.Print( "OnStopped() fired!" );
     }
     
