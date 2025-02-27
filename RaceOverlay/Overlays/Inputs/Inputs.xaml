@@ -1,6 +1,7 @@
-<Window x:Class="RaceOverlay.Overlays.Inputs.Inputs"
+<internals:Overlay x:Class="RaceOverlay.Overlays.Inputs.Inputs"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:internals="clr-namespace:RaceOverlay.Internals"
         Title="Telemetry Display" Height="130" Width="180"
         Background="#FF1E1E1E"
         WindowStyle="None"
@@ -83,4 +84,4 @@
             
         </Grid>
     </Grid>
-</Window>
+</internals:Overlay>

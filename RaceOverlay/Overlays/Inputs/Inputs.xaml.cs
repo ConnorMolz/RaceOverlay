@@ -1,10 +1,11 @@
 using System.Reflection;
 using System.Windows;
 using RaceOverlay.Data.Models;
+using RaceOverlay.Internals;
 
 namespace RaceOverlay.Overlays.Inputs;
 
-public partial class Inputs : Window
+public partial class Inputs : Overlay
 {
     
     private double _throttle;
@@ -18,34 +19,14 @@ public partial class Inputs : Window
     public Inputs()
     {
         InitializeComponent();
-        //_getData();
-        //_updateWindow();
-        
-        Thread updateThread = new Thread(() =>
-        {
-            while (true)
-            {
-                if (IsVisible)
-                {
-                    _getData();
-                    
-                    // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
-                    {
-                        _updateWindow();
-                    });
-                }
-                
-                // Add a small delay to prevent high CPU usage
-                Thread.Sleep(16); // ~60 updates per second
-            }
-        }); 
+
+        Thread updateThread = new Thread(UpdateThreadMethod); 
         
         updateThread.IsBackground = true;
         updateThread.Start();
     }
 
-    private void _updateWindow()
+    public override void _updateWindow()
     {
         ThrottleBar.Height = _throttle * 100;
         BrakeBar.Height = _brake * 100;
@@ -55,7 +36,7 @@ public partial class Inputs : Window
     }
    
 
-    private void _getData()
+    public override void _getData()
     {
         try
         {
@@ -75,5 +56,28 @@ public partial class Inputs : Window
             Console.WriteLine("Error getting iRacing data: " + e.Message);
         }
         
+    }
+
+    public override void UpdateThreadMethod()
+    {
+        base.UpdateThreadMethod();
+        {
+            while (true)
+            {
+                if (IsVisible)
+                {
+                    _getData();
+                    
+                    // Use Dispatcher to update UI from background thread
+                    Dispatcher.Invoke(() =>
+                    {
+                        _updateWindow();
+                    });
+                }
+                
+                // Add a small delay to prevent high CPU usage
+                Thread.Sleep(16); // ~60 updates per second
+            }
+        }
     }
 }
