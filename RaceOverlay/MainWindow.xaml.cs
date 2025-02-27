@@ -117,22 +117,16 @@ public partial class MainWindow : Window
         Debug.Print( "OnStopped() fired!" );
     }
     
-    private void Toggle_Inputs(object sender, RoutedEventArgs e)
-    {
-        
-        if (_inputs.IsVisible)
-        {
-            _inputs.Hide();
-        }
-        else
-        {
-            _inputs.Show();
-        }
-    }
+    
     
     private void Toggle_Overlay(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+        if (selectedOverlay == null )
+        {
+            return;
+        }
+        selectedOverlay.ToggleOverlay();
     }
 
     protected override void OnClosed(EventArgs e)
@@ -150,6 +144,8 @@ public partial class MainWindow : Window
             // Get Data from Overlay
             Console.WriteLine(selectedOverlay.OverlayDescription);
             OverlayNameText.Text = selectedOverlay.OverlayName;
+            OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
+            ToggleOverlayButton.Visibility = Visibility.Visible;
             
         }
     }

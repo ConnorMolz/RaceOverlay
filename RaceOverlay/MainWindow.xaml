@@ -30,17 +30,33 @@
         
         <Grid Grid.Column="1"
               HorizontalAlignment="Left"
-              Width="100">
+              Width="300">
+            <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <TextBlock Name="OverlayNameText" 
                        Grid.Column="0"
                        Grid.Row="0"
+                       TextAlignment="Center"
+                       FontSize="20"
                        Text=""></TextBlock>
-        </Grid>
-        
-        <Button Grid.Column="2"
-            Width="40"
-            Height="40"
-            Click="Toggle_Inputs"
-            ></Button>
+            <TextBlock Name="OverlayDescriptionText"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     Text=""
+                     FontSize="15"
+                     TextAlignment="Justify"/>
+            <Button Grid.Column="0"
+                    Grid.Row="2"
+                    Click="Toggle_Overlay"
+                    Content="Toggle Overlay"
+                    Height="30"
+                    Width="300"
+                    Visibility="Hidden"
+                    Name="ToggleOverlayButton"/>
+            
     </Grid>
+        </Grid>
 </Window>
