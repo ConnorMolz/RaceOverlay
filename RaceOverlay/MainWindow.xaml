@@ -13,15 +13,14 @@
     <Grid Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         
-        <ListView x:Name="ItemsListView" Grid.Column="0" 
+        <ListView x:Name="OverlayList" Grid.Column="0" 
                   SelectionChanged="OverlaySelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" Padding="5"/>
+                    <TextBlock Text="{Binding OverlayName}" Padding="5"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

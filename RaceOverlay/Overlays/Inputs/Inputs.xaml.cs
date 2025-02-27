@@ -7,6 +7,8 @@ namespace RaceOverlay.Overlays.Inputs;
 
 public partial class Inputs : Overlay
 {
+    private String _overlayName = "Inputs";
+    private String _overlayDescription = "Displays the current inputs, current gear and current speed of the car.";
     
     private double _throttle;
     private double _brake;
@@ -19,8 +21,11 @@ public partial class Inputs : Overlay
     public Inputs()
     {
         InitializeComponent();
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
 
-        Thread updateThread = new Thread(UpdateThreadMethod); 
+        OverlayName = _overlayName;
+        OverlayDescription = _overlayDescription;
         
         updateThread.IsBackground = true;
         updateThread.Start();
@@ -40,6 +45,7 @@ public partial class Inputs : Overlay
     {
         try
         {
+            _data = MainWindow.IRacingData;
             _throttle = _data.Inputs.Throttle;
             _brake = _data.Inputs.Brake;
             _clutch = _data.Inputs.Clutch;

@@ -11,4 +11,14 @@ public abstract class Overlay: Window
      public virtual void _getData(){}
 
      public virtual void UpdateThreadMethod(){}
+
+     public void ToggleOverlay()
+     {
+          if (IsVisible)
+          {
+               Hide();
+               return;
+          }
+          Show();
+     }
 }

@@ -47,7 +47,16 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
+        // Demo Code TODO: Remove
         _inputs = new Inputs();
+
+        List<Overlay> overlays = new List<Overlay>();
+        
+        // Add here every Overlay
+        overlays.Add(_inputs);
+        
+        OverlayList.ItemsSource = overlays;
+        
     }
 
     private void _initIRacingData()
@@ -122,6 +131,11 @@ public partial class MainWindow : Window
             _inputs.Show();
         }
     }
+    
+    private void Toggle_Overlay(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 
     protected override void OnClosed(EventArgs e)
     {
@@ -131,11 +145,12 @@ public partial class MainWindow : Window
 
     private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        Overlay selectedOverlay = ItemsListView.SelectedItem as Overlay;
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
             
         if (selectedOverlay != null)
         {
             // Get Data from Overlay
+            Console.WriteLine(selectedOverlay.OverlayDescription);
             
         }
     }
