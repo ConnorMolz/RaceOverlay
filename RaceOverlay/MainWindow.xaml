@@ -13,7 +13,7 @@
     <Grid Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <ListView x:Name="OverlayList" 
@@ -27,7 +27,15 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Canvas Grid.Column="1"></Canvas>
+        
+        <Grid Grid.Column="1"
+              HorizontalAlignment="Left"
+              Width="100">
+            <TextBlock Name="OverlayNameText" 
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       Text=""></TextBlock>
+        </Grid>
         
         <Button Grid.Column="2"
             Width="40"

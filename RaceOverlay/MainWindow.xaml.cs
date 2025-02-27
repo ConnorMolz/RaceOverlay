@@ -149,6 +149,7 @@ public partial class MainWindow : Window
         {
             // Get Data from Overlay
             Console.WriteLine(selectedOverlay.OverlayDescription);
+            OverlayNameText.Text = selectedOverlay.OverlayName;
             
         }
     }
