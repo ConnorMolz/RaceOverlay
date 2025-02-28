@@ -115,7 +115,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            Debug.WriteLine("Car has no ERS System");
+            // ignored
         }
         
         
@@ -130,7 +130,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            
+            // ignored
         }
 
         try
@@ -148,7 +148,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            
+            // ignored
         }
 
 
