@@ -13,6 +13,11 @@ namespace RaceOverlay;
 /// </summary>
 public partial class App : Application
 {
+    
+    public static string AppDataPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "RaceOverlay");
+    
     public App()
     {
         Debug.Print("Starting RaceOverlay...");
@@ -44,10 +49,8 @@ public partial class App : Application
             // Create default settings object
             var defaultSettings = new 
             {
-                Version = "1.0",
-                Theme = "Default",
                 FirstRun = true,
-                LastOpenedDate = DateTime.Now
+                Overlays = new {}
             };
         
             // Serialize to JSON and write to file
