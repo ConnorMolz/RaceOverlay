@@ -7,7 +7,8 @@
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="Manual"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Topmost="True">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
