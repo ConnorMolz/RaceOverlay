@@ -5,7 +5,6 @@
         Title="Telemetry Display" Height="130" Width="180"
         Background="#FF1E1E1E"
         WindowStyle="None"
-        AllowsTransparency="True"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         Topmost="True">
