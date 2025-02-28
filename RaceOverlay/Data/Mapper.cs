@@ -1,6 +1,7 @@
-using System.Diagnostics;
 using HerboldRacing;
 using RaceOverlay.Data.Models;
+
+#pragma warning disable CS0168 // Variable is declared but never used
 
 namespace RaceOverlay.Data;
 
@@ -115,7 +116,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            Debug.WriteLine("Car has no ERS System");
+            // ignored
         }
         
         
@@ -130,7 +131,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            
+            // ignored
         }
 
         try
@@ -148,7 +149,7 @@ public class Mapper
         }
         catch (Exception e)
         {
-            
+            // ignored
         }
 
 
