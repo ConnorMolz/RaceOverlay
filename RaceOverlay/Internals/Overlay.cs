@@ -98,6 +98,6 @@ public abstract class Overlay: Window
      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
      {
           e.Cancel = true;
-          Hide();
+          ToggleOverlay();
      }
 }
