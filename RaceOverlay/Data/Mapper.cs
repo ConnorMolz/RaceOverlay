@@ -1,6 +1,7 @@
-using System.Diagnostics;
 using HerboldRacing;
 using RaceOverlay.Data.Models;
+
+#pragma warning disable CS0168 // Variable is declared but never used
 
 namespace RaceOverlay.Data;
 
