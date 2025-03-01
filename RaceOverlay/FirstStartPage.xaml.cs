@@ -19,15 +19,31 @@ public partial class FirstStartPage : Window
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             
-            string resourceName = "RaceOverlay.Resources.LICENSE";
+            string resourceNameLicense = "RaceOverlay.Resources.LICENSE";
                 
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (Stream stream = assembly.GetManifestResourceStream(resourceNameLicense))
             {
                 if (stream != null)
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         LicenseText.Text = reader.ReadToEnd();
+                    }
+                }
+                else
+                {
+                    LicenseText.Text = "LICENSE resource not found in the application.";
+                }
+            }
+            string resourceNameManual = "RaceOverlay.Resources.Manual";
+                
+            using (Stream stream = assembly.GetManifestResourceStream(resourceNameManual))
+            {
+                if (stream != null)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        ManualText.Text = reader.ReadToEnd();
                     }
                 }
                 else
