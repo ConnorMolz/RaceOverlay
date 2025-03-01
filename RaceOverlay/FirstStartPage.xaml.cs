@@ -1,6 +1,7 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using Newtonsoft.Json.Linq;
 
 namespace RaceOverlay;
 
@@ -39,5 +40,16 @@ public partial class FirstStartPage : Window
         {
             LicenseText.Text = $"Error loading LICENSE resource: {ex.Message}";
         }
+    }
+    
+    private void On_Accept_Button(object sender, RoutedEventArgs e)
+    {
+        string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+        string jsonContent = File.ReadAllText(settingsFilePath);
+        JObject settingsObject = JObject.Parse(jsonContent);
+        settingsObject["FirstRun"] = false;
+        File.WriteAllText(settingsFilePath, settingsObject.ToString());
+        
+        Close();
     }
 }
