@@ -5,6 +5,7 @@ using System.Windows;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace RaceOverlay;
 
@@ -22,6 +23,7 @@ public partial class App : Application
     {
         Debug.Print("Starting RaceOverlay...");
         CheckAppSettings();
+        CheckForFirstRun();
     }
 
     private void CheckAppSettings()
@@ -56,6 +58,20 @@ public partial class App : Application
             // Serialize to JSON and write to file
             string jsonSettings = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented);
             File.WriteAllText(settingsFilePath, jsonSettings);
+        }
+    }
+
+    private void CheckForFirstRun()
+    {
+        string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+        string jsonContent = File.ReadAllText(settingsFilePath);
+        JObject settingsObject = JObject.Parse(jsonContent);
+        if(settingsObject["FirstRun"].Value<bool>())
+        {
+            Debug.WriteLine("First run detected. Opening FirstStartPage.");
+            
+            FirstStartPage firstStartPage = new();
+            firstStartPage.Show();
         }
     }
     
