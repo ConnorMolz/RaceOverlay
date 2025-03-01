@@ -31,7 +31,7 @@
             <TextBlock Name="LicenseText" TextWrapping="Wrap"></TextBlock>
         </ScrollViewer>
         
-        <TextBlock Grid.Row="3" FontSize="16" TextAlignment="Center" Text="Short Introduction"></TextBlock>
+        <TextBlock Grid.Row="3" FontSize="16" TextAlignment="Center" Text="Short Introduction" Padding="0, 10, 0, 0"></TextBlock>
         <ScrollViewer Grid.Row="4">
             <TextBlock Name="ManualText" TextWrapping="Wrap"></TextBlock>
         </ScrollViewer>
