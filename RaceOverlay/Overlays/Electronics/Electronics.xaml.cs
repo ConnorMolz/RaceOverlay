@@ -31,7 +31,10 @@ public partial class Electronics : Overlay
 
     public override void _updateWindow()
     {
-        
+        absValue.Text = _abs.ToString();
+        tc1Value.Text = _tc1.ToString();
+        tc2Value.Text = _tc2.ToString();
+        bbValue.Text = _brakeBias.ToString("F2");
     }
     
     public override void UpdateThreadMethod()
