@@ -18,6 +18,11 @@ public partial class Electronics : Overlay
     public Electronics(): base("Electronics", "An Overlay for displaying in car electronics like TC, ABS, etc.")
     {
         InitializeComponent();
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
     
     public override void _getData()
