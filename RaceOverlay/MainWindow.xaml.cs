@@ -6,6 +6,7 @@ using HerboldRacing;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Overlays.EnergyInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -36,6 +37,7 @@ public partial class MainWindow : Window
         
         // Add here every Overlay
         overlays.Add(new Inputs());
+        overlays.Add(new EnergyInfo());
         
         OverlayList.ItemsSource = overlays;
         
