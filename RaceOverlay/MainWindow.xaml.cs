@@ -6,6 +6,7 @@ using HerboldRacing;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Overlays.Electronics;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -36,6 +37,7 @@ public partial class MainWindow : Window
         
         // Add here every Overlay
         overlays.Add(new Inputs());
+        overlays.Add(new Electronics());
         
         OverlayList.ItemsSource = overlays;
         
@@ -123,7 +125,7 @@ public partial class MainWindow : Window
         if (selectedOverlay != null)
         {
             // Get Data from Overlay
-            Console.WriteLine(selectedOverlay.OverlayDescription);
+            Debug.WriteLine(selectedOverlay.OverlayDescription);
             OverlayNameText.Text = selectedOverlay.OverlayName;
             OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
             ToggleOverlayButton.Visibility = Visibility.Visible;
