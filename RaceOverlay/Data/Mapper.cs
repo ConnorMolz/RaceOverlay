@@ -112,7 +112,8 @@ public class Mapper
         // Energy Level (GPT Only)
         try
         {
-            data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct");
+            // iRacing is expose a value between 1 and 0 by multiple with 100 the value is in Percent
+            data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct") * 100;
         }
         catch (Exception e)
         {
