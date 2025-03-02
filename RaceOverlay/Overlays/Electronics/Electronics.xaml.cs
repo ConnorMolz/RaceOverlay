@@ -7,9 +7,9 @@ namespace RaceOverlay.Overlays.Electronics;
 public partial class Electronics : Overlay
 {
 
-    private int _abs;
-    private int _tc1;
-    private int _tc2;
+    private float _abs;
+    private float _tc1;
+    private float _tc2;
     private float _brakeBias;
 
     private iRacingData _data;

@@ -53,9 +53,9 @@ public class LocalCarTelemetry
     public float BrakeBias { get; set; }
     
     // Car Electronics
-    public int Tc1 { get; set; }
-    public int Tc2 { get; set; }
-    public int Abs { get; set; }
+    public float Tc1 { get; set; }
+    public float Tc2 { get; set; }
+    public float Abs { get; set; }
 
 
 }

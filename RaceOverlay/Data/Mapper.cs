@@ -127,7 +127,7 @@ public class Mapper
         data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
         try
         {
-            data.LocalCarTelemetry.Tc1 = ElectronicMapper(irsdkSharper.Data.GetInt("dcTractionControl"));
+            data.LocalCarTelemetry.Tc1 = irsdkSharper.Data.GetFloat("dcTractionControl");
         }
         catch (Exception e)
         {
@@ -136,7 +136,7 @@ public class Mapper
 
         try
         {
-            data.LocalCarTelemetry.Tc2 = ElectronicMapper(irsdkSharper.Data.GetInt("dcTractionControl2"));
+            data.LocalCarTelemetry.Tc2 = irsdkSharper.Data.GetFloat("dcTractionControl2");
         }
         catch (Exception e)
         {
@@ -145,7 +145,7 @@ public class Mapper
 
         try
         {
-            data.LocalCarTelemetry.Abs = ElectronicMapper(irsdkSharper.Data.GetInt("dcABS"));
+            data.LocalCarTelemetry.Abs = irsdkSharper.Data.GetFloat("dcABS");
         }
         catch (Exception e)
         {
@@ -175,21 +175,5 @@ public class Mapper
         // Return Dataset
         return data;
     }
-
-    private static int ElectronicMapper(int value) => value switch
-    {
-        0 => 0,
-        1065353 => 1,
-        1073741 => 2,
-        1077936 => 3,
-        1082130 => 4,
-        1084227 => 5,
-        1086324 => 6,
-        1088421 => 7,
-        1090519 => 8,
-        1091567 => 9,
-        1092616 => 10,
-        1093664 => 11,
-        _ => 12
-    };
+    
 }
