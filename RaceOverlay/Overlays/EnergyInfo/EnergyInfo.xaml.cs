@@ -24,13 +24,13 @@ public partial class EnergyInfo : Overlay
     public override void _updateWindow()
     {
         EnergyPctText.Text = _energyLevelPct.ToString("F1") + "%";
-        EnergyBar.Width = _energyLevelPct * 2;
+        EnergyBar.Width = _energyLevelPct * 200;
     }
     
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
-        _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct;
+        _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct * 100;
     }
     
     public override void UpdateThreadMethod()
