@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,6 +6,7 @@ using HerboldRacing;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
@@ -37,6 +38,7 @@ public partial class MainWindow : Window
         
         // Add here every Overlay
         overlays.Add(new Inputs());
+        overlays.Add(new EnergyInfo());
         overlays.Add(new Electronics());
         
         OverlayList.ItemsSource = overlays;
