@@ -98,7 +98,14 @@ public abstract class Overlay: Window
      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
      {
           e.Cancel = true;
-          ToggleOverlay();
+          try
+          {
+               ToggleOverlay();
+          }
+          catch (InvalidOperationException ex)
+          {
+               Debug.WriteLine(ex.Message);
+          }
      }
 
      public void TurnAppOff()

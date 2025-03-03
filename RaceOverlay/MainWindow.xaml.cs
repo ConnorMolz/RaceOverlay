@@ -115,14 +115,13 @@ public partial class MainWindow : Window
         }
         selectedOverlay.ToggleOverlay();
     }
+    
 
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
-        for (int i = 0; i < Overlays.Count; i++)
-        {
-            Overlays[i].TurnAppOff();
-        }
+        Overlays = null;
+        OverlayList.ItemsSource = null;
         Application.Current.Shutdown();
     }
 
