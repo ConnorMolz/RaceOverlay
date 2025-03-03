@@ -100,4 +100,9 @@ public abstract class Overlay: Window
           e.Cancel = true;
           ToggleOverlay();
      }
+
+     public void TurnAppOff()
+     {
+          Hide();
+     }
 }

@@ -21,8 +21,9 @@ namespace RaceOverlay;
 public partial class MainWindow : Window
 {
     // iRacingData Getter
-    public static IRSDKSharper IrsdkSharper = null!;
+    private static IRSDKSharper IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
+    private List<Overlay> Overlays;
     
     
     public MainWindow()
@@ -35,15 +36,15 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        List<Overlay> overlays = new List<Overlay>();
+        Overlays = new List<Overlay>();
         
         // Add here every Overlay
-        overlays.Add(new Inputs());
-        overlays.Add(new EnergyInfo());
-        overlays.Add(new Electronics());
-        overlays.Add(new SessionInfo());
+        Overlays.Add(new Inputs());
+        Overlays.Add(new EnergyInfo());
+        Overlays.Add(new Electronics());
+        Overlays.Add(new SessionInfo());
         
-        OverlayList.ItemsSource = overlays;
+        OverlayList.ItemsSource = Overlays;
         
     }
 
@@ -118,6 +119,10 @@ public partial class MainWindow : Window
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
+        for (int i = 0; i < Overlays.Count; i++)
+        {
+            Overlays[i].TurnAppOff();
+        }
         Application.Current.Shutdown();
     }
 
