@@ -8,6 +8,7 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -40,6 +41,7 @@ public partial class MainWindow : Window
         overlays.Add(new Inputs());
         overlays.Add(new EnergyInfo());
         overlays.Add(new Electronics());
+        overlays.Add(new SessionInfo());
         
         OverlayList.ItemsSource = overlays;
         
@@ -88,7 +90,6 @@ public partial class MainWindow : Window
     private static void OnSessionInfo()
     {
         var trackName = IrsdkSharper.Data.SessionInfo.WeekendInfo.TrackName;
-
         Debug.Print( $"OnSessionInfo fired! Track name is {trackName}." );
     }
 
