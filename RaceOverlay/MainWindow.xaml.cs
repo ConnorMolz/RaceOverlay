@@ -24,6 +24,7 @@ public partial class MainWindow : Window
     private static IRSDKSharper IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     private List<Overlay> Overlays;
+    public static bool ShutdownIsTriggerd = false;
     
     
     public MainWindow()
@@ -120,6 +121,7 @@ public partial class MainWindow : Window
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
+        ShutdownIsTriggerd = true;
         Overlays = null;
         OverlayList.ItemsSource = null;
         Application.Current.Shutdown();

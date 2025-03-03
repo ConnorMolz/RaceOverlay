@@ -29,9 +29,10 @@ public abstract class Overlay: Window
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
                return;
           }
+          Show();
           settingsObject["Overlays"][OverlayName]["active"] = true;
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          Show();
+          
      }
      
      public Overlay(String overlayName, String overlayDescription)
@@ -100,7 +101,14 @@ public abstract class Overlay: Window
           e.Cancel = true;
           try
           {
-               ToggleOverlay();
+               if (MainWindow.ShutdownIsTriggerd)
+               {
+                    TurnAppOff();
+               }
+               else
+               {
+                    ToggleOverlay();
+               }
           }
           catch (InvalidOperationException ex)
           {
