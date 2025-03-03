@@ -27,7 +27,7 @@ public partial class SessionInfo : Overlay
 
     public override void _getData()
     {
-        _getData();
+        base._getData();
         _data = MainWindow.IRacingData;
         _timeLeft = _data.SessionData.TimeLeft;
         _timeTotal = _data.SessionData.TimeTotal;
@@ -40,7 +40,7 @@ public partial class SessionInfo : Overlay
 
     public override void _updateWindow()
     {
-        _updateWindow();
+        base._updateWindow();
         
         // TODO: Time Formating
         
