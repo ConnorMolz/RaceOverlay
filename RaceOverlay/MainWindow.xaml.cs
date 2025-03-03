@@ -1,8 +1,14 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using HerboldRacing;
-using RaceOverlay.Overlays.Inputs;
+using RaceOverlay.Data;
+using RaceOverlay.Data.Models;
+using RaceOverlay.Internals;
+using RaceOverlay.Overlays.EnergyInfo;
+using RaceOverlay.Overlays.Electronics;
+using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
 
@@ -13,11 +19,10 @@ namespace RaceOverlay;
 #pragma warning disable CA2211 // Non-constant fields should not be visible
 public partial class MainWindow : Window
 {
-    // Data Getter
+    // iRacingData Getter
     public static IRSDKSharper IrsdkSharper = null!;
-
-    // Overlays
-    private Inputs _inputs = null!;
+    public static iRacingData IRacingData = new ();
+    
     
     public MainWindow()
     {
@@ -29,7 +34,15 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        _inputs = new Inputs();
+        List<Overlay> overlays = new List<Overlay>();
+        
+        // Add here every Overlay
+        overlays.Add(new Inputs());
+        overlays.Add(new EnergyInfo());
+        overlays.Add(new Electronics());
+        
+        OverlayList.ItemsSource = overlays;
+        
     }
 
     private void _initIRacingData()
@@ -45,9 +58,8 @@ public partial class MainWindow : Window
         IrsdkSharper.OnSessionInfo += OnSessionInfo;
         IrsdkSharper.OnTelemetryData += OnTelemetryData;
         IrsdkSharper.OnStopped += OnStopped;
-
-        // this means fire the OnTelemetryData event every 30 data frames (2 times a second)
-        IrsdkSharper.UpdateInterval = 30; 
+        
+        IrsdkSharper.UpdateInterval = 0; 
 
         // let's go!
         IrsdkSharper.Start();
@@ -82,9 +94,7 @@ public partial class MainWindow : Window
 
     private static void OnTelemetryData()
     {
-        var lapDistPct = IrsdkSharper.Data.GetFloat( "CarIdxLapDistPct", 5 );
-
-        Debug.Print( $"OnTelemetryData fired! Lap dist pct for the 6th car in the array is {lapDistPct}." );
+        IRacingData = Mapper.MapData(IrsdkSharper);
     }
 
     private static void OnStopped()
@@ -92,15 +102,36 @@ public partial class MainWindow : Window
         Debug.Print( "OnStopped() fired!" );
     }
     
-    private void Toggle_Inputs(object sender, RoutedEventArgs e)
+    
+    
+    private void Toggle_Overlay(object sender, RoutedEventArgs e)
     {
-        if (_inputs.IsVisible)
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+        if (selectedOverlay == null )
         {
-            _inputs.Hide();
+            return;
         }
-        else
+        selectedOverlay.ToggleOverlay();
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        Application.Current.Shutdown();
+    }
+
+    private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+        if (selectedOverlay != null)
         {
-            _inputs.Show();
+            // Get Data from Overlay
+            Debug.WriteLine(selectedOverlay.OverlayDescription);
+            OverlayNameText.Text = selectedOverlay.OverlayName;
+            OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
+            ToggleOverlayButton.Visibility = Visibility.Visible;
+            
         }
     }
 }
