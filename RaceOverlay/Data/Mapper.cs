@@ -1,4 +1,4 @@
-using HerboldRacing;
+using IRSDKSharper;
 using RaceOverlay.Data.Models;
 
 #pragma warning disable CS0168 // Variable is declared but never used
@@ -7,7 +7,7 @@ namespace RaceOverlay.Data;
 
 public class Mapper
 {
-    public static iRacingData MapData(IRSDKSharper irsdkSharper)
+    public static iRacingData MapData(IRacingSdk irsdkSharper)
     {
         iRacingData data = new();
         
