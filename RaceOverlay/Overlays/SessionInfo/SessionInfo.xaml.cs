@@ -7,8 +7,8 @@ namespace RaceOverlay.Overlays.SessionInfo;
 public partial class SessionInfo : Overlay
 {
     private iRacingData _data;
-    private float _timeLeft;
-    private float _timeTotal;
+    private double _timeLeft;
+    private double _timeTotal;
     private int _lapsLeft;
     private int _lapsTotal;
     private int _lapsLeftEstimated;
@@ -58,7 +58,7 @@ public partial class SessionInfo : Overlay
         {
             // Lap Formatting
             // 0/0 Laps
-            TimeOrLaps.Text = $"{_lapsLeft}/{_lapsTotal} Laps";
+            TimeOrLaps.Text = $"{_lapsTotal - _lapsLeft}/{_lapsTotal} Laps";
         }
         
         // Incident Formating
