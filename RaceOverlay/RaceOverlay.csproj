@@ -6,6 +6,11 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,10 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\LICENSE" />
-      <EmbeddedResource Include="Resources\LICENSE" />
-      <None Remove="Resources\Manual" />
-      <EmbeddedResource Include="Resources\Manual" />
+        <None Remove="Resources\LICENSE" />
+        <EmbeddedResource Include="Resources\LICENSE" />
+        <None Remove="Resources\Manual" />
+        <EmbeddedResource Include="Resources\Manual" />
     </ItemGroup>
-
+    
 </Project>
