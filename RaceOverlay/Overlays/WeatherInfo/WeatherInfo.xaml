@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RaceOverlay.Overlays.WeatherInfo"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
-        Title="Weather Info"  Height="130" Width="130"
+        Title="Weather Info"  Height="130" Width="150"
         Background="#FF1E1E1E"
         Foreground="White"
         WindowStyle="None"

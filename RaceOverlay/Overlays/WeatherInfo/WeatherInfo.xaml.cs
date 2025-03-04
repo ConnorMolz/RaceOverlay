@@ -43,8 +43,8 @@ public partial class WeatherInfo : Overlay
     
     public override void _updateWindow()
     {
-        AirTempText.Text = _airTemp.ToString("F1");
-        TrackTempText.Text = _trackTemp.ToString("F1");
+        AirTempText.Text = _airTemp.ToString("F1") + "C°";
+        TrackTempText.Text = _trackTemp.ToString("F1") + "C°";
         PrecipitationText.Text = _precipitation.ToString("F") + "%";
         if (_isWet)
         {
