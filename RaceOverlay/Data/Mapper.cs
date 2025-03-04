@@ -166,7 +166,7 @@ public class Mapper
         data.WeatherData.TrackTempCrew = irsdkSharper.Data.GetFloat("TrackTempCrew");
         data.WeatherData.Skies = irsdkSharper.Data.GetFloat("Skies");
         data.WeatherData.TrackWetness = irsdkSharper.Data.GetFloat("TrackWetness");
-        data.WeatherData.Precipitation = irsdkSharper.Data.GetFloat("Precipitation");
+        data.WeatherData.Precipitation = irsdkSharper.Data.GetFloat("Precipitation") * 100;
         data.WeatherData.WindDir = irsdkSharper.Data.GetFloat("WindDir");
         data.WeatherData.WindVel = irsdkSharper.Data.GetFloat("WindVel");
         data.WeatherData.WeatherDeclaredWet = irsdkSharper.Data.GetBool("WeatherDeclaredWet");
