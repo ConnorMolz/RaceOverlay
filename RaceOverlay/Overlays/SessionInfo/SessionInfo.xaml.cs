@@ -15,7 +15,7 @@ public partial class SessionInfo : Overlay
     private int _maxIncidents;
     private int _incidents;
     
-    public SessionInfo(): base("Session Info", "TODO")
+    public SessionInfo(): base("Session Info", "An overlay which shows the remaining race distance and current incidents.")
     {
         InitializeComponent();
         
