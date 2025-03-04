@@ -1,4 +1,4 @@
-using HerboldRacing;
+using IRSDKSharper;
 using RaceOverlay.Data.Models;
 
 #pragma warning disable CS0168 // Variable is declared but never used
@@ -7,16 +7,28 @@ namespace RaceOverlay.Data;
 
 public class Mapper
 {
-    public static iRacingData MapData(IRSDKSharper irsdkSharper)
+    public static iRacingData MapData(IRacingSdk irsdkSharper)
     {
         iRacingData data = new();
         
         // Map Session Data
-        data.SessionData.TimeLeft = irsdkSharper.Data.GetFloat("SessionTimeRemain");
-        data.SessionData.TimeTotal = irsdkSharper.Data.GetFloat("SessionTimeTotal");
+        data.SessionData.TimeLeft = irsdkSharper.Data.GetDouble("SessionTimeRemain");
+        data.SessionData.TimeTotal = irsdkSharper.Data.GetDouble("SessionTimeTotal");
         data.SessionData.LapsLeft = irsdkSharper.Data.GetInt("SessionLapsRemain");
         data.SessionData.LapsTotal = irsdkSharper.Data.GetInt("SessionLapsTotal");
         data.SessionData.LapsLeftEstimated = irsdkSharper.Data.GetInt("SessionLapsRemainEx");
+        //Incidents
+        try
+        {
+            data.SessionData.MaxIncidents =
+                int.Parse(irsdkSharper.Data.SessionInfo.WeekendInfo.WeekendOptions.IncidentLimit);
+        }
+        catch (Exception)
+        {
+            data.SessionData.MaxIncidents = 0;
+        }
+
+        data.SessionData.Incidents = irsdkSharper.Data.GetInt("PlayerCarMyIncidentCount");
         
         // Map Inputs
         data.Inputs.Clutch = irsdkSharper.Data.GetFloat("Clutch");

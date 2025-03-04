@@ -1,0 +1,43 @@
+<internals:Overlay x:Class="RaceOverlay.Overlays.SessionInfo.SessionInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:RaceOverlay.Overlays.SessionInfo"
+        xmlns:internals="clr-namespace:RaceOverlay.Internals"
+        mc:Ignorable="d"
+        Title="Session Info" Height="66" Width="180"
+        Background="#FF1E1E1E"
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize"
+        Topmost="True"
+        Foreground="White"
+        FontSize="20">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center"
+                   Name="TimeOrLaps"></TextBlock>
+        
+        <TextBlock Grid.Column="0" Grid.Row="1"
+                   Text="X: "
+                   HorizontalAlignment="Left"
+                   Padding="5"></TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1"
+                   Name="IncidentsText"
+                   Padding="5"
+                   HorizontalAlignment="Right"></TextBlock>
+        
+        
+    </Grid>
+</internals:Overlay>

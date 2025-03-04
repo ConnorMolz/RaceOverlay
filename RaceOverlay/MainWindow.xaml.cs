@@ -2,12 +2,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using HerboldRacing;
+using IRSDKSharper;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -20,8 +21,10 @@ namespace RaceOverlay;
 public partial class MainWindow : Window
 {
     // iRacingData Getter
-    public static IRSDKSharper IrsdkSharper = null!;
+    private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
+    private List<Overlay> Overlays;
+    public static bool ShutdownIsTriggerd = false;
     
     
     public MainWindow()
@@ -34,14 +37,15 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        List<Overlay> overlays = new List<Overlay>();
+        Overlays = new List<Overlay>();
         
         // Add here every Overlay
-        overlays.Add(new Inputs());
-        overlays.Add(new EnergyInfo());
-        overlays.Add(new Electronics());
+        Overlays.Add(new Inputs());
+        Overlays.Add(new EnergyInfo());
+        Overlays.Add(new Electronics());
+        Overlays.Add(new SessionInfo());
         
-        OverlayList.ItemsSource = overlays;
+        OverlayList.ItemsSource = Overlays;
         
     }
 
@@ -49,7 +53,7 @@ public partial class MainWindow : Window
     {
         Debug.Print( "Initializing iRacing data..." );
         // create an instance of IRSDKSharper
-        IrsdkSharper = new IRSDKSharper();
+        IrsdkSharper = new IRacingSdk();
 
         // hook up our event handlers
         IrsdkSharper.OnException += OnException;
@@ -88,7 +92,6 @@ public partial class MainWindow : Window
     private static void OnSessionInfo()
     {
         var trackName = IrsdkSharper.Data.SessionInfo.WeekendInfo.TrackName;
-
         Debug.Print( $"OnSessionInfo fired! Track name is {trackName}." );
     }
 
@@ -113,10 +116,14 @@ public partial class MainWindow : Window
         }
         selectedOverlay.ToggleOverlay();
     }
+    
 
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
+        ShutdownIsTriggerd = true;
+        Overlays = null;
+        OverlayList.ItemsSource = null;
         Application.Current.Shutdown();
     }
 
