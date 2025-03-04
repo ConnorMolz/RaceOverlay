@@ -12,15 +12,23 @@ public partial class WeatherInfo : Overlay
     private float _trackTemp;
     private float _precipitation;
     private bool _isWet;
+
+    private string _backgroundColor = "#1E1E1E";
+    private string _wetColor = "#0000FF";
+    private string _dryColor = "#00FF00";
+    private bool _isOn = true;
     
     public WeatherInfo(): base("Weather Info", "Displays the current weather conditions and a forecast for the next 15 and 30 Minutes.")
     {
         InitializeComponent();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
-        
         updateThread.IsBackground = true;
         updateThread.Start();
+        
+        Thread blinkAnimationThread = new Thread(BlinkAnimationMethod);
+        blinkAnimationThread.IsBackground = true;
+        blinkAnimationThread.Start();
     }
 
     public override void _getData()
@@ -41,12 +49,10 @@ public partial class WeatherInfo : Overlay
         if (_isWet)
         {
             IsWetText.Text = "WET";
-            IsWetBorder.Background = new BrushConverter().ConvertFromString("#0000FF") as SolidColorBrush;
         }
         else
         {
             IsWetText.Text = "DRY";
-            IsWetBorder.Background = new BrushConverter().ConvertFromString("#00FF00") as SolidColorBrush;
         }
         base._updateWindow();
     }
@@ -70,6 +76,48 @@ public partial class WeatherInfo : Overlay
                 
                 // Add a small delay to prevent high CPU usage
                 Thread.Sleep(2000); // 1 update per 2 seconds
+            }
+        }
+    }
+
+    private void BlinkAnimationMethod()
+    {
+        while (true)
+        {
+            if (IsVisible)
+            {
+                _getData();
+                    
+                // Use Dispatcher to update UI from background thread
+                Dispatcher.Invoke(() =>
+                {
+                    BlinkAnimation();
+                });
+            }
+                
+            // Add a small delay to prevent high CPU usage
+            Thread.Sleep(500); // 1 update per 2 seconds
+        }
+    }
+
+    private void BlinkAnimation()
+    {
+        if (_isOn)
+        {
+            IsWetBorder.Background = new BrushConverter().ConvertFromString(_backgroundColor) as SolidColorBrush;
+            _isOn = false;
+        }
+        else
+        {
+            if (_isWet)
+            {
+                IsWetBorder.Background = new BrushConverter().ConvertFromString(_wetColor) as SolidColorBrush;
+                _isOn = true;
+            }
+            else
+            {
+                IsWetBorder.Background = new BrushConverter().ConvertFromString(_dryColor) as SolidColorBrush;
+                _isOn = true;
             }
         }
     }
