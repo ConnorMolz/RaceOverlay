@@ -43,11 +43,26 @@ public partial class SessionInfo : Overlay
         base._updateWindow();
         
         // TODO: Time Formating
+        if (_timeTotal != 0)
+        {
+            // Time Formatting
+            // 00:00:00 / 00:00:00 ~ 0/0 Laps
+            TimeSpan timeLeft = TimeSpan.FromSeconds(_timeLeft);
+            TimeSpan timeTotal = TimeSpan.FromSeconds(_timeTotal);
+            TimeOrLaps.Text = $"{timeLeft:hh\\:mm\\:ss} / {timeTotal:hh\\:mm\\:ss} ~ {_lapsLeft}/{_lapsLeftEstimated} Laps";
+        }
+        
         
         // TODO: Lap Formating
+        if (_lapsTotal != 0)
+        {
+            // Lap Formatting
+            // 0/0 Laps
+            TimeOrLaps.Text = $"{_lapsLeft}/{_lapsTotal} Laps";
+        }
         
         // Incident Formating
-        IncidentsText.Text = _incidents + "/" + _maxIncidents;
+        IncidentsText.Text = $"{_incidents}/{_maxIncidents}";
     }
 
     public override void UpdateThreadMethod()

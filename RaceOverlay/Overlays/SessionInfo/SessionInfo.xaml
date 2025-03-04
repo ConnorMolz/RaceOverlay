@@ -16,24 +16,25 @@
         FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Column="0" Grid.Row="0"
-                   Name="TimeOrLapsLabel"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="0"
-                   Name="LapsOrTime"></TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                   HorizontalAlignment="Left"
+                   Name="TimeOrLaps"></TextBlock>
         
         <TextBlock Grid.Column="0" Grid.Row="1"
-                   Text="X: "></TextBlock>
+                   Text="X: "
+                   HorizontalAlignment="Left"></TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="1"
-                   Name="IncidentsText"></TextBlock>
+                   Name="IncidentsText"
+                   HorizontalAlignment="Right"></TextBlock>
         
         
     </Grid>
