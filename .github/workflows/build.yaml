@@ -1,0 +1,46 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Run when a tag is pushed with format v1.0.0, etc.
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write # Needed for release creation
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet publish RaceOverlay --configuration Release --self-contained true --runtime win-x64 -p:PublishSingleFile=true
+
+      - name: Get tag version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Test directory contents
+        run: |
+          dir RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: RaceOverlay ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          files: RaceOverlay/bin/Release/net9.0-windows/win-x64/publish/RaceOverlay.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
