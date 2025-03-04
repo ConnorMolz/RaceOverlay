@@ -15,7 +15,7 @@ public partial class Electronics : Overlay
     private iRacingData _data;
     
     
-    public Electronics(): base("Electronics", "An Overlay for displaying in car electronics like TC, ABS, etc.")
+    public Electronics(): base("Electronics", "An Overlay for displaying the in car adjustments of ABS, TC1, TC2 and Brake Bias(BB).")
     {
         InitializeComponent();
         
