@@ -1,35 +1,42 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: Build and Release
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    tags:
+      - 'v*' # Run when a tag is pushed with format v1.0.0, etc.
 
 jobs:
   build:
-
     runs-on: windows-latest
+    permissions:
+      contents: write # Needed for release creation
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
+
       - name: Restore dependencies
         run: dotnet restore
+
       - name: Build
         run: dotnet publish --no-restore --configuration Release
-      - name: t
-        run: ls ./RaceOverlay/bin/Release/net9.0-windows
-      #- name: Test
-      #  run: dotnet test --no-build --verbosity normal
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+
+      - name: Get tag version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          name: RaceOverlay
-          path: .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\RaceOverlay.exe
+          name: RaceOverlay ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          files: .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\RaceOverlay.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

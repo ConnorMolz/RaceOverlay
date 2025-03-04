@@ -18,7 +18,7 @@ public partial class WeatherInfo : Overlay
     private string _dryColor = "#00FF00";
     private bool _isOn = true;
     
-    public WeatherInfo(): base("Weather Info", "Displays the current weather conditions and a forecast for the next 15 and 30 Minutes.")
+    public WeatherInfo(): base("Weather Info", "Displays the current temperature, precipitation and if the track declared to be wet from race control.")
     {
         InitializeComponent();
         
