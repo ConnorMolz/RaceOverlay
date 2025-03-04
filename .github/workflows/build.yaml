@@ -29,6 +29,9 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         shell: bash
+        
+      - name: Test
+        run: ls .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\
 
       - name: Create Release
         id: create_release
