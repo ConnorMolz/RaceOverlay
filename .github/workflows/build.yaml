@@ -23,15 +23,16 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet publish --no-restore --configuration Release
+        run: dotnet publish RaceOverlay --configuration Release --self-contained true --runtime win-x64 -p:PublishSingleFile=true
 
       - name: Get tag version
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         shell: bash
-        
-      - name: Test
-        run: ls .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\
+
+      - name: Test directory contents
+        run: |
+          dir RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\
 
       - name: Create Release
         id: create_release
@@ -40,6 +41,6 @@ jobs:
           name: RaceOverlay ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
-          files: .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\RaceOverlay.exe
+          files: RaceOverlay/bin/Release/net9.0-windows/win-x64/publish/RaceOverlay.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
