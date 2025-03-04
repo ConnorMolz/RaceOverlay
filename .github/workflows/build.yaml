@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RaceOverlay
-          path: .\RaceOverlay\bin\Release\net9.0-windows\RaceOverlay.exe
+          path: .\RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\RaceOverlay.exe
