@@ -5,7 +5,7 @@ name: .NET
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "click-once-bereitstellung" ]
   pull_request:
     branches: [ "develop" ]
 

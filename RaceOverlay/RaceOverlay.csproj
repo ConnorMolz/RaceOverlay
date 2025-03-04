@@ -10,18 +10,19 @@
         <SelfContained>true</SelfContained>
         <PublishReadyToRun>true</PublishReadyToRun>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+        
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="IRSDKSharper" Version="1.0.15" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="IRSDKSharper" Version="1.0.15" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\LICENSE" />
-      <EmbeddedResource Include="Resources\LICENSE" />
-      <None Remove="Resources\Manual" />
-      <EmbeddedResource Include="Resources\Manual" />
+        <None Remove="Resources\LICENSE" />
+        <EmbeddedResource Include="Resources\LICENSE" />
+        <None Remove="Resources\Manual" />
+        <EmbeddedResource Include="Resources\Manual" />
     </ItemGroup>
-
+    
 </Project>
