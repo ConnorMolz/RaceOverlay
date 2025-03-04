@@ -29,9 +29,10 @@ public abstract class Overlay: Window
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
                return;
           }
+          Show();
           settingsObject["Overlays"][OverlayName]["active"] = true;
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          Show();
+          
      }
      
      public Overlay(String overlayName, String overlayDescription)
@@ -98,6 +99,25 @@ public abstract class Overlay: Window
      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
      {
           e.Cancel = true;
-          ToggleOverlay();
+          try
+          {
+               if (MainWindow.ShutdownIsTriggerd)
+               {
+                    TurnAppOff();
+               }
+               else
+               {
+                    ToggleOverlay();
+               }
+          }
+          catch (InvalidOperationException ex)
+          {
+               Debug.WriteLine(ex.Message);
+          }
+     }
+
+     public void TurnAppOff()
+     {
+          Hide();
      }
 }
