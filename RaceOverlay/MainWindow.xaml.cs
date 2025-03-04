@@ -8,6 +8,7 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
@@ -40,10 +41,12 @@ public partial class MainWindow : Window
         Overlays = new List<Overlay>();
         
         // Add here every Overlay
-        Overlays.Add(new Inputs());
-        Overlays.Add(new EnergyInfo());
         Overlays.Add(new Electronics());
+        Overlays.Add(new EnergyInfo());
+        Overlays.Add(new Inputs());
         Overlays.Add(new SessionInfo());
+        Overlays.Add(new WeatherInfo());
+        
         
         OverlayList.ItemsSource = Overlays;
         
