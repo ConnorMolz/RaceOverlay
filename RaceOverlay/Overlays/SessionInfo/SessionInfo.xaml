@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RaceOverlay.Overlays.SessionInfo"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
-        Title="Session Info" Height="66" Width="100"
+        Title="Session Info" Height="66" Width="180"
         Background="#FF1E1E1E"
         WindowStyle="None"
         WindowStartupLocation="Manual"
@@ -26,14 +26,16 @@
         </Grid.RowDefinitions>
         
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Center"
                    Name="TimeOrLaps"></TextBlock>
         
         <TextBlock Grid.Column="0" Grid.Row="1"
                    Text="X: "
-                   HorizontalAlignment="Left"></TextBlock>
+                   HorizontalAlignment="Left"
+                   Padding="5"></TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="1"
                    Name="IncidentsText"
+                   Padding="5"
                    HorizontalAlignment="Right"></TextBlock>
         
         
