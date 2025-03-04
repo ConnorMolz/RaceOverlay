@@ -18,7 +18,16 @@ public class Mapper
         data.SessionData.LapsTotal = irsdkSharper.Data.GetInt("SessionLapsTotal");
         data.SessionData.LapsLeftEstimated = irsdkSharper.Data.GetInt("SessionLapsRemainEx");
         //Incidents
-        data.SessionData.MaxIncidents = int.Parse(irsdkSharper.Data.SessionInfo.WeekendInfo.WeekendOptions.IncidentLimit);
+        try
+        {
+            data.SessionData.MaxIncidents =
+                int.Parse(irsdkSharper.Data.SessionInfo.WeekendInfo.WeekendOptions.IncidentLimit);
+        }
+        catch (Exception)
+        {
+            data.SessionData.MaxIncidents = 0;
+        }
+
         data.SessionData.Incidents = irsdkSharper.Data.GetInt("PlayerCarMyIncidentCount");
         
         // Map Inputs
