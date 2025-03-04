@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using HerboldRacing;
+using IRSDKSharper;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
@@ -20,7 +20,7 @@ namespace RaceOverlay;
 public partial class MainWindow : Window
 {
     // iRacingData Getter
-    public static IRSDKSharper IrsdkSharper = null!;
+    public static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     
     
@@ -49,7 +49,7 @@ public partial class MainWindow : Window
     {
         Debug.Print( "Initializing iRacing data..." );
         // create an instance of IRSDKSharper
-        IrsdkSharper = new IRSDKSharper();
+        IrsdkSharper = new IRacingSdk();
 
         // hook up our event handlers
         IrsdkSharper.OnException += OnException;
