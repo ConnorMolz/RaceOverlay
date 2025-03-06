@@ -7,8 +7,9 @@
         Title="Race Overlay" 
         Height="450" 
         Width="800"
+        WindowStyle="SingleBorderWindow"
         WindowStartupLocation="Manual"
-        ResizeMode="NoResize"
+        ResizeMode="CanMinimize"
         Background="#FF1E1E1E"
         Foreground="White" >
     <Grid Margin="30">
