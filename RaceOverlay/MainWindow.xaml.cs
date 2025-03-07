@@ -144,4 +144,24 @@ public partial class MainWindow : Window
             
         }
     }
+    
+    private void minimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+    
+    private void closeButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void goToInfoButton_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
+    
+    private void goToMainButton_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
 }

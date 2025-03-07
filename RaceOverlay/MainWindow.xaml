@@ -7,7 +7,7 @@
         Title="Race Overlay" 
         Height="450" 
         Width="800"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="CanMinimize"
         Background="#FF1E1E1E"
@@ -15,24 +15,24 @@
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="Infinity"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
+            <StackPanel Grid.Column="0" Margin="10">
                 <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
             </StackPanel>
             
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Button x:Name="btnQuestionmark" Content="?" Width="40" Height="40" Background="Transparent"></Button>
-                <Button x:Name="btnMinimize" Content="_" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
-                <Button x:Name="btnClose" Content="X" Width="40" Height="40" Background="Transparent"></Button>
+                <Button Click="goToInfoButton_Click" Content="?" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent"></Button>
+                <Button Click="minimizeButton_Click" Content="_" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
+                <Button Click="closeButton_Click" Content="x" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent"></Button>
             </StackPanel>
         </Grid>
         
