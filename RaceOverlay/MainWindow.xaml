@@ -12,60 +12,89 @@
         ResizeMode="CanMinimize"
         Background="#FF1E1E1E"
         Foreground="White" >
-    <Grid Margin="30">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="Infinity"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <ListView x:Name="OverlayList" 
-                  Background="#FF1E1E1E"
-                  Foreground="White" 
-                  Grid.Column="0" 
-                  SelectionChanged="OverlaySelectionChanged"
-                  Width="180"
-                  HorizontalAlignment="Left">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding OverlayName}" Padding="5"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        <Grid Grid.Column="1"
-              HorizontalAlignment="Left"
-              Width="300">
-            <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Name="OverlayNameText" 
-                       Foreground="White" 
-                       Grid.Column="0"
-                       Grid.Row="0"
-                       TextAlignment="Center"
-                       FontSize="20"
-                       Text=""></TextBlock>
-            <TextBlock Name="OverlayDescriptionText"
-                     Grid.Column="0"
-                     Grid.Row="1"
-                     Text=""
-                     FontSize="15"
-                     TextWrapping="Wrap"
-                     Foreground="White" 
-                     TextAlignment="Justify"/>
-            <Button Grid.Column="0"
-                    Background="#FF3E3E3E"
-                    Foreground="White" 
-                    Grid.Row="2"
-                    Click="Toggle_Overlay"
-                    Content="Toggle Overlay"
-                    Height="30"
-                    Width="300"
-                    Visibility="Hidden"
-                    Name="ToggleOverlayButton"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
+            </StackPanel>
             
-    </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button x:Name="btnQuestionmark" Content="?" Width="40" Height="40" Background="Transparent"></Button>
+                <Button x:Name="btnMinimize" Content="_" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
+                <Button x:Name="btnClose" Content="X" Width="40" Height="40" Background="Transparent"></Button>
+            </StackPanel>
         </Grid>
+        
+        
+        <Grid Margin="10" Grid.Row="1" Name="MainPage" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <ListView x:Name="OverlayList" 
+                          Background="#FF1E1E1E"
+                          Foreground="White" 
+                          Grid.Column="0" 
+                          SelectionChanged="OverlaySelectionChanged"
+                          Width="180"
+                          HorizontalAlignment="Left">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OverlayName}" Padding="5"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+                <Grid Grid.Column="1"
+                      HorizontalAlignment="Left"
+                      Width="300">
+                    <Grid.RowDefinitions>
+                          <RowDefinition Height="*" />
+                          <RowDefinition Height="*" />
+                          <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Name="OverlayNameText" 
+                               Foreground="White" 
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               TextAlignment="Center"
+                               FontSize="20"
+                               Text=""></TextBlock>
+                    <TextBlock Name="OverlayDescriptionText"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             Text=""
+                             FontSize="15"
+                             TextWrapping="Wrap"
+                             Foreground="White" 
+                             TextAlignment="Justify"/>
+                    <Button Grid.Column="0"
+                            Background="#FF3E3E3E"
+                            Foreground="White" 
+                            Grid.Row="2"
+                            Click="Toggle_Overlay"
+                            Content="Toggle Overlay"
+                            Height="30"
+                            Width="300"
+                            Visibility="Hidden"
+                            Name="ToggleOverlayButton"/>
+                    
+            </Grid>
+        </Grid>
+        <Grid Name="InfoPage">
+            
+        </Grid>
+    </Grid>
 </Window>
