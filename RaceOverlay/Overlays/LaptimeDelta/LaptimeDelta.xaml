@@ -15,32 +15,27 @@
         ResizeMode="NoResize"
         Topmost="True">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
-        <Grid Height="50">
+        <Grid Height="30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="200" 
-                       Height="60" 
+            <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="300" 
+                       Height="30" 
                        Fill="#FF2A2A2A"/>  
             <Rectangle Grid.Column="0" x:Name="DeltaBarPositive"
-                       Width="00" 
-                       Height="50" 
+                       Width="0" 
+                       Height="30" 
                        Fill="#FFFF0000"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Right"/>
             <Rectangle Grid.Column="1" x:Name="DeltaBarNegative"
-                       Width="50" 
-                       Height="50" 
+                       Width="75" 
+                       Height="30" 
                        Fill="#FF00FF00"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"/>

@@ -15,7 +15,7 @@ public partial class LaptimeDelta : Overlay
     {
         InitializeComponent();
 
-        _setWindowSize(200, 65);
+        _setWindowSize(300, 30);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
