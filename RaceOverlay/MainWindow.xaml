@@ -11,7 +11,8 @@
         WindowStartupLocation="Manual"
         ResizeMode="CanMinimize"
         Background="#FF1E1E1E"
-        Foreground="White" >
+        Foreground="White"
+        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

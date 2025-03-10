@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using IRSDKSharper;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
@@ -163,5 +164,10 @@ public partial class MainWindow : Window
     private void goToMainButton_Click(object sender, RoutedEventArgs e)
     {
         
+    }
+
+    private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        DragMove();
     }
 }
