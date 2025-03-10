@@ -24,26 +24,30 @@ public partial class LaptimeDelta : Overlay
 
     public override void _updateWindow()
     {
-        //TODO: Implement Logic
         if (_laptimeDelta < 0)
         {
-            //DeltaText.Text = ?;
+            var barWidth = (15 * (_laptimeDelta * -1)) * _scale;
+            if(barWidth > 150) barWidth = 150;
+            
+            DeltaText.Text = _laptimeDelta.ToString("F3");
             DeltaBarPositive.Width = 0;
-            //DeltaBarNegative.Width = ?;
+            DeltaBarNegative.Width = barWidth;
             return;
         }
 
         if (_laptimeDelta > 0)
         {
-            //DeltaText.Text = ?;
+            var barWidth = (15 * _laptimeDelta) * _scale;
+            if(barWidth > 150) barWidth = 150;
+            DeltaText.Text = "+" + _laptimeDelta.ToString("F3");
             DeltaBarNegative.Width = 0;
-            //DeltaBarPositive.Width = ?;
+            DeltaBarPositive.Width = barWidth;
             return;
         }
 
         if (_laptimeDelta == 0)
         {
-            //DeltaText.Text = ?;
+            DeltaText.Text = _laptimeDelta.ToString("F3");
             DeltaBarNegative.Width = 0;
             DeltaBarPositive.Width = 0;
             return;
