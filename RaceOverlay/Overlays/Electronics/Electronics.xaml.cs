@@ -65,9 +65,8 @@ public partial class Electronics : Overlay
         }
     }
 
-    protected override void scaleWindow(double scale)
+    protected override void _scaleWindow(double scale)
     {
-        base.scaleWindow(scale);
         ContentScaleTransform.ScaleX = scale;
         ContentScaleTransform.ScaleY = scale;
     }

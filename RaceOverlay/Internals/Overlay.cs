@@ -3,48 +3,87 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
+using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
 public abstract class Overlay: Window
 {
-     private int windowWidth = 300;
-     private int windowHeight = 200;
+     private int _windowWidth = 300;
+     private int _windowHeight = 200;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
+     
+     protected OverlayConfig _config { get; set; }
 
      public abstract void _updateWindow();
      public abstract void _getData();
-     public virtual void _getConfig(){}
+     protected virtual void _getConfig(){}
 
      public abstract void UpdateThreadMethod();
+     
+     public Overlay(String overlayName, String overlayDescription)
+     {
+          OverlayName = overlayName;
+          OverlayDescription = overlayDescription;
+          _config = new ()
+          {
+               OverlayName = OverlayName
+          };
+
+          // Register the key down event handler
+          this.KeyDown += Overlay_KeyDown;
+          
+          // Set window position
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          if(settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+               settingsObject["Overlays"][OverlayName]["active"] = false;
+               settingsObject["Overlays"][OverlayName]["Top"] = 0;
+               settingsObject["Overlays"][OverlayName]["Left"] = 0;
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          }
+          
+          Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
+          Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
+          if((bool)settingsObject["Overlays"][OverlayName]["active"])
+          {
+               Show();
+          }
+     }
 
      protected void _setWindowSize(int width, int height)
      {
-          windowWidth = width;
-          windowHeight = height;
+          _windowWidth = width;
+          _windowHeight = height;
           
-          Width = windowWidth;
-          Height = windowHeight;
+          Width = _windowWidth;
+          Height = _windowHeight;
      }
 
-     protected virtual void scaleWindow(double scale)
+     protected virtual void _scaleWindow(double scale){}
+
+     public OverlayConfig GetConfigOptions()
      {
-          _scaleWindow(scale);
+          return _config;
      }
-     
+
      public void ScaleValueChanges(object sender, RoutedPropertyChangedEventArgs<double> e)
      {
           double newScale = (double)e.NewValue;
           
-          _scaleWindow(newScale);
+          _scaleWindowSize(newScale);
      }
 
-     protected void _scaleWindow(double scale)
+     private void _scaleWindowSize(double scale)
      {
-          Width = windowWidth * scale;
-          Height = windowHeight * scale;
+          Width = _windowWidth * scale;
+          Height = _windowHeight * scale;
      }
      
      protected string _getStringConfig(string key)
@@ -149,36 +188,6 @@ public abstract class Overlay: Window
           settingsObject["Overlays"][OverlayName]["active"] = true;
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
           
-     }
-     
-     public Overlay(String overlayName, String overlayDescription)
-     {
-          OverlayName = overlayName;
-          OverlayDescription = overlayDescription;
-          
-          // Register the key down event handler
-          this.KeyDown += Overlay_KeyDown;
-          
-          // Set window position
-          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
-          string jsonContent = File.ReadAllText(settingsFilePath);
-          JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName] == null)
-          {
-               settingsObject["Overlays"][OverlayName] = new JObject();
-               settingsObject["Overlays"][OverlayName]["active"] = false;
-               settingsObject["Overlays"][OverlayName]["Top"] = 0;
-               settingsObject["Overlays"][OverlayName]["Left"] = 0;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          }
-          
-          Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
-          Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
-          if((bool)settingsObject["Overlays"][OverlayName]["active"])
-          {
-               Show();
-          }
      }
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
