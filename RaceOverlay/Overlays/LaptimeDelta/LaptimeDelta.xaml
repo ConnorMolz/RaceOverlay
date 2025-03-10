@@ -15,31 +15,45 @@
         ResizeMode="NoResize"
         Topmost="True">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
         
-        <TextBlock Grid.Column="0" Padding="10" Grid.Row="0" Text="ABS" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="0" Padding="10" Grid.Row="1" Name="absValue" TextAlignment="Center"></TextBlock>
-        
-        <TextBlock Grid.Column="1" Padding="10" Grid.Row="0" Text="TC1" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="1" Padding="10" Grid.Row="1" Name="tc1Value" TextAlignment="Center"></TextBlock>
-        
-        <TextBlock Grid.Column="2" Padding="10" Grid.Row="0" Text="TC2" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="2" Padding="10" Grid.Row="1" Name="tc2Value" TextAlignment="Center"></TextBlock>
-        
-        <TextBlock Grid.Column="3" Padding="10" Grid.Row="0" Text="BB" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="3" Padding="10" Grid.Row="1" Name="bbValue" TextAlignment="Center"></TextBlock>
+        <Grid Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="200" 
+                       Height="60" 
+                       Fill="#FF2A2A2A"/>  
+            <Rectangle Grid.Column="0" x:Name="DeltaBarPositive"
+                       Width="00" 
+                       Height="50" 
+                       Fill="#FFFF0000"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Right"/>
+            <Rectangle Grid.Column="1" x:Name="DeltaBarNegative"
+                       Width="50" 
+                       Height="50" 
+                       Fill="#FF00FF00"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"/>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Name="DeltaText"
+                       Text="-0.500"
+                       Foreground="Black"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+            >
+                
+            </TextBlock>
+        </Grid>
         
     </Grid>
 </internals:Overlay>

@@ -1,17 +1,21 @@
 using System.Diagnostics;
 using System.Windows;
+using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 
 namespace RaceOverlay.Overlays.LaptimeDelta;
 
 public partial class LaptimeDelta : Overlay
 {
+    private iRacingData _data;
+    private double _laptimeDelta = 0;
+    
     //TODO: Add description
     public LaptimeDelta() : base("Lap Time Delta", "This Overlay...")
     {
         InitializeComponent();
 
-        _setWindowSize(160, 65);
+        _setWindowSize(200, 65);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -21,12 +25,14 @@ public partial class LaptimeDelta : Overlay
 
     public override void _updateWindow()
     {
-        throw new NotImplementedException();
+        //TODO: Implement Logic
     }
 
     public override void _getData()
     {
-        throw new NotImplementedException();
+        // TODO: Map Data
+        _data = MainWindow.IRacingData;
+        //_laptimeDelta = _data;
     }
 
     public override void UpdateThreadMethod()
