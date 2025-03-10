@@ -1,7 +1,10 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using IRSDKSharper;
 using RaceOverlay.Data;
 using RaceOverlay.Data.Models;
@@ -33,6 +36,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         _initIRacingData();
         _initOverlays();
+        _loadLicenseAndQuickGuide();
         
     }
 
@@ -144,4 +148,89 @@ public partial class MainWindow : Window
             
         }
     }
+    
+    private void minimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
+    }
+    
+    private void closeButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void goToInfoButton_Click(object sender, RoutedEventArgs e)
+    {
+        MainPage.Visibility = Visibility.Hidden;
+
+        NavButtonText.Visibility = Visibility.Hidden;
+        Arrow.Visibility = Visibility.Visible;
+        NavButton.Click += goToMainButton_Click;
+        
+        InfoPage.Visibility = Visibility.Visible;
+        
+        
+    }
+    
+    private void goToMainButton_Click(object sender, RoutedEventArgs e)
+    {
+        MainPage.Visibility = Visibility.Visible;
+        
+        NavButtonText.Visibility = Visibility.Visible;
+        Arrow.Visibility = Visibility.Hidden;
+        NavButton.Click += goToInfoButton_Click;
+        
+        InfoPage.Visibility = Visibility.Hidden;
+    }
+
+    private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        DragMove();
+    }
+    
+    private void _loadLicenseAndQuickGuide()
+    {
+        try
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            
+            string resourceNameLicense = "RaceOverlay.Resources.LICENSE";
+                
+            using (Stream stream = assembly.GetManifestResourceStream(resourceNameLicense))
+            {
+                if (stream != null)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        LicenseText.Text = reader.ReadToEnd();
+                    }
+                }
+                else
+                {
+                    LicenseText.Text = "LICENSE resource not found in the application.";
+                }
+            }
+            string resourceNameManual = "RaceOverlay.Resources.Manual";
+                
+            using (Stream stream = assembly.GetManifestResourceStream(resourceNameManual))
+            {
+                if (stream != null)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        QuickGuideText.Text = reader.ReadToEnd();
+                    }
+                }
+                else
+                {
+                    LicenseText.Text = "LICENSE resource not found in the application.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            LicenseText.Text = $"Error loading LICENSE resource: {ex.Message}";
+        }
+    }
+    
 }
