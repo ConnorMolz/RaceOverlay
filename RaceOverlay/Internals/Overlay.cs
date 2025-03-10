@@ -15,8 +15,6 @@ public abstract class Overlay: Window
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
-     
-     protected OverlayConfig _config { get; set; }
 
      public abstract void _updateWindow();
      public abstract void _getData();
@@ -28,11 +26,8 @@ public abstract class Overlay: Window
      {
           OverlayName = overlayName;
           OverlayDescription = overlayDescription;
-          _config = new ()
-          {
-               OverlayName = OverlayName
-          };
-
+          
+          
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
           
@@ -71,6 +66,7 @@ public abstract class Overlay: Window
           if (_scale == 0 || _scale == null)
           {
                _scale = 1;
+               
                _setDoubleConfig("_scale", 1);
           }
           ScaleValueChanges(_scale);
@@ -93,10 +89,7 @@ public abstract class Overlay: Window
 
      protected abstract void _scaleWindow(double scale);
 
-     public OverlayConfig GetConfigOptions()
-     {
-          return _config;
-     }
+     public virtual void GetConfigOptions(){}
 
      public void ScaleValueChanges(double newScale)
      {
