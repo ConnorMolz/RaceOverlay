@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using RaceOverlay.Data.Models;
@@ -22,6 +23,8 @@ public partial class WeatherInfo : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(150, 130);
+        
         Thread updateThread = new Thread(UpdateThreadMethod);
         updateThread.IsBackground = true;
         updateThread.Start();
@@ -33,7 +36,6 @@ public partial class WeatherInfo : Overlay
 
     public override void _getData()
     {
-        base._getData();
         _data = MainWindow.IRacingData;
         _airTemp = _data.WeatherData.AirTemp;
         _trackTemp = _data.WeatherData.TrackTemp;
@@ -54,12 +56,10 @@ public partial class WeatherInfo : Overlay
         {
             IsWetText.Text = "DRY";
         }
-        base._updateWindow();
     }
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {
@@ -121,4 +121,19 @@ public partial class WeatherInfo : Overlay
             }
         }
     }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+    }
+
+    
 }

@@ -7,13 +7,14 @@ car and track information which is useble on most cars and tracks.
 - Input Telemetry
 - Electronic Infos (TC, ABS, BB)
 - Battery Status (Only for GTP)
+- Lap Time Delta (to best lap)
 - Session Infos (Incidents and Race duration)
 - Current Weather Information
 
 ## Planned overlays
 - Fuel Info
 - Pit Helper (including tire info)
-- Lap Delta (to fastest or last)
+- Lap Delta (to last lap)
 - Leaderboard (last lap)
 
 ## Installation

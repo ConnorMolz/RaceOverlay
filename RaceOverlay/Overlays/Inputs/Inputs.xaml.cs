@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using RaceOverlay.Data.Models;
@@ -18,6 +19,8 @@ public partial class Inputs : Overlay
     public Inputs():base("Inputs", "Displays the current inputs, current gear and current speed of the car.")
     {
         InitializeComponent();
+        
+        _setWindowSize(180, 130);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -68,7 +71,6 @@ public partial class Inputs : Overlay
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {
@@ -86,6 +88,19 @@ public partial class Inputs : Overlay
                 // Add a small delay to prevent high CPU usage
                 Thread.Sleep(16); // ~60 updates per second
             }
+        }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
         }
     }
 }

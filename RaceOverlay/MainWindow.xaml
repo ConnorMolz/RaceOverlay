@@ -7,65 +7,133 @@
         Title="Race Overlay" 
         Height="450" 
         Width="800"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="CanMinimize"
         Background="#FF1E1E1E"
-        Foreground="White" >
-    <Grid Margin="30">
+        Foreground="White"
+        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <ListView x:Name="OverlayList" 
-                  Background="#FF1E1E1E"
-                  Foreground="White" 
-                  Grid.Column="0" 
-                  SelectionChanged="OverlaySelectionChanged"
-                  Width="180"
-                  HorizontalAlignment="Left">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding OverlayName}" Padding="5"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        <Grid Grid.Column="1"
-              HorizontalAlignment="Left"
-              Width="300">
-            <Grid.RowDefinitions>
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-                  <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Name="OverlayNameText" 
-                       Foreground="White" 
-                       Grid.Column="0"
-                       Grid.Row="0"
-                       TextAlignment="Center"
-                       FontSize="20"
-                       Text=""></TextBlock>
-            <TextBlock Name="OverlayDescriptionText"
-                     Grid.Column="0"
-                     Grid.Row="1"
-                     Text=""
-                     FontSize="15"
-                     TextWrapping="Wrap"
-                     Foreground="White" 
-                     TextAlignment="Justify"/>
-            <Button Grid.Column="0"
-                    Background="#FF3E3E3E"
-                    Foreground="White" 
-                    Grid.Row="2"
-                    Click="Toggle_Overlay"
-                    Content="Toggle Overlay"
-                    Height="30"
-                    Width="300"
-                    Visibility="Hidden"
-                    Name="ToggleOverlayButton"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="10">
+                <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
+            </StackPanel>
             
-    </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button Click="goToInfoButton_Click" Name="NavButton" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent">
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Path Fill="White" Width="12" Height="12" Name="Arrow" Visibility="Hidden"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Data="M 6,0 L 0,6 L 6,12 L 6,8 L 12,8 L 12,4 L 6,4 Z"/>
+                            <TextBlock Text="?" VerticalAlignment="Center" HorizontalAlignment="Center" Name="NavButtonText"></TextBlock>
+                        </Grid>
+                    </StackPanel>
+                </Button>
+                <Button Click="minimizeButton_Click" Content="_" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
+                <Button Click="closeButton_Click" Content="x" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent"></Button>
+            </StackPanel>
         </Grid>
+        
+        
+        <Grid Margin="10" Grid.Row="1" Name="MainPage" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <ListView x:Name="OverlayList" 
+                          Background="#FF1E1E1E"
+                          Foreground="White" 
+                          Grid.Column="0" 
+                          SelectionChanged="OverlaySelectionChanged"
+                          Width="180"
+                          HorizontalAlignment="Left">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OverlayName}" Padding="5"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+                <Grid Grid.Column="1"
+                      HorizontalAlignment="Left"
+                      Width="300">
+                    <Grid.RowDefinitions>
+                          <RowDefinition Height="*" />
+                          <RowDefinition Height="*" />
+                          <RowDefinition Height="Auto"></RowDefinition>
+                          <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Name="OverlayNameText" 
+                               Foreground="White" 
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               TextAlignment="Center"
+                               FontSize="20"
+                               Text=""></TextBlock>
+                    <TextBlock Name="OverlayDescriptionText"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             Text=""
+                             FontSize="15"
+                             TextWrapping="Wrap"
+                             Foreground="White" 
+                             TextAlignment="Justify"/>
+                    <Grid Grid.Row="2" Visibility="Hidden" Name="ConfigGrid">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                            <TextBlock Text="Scale Factor:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBox x:Name="ScaleInput" Width="50" Text="1.0" TextChanged="ScaleInput_TextChanged"/>
+                            <Slider x:Name="ScaleSlider" Width="150" Minimum="0.5" Maximum="2.0" Value="1.0" 
+                                    Margin="10,0,0,0" TickFrequency="0.1" IsSnapToTickEnabled="True"
+                                    ValueChanged="ScaleSlider_ValueChanged"/>
+                        </StackPanel>
+                    </Grid>
+                    <Button Grid.Column="0"
+                            Background="#FF3E3E3E"
+                            Foreground="White" 
+                            Grid.Row="3"
+                            Click="Toggle_Overlay"
+                            Content="Toggle Overlay"
+                            Height="30"
+                            Width="300"
+                            Visibility="Hidden"
+                            Name="ToggleOverlayButton"/>
+                    
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Margin="10" Name="InfoPage" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" FontSize="25" Margin="12" Text="Thank you for using Race Overlay"></TextBlock>
+            
+            <TextBlock Grid.Row="1" FontSize="16" TextAlignment="Center" Text="Quick Guide"></TextBlock>
+            <ScrollViewer Grid.Row="2" Padding="0,0,0,10">
+                <TextBlock Name="QuickGuideText" TextWrapping="Wrap"></TextBlock>
+            </ScrollViewer>
+            
+            <TextBlock Grid.Row="3" FontSize="16" TextAlignment="Center" Text="LICENSE"></TextBlock>
+            <ScrollViewer Grid.Row="4" Padding="0,0,0,10" Height="190">
+                <TextBlock Name="LicenseText" TextWrapping="Wrap"></TextBlock>
+            </ScrollViewer>
+            
+        </Grid>
+    </Grid>
 </Window>

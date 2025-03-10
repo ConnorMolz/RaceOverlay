@@ -3,20 +3,18 @@ using System.Windows;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 
-namespace RaceOverlay.Overlays.EnergyInfo;
+namespace RaceOverlay.Overlays.LaptimeDelta;
 
-public partial class EnergyInfo : Overlay
+public partial class LaptimeDelta : Overlay
 {
-    private float _energyLevelPct;  
-    
     private iRacingData _data;
+    private double _laptimeDelta = 0;
     
-    
-    public EnergyInfo(): base("Engery Info", "Displays the current energy level of the battery. (Only available in GPT)")
+    public LaptimeDelta() : base("Lap Time Delta", "This Overlay shows the current delta to the best lap time which is currently set by the local car.")
     {
         InitializeComponent();
-        
-        _setWindowSize(200, 70);
+
+        _setWindowSize(300, 30);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -26,16 +24,42 @@ public partial class EnergyInfo : Overlay
 
     public override void _updateWindow()
     {
-        EnergyPctText.Text = _energyLevelPct.ToString("F1") + "%";
-        EnergyBar.Width = _energyLevelPct * 2;
+        if (_laptimeDelta < 0)
+        {
+            var barWidth = (15 * (_laptimeDelta * -1)) * _scale;
+            if(barWidth > 150) barWidth = 150;
+            
+            DeltaText.Text = _laptimeDelta.ToString("F3");
+            DeltaBarPositive.Width = 0;
+            DeltaBarNegative.Width = barWidth;
+            return;
+        }
+
+        if (_laptimeDelta > 0)
+        {
+            var barWidth = (15 * _laptimeDelta) * _scale;
+            if(barWidth > 150) barWidth = 150;
+            DeltaText.Text = "+" + _laptimeDelta.ToString("F3");
+            DeltaBarNegative.Width = 0;
+            DeltaBarPositive.Width = barWidth;
+            return;
+        }
+
+        if (_laptimeDelta == 0)
+        {
+            DeltaText.Text = _laptimeDelta.ToString("F3");
+            DeltaBarNegative.Width = 0;
+            DeltaBarPositive.Width = 0;
+            return;
+        }
     }
-    
+
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
-        _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct * 1;
+        _laptimeDelta = _data.LocalDriver.BestLapDelta;
     }
-    
+
     public override void UpdateThreadMethod()
     {
         {
@@ -57,7 +81,7 @@ public partial class EnergyInfo : Overlay
             }
         }
     }
-    
+
     protected override void _scaleWindow(double scale)
     {
         try

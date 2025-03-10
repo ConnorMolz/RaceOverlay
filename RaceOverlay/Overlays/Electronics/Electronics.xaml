@@ -7,7 +7,7 @@
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
         Title="Electronics"
-        Height="60" Width="180"
+        Height="{Binding windowHeight}" Width="{Binding windowWidth}"
         Background="#FF1E1E1E"
         Foreground="White"
         WindowStyle="None"
@@ -15,28 +15,31 @@
         ResizeMode="NoResize"
         Topmost="True">
     <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="ABS" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="0" Grid.Row="1" Name="absValue" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="0" Padding="10" Grid.Row="0" Text="ABS" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="0" Padding="10" Grid.Row="1" Name="absValue" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="TC1" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="1" Name="tc1Value" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="1" Padding="10" Grid.Row="0" Text="TC1" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="1" Padding="10" Grid.Row="1" Name="tc1Value" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="2" Grid.Row="0" Text="TC2" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="2" Grid.Row="1" Name="tc2Value" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="2" Padding="10" Grid.Row="0" Text="TC2" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="2" Padding="10" Grid.Row="1" Name="tc2Value" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="3" Grid.Row="0" Text="BB" TextAlignment="Center"></TextBlock>
-        <TextBlock Grid.Column="3" Grid.Row="1" Name="bbValue" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="3" Padding="10" Grid.Row="0" Text="BB" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="3" Padding="10" Grid.Row="1" Name="bbValue" TextAlignment="Center"></TextBlock>
         
     </Grid>
 </internals:Overlay>
