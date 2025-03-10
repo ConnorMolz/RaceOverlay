@@ -10,8 +10,7 @@ public partial class LaptimeDelta : Overlay
     private iRacingData _data;
     private double _laptimeDelta = 0;
     
-    //TODO: Add description
-    public LaptimeDelta() : base("Lap Time Delta", "This Overlay...")
+    public LaptimeDelta() : base("Lap Time Delta", "This Overlay shows the current delta to the best lap time which is currently set by the local car.")
     {
         InitializeComponent();
 
