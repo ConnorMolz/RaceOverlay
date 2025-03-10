@@ -162,12 +162,24 @@ public partial class MainWindow : Window
     private void goToInfoButton_Click(object sender, RoutedEventArgs e)
     {
         MainPage.Visibility = Visibility.Hidden;
+
+        NavButtonText.Visibility = Visibility.Hidden;
+        Arrow.Visibility = Visibility.Visible;
+        NavButton.Click += goToMainButton_Click;
+        
         InfoPage.Visibility = Visibility.Visible;
+        
+        
     }
     
     private void goToMainButton_Click(object sender, RoutedEventArgs e)
     {
         MainPage.Visibility = Visibility.Visible;
+        
+        NavButtonText.Visibility = Visibility.Visible;
+        Arrow.Visibility = Visibility.Hidden;
+        NavButton.Click += goToInfoButton_Click;
+        
         InfoPage.Visibility = Visibility.Hidden;
     }
 
