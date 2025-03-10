@@ -11,11 +11,16 @@ public abstract class Overlay: Window
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
-     
-     public virtual void _updateWindow(){}
-     public virtual void _getData(){}
+
+     public abstract void _updateWindow();
+     public abstract void _getData();
 
      public virtual void UpdateThreadMethod(){}
+
+     public string getStringConfig()
+     {
+          return "";
+     } 
 
      public void ToggleOverlay()
      {

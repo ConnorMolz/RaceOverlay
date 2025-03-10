@@ -33,7 +33,6 @@ public partial class WeatherInfo : Overlay
 
     public override void _getData()
     {
-        base._getData();
         _data = MainWindow.IRacingData;
         _airTemp = _data.WeatherData.AirTemp;
         _trackTemp = _data.WeatherData.TrackTemp;
@@ -54,7 +53,6 @@ public partial class WeatherInfo : Overlay
         {
             IsWetText.Text = "DRY";
         }
-        base._updateWindow();
     }
 
     public override void UpdateThreadMethod()

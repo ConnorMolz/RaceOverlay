@@ -27,7 +27,6 @@ public partial class SessionInfo : Overlay
 
     public override void _getData()
     {
-        base._getData();
         _data = MainWindow.IRacingData;
         _timeLeft = _data.SessionData.TimeLeft;
         _timeTotal = _data.SessionData.TimeTotal;
@@ -40,9 +39,8 @@ public partial class SessionInfo : Overlay
 
     public override void _updateWindow()
     {
-        base._updateWindow();
         
-        // TODO: Time Formating
+        // 32767 is the default value for lapsTotal when the session is not using laps for the distance
         if (_lapsTotal == 32767)
         {
             // Time Formatting
