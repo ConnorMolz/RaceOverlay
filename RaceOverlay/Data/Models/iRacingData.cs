@@ -7,6 +7,8 @@ public class iRacingData
     
     public SessionData SessionData { get; set; }
     public WeatherData WeatherData { get; set; }
+    
+    public LocalDriver LocalDriver { get; set; }
 
     public iRacingData()
     {
@@ -14,5 +16,6 @@ public class iRacingData
         Inputs = new Inputs();
         SessionData = new SessionData();
         WeatherData = new WeatherData();
+        LocalDriver = new LocalDriver();
     }
 }
