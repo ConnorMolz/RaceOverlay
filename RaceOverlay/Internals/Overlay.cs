@@ -66,7 +66,7 @@ public abstract class Overlay: Window
           Height = _windowHeight;
      }
 
-     protected virtual void _scaleWindow(double scale){}
+     protected abstract void _scaleWindow(double scale);
 
      public OverlayConfig GetConfigOptions()
      {
