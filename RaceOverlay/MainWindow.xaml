@@ -73,6 +73,7 @@
                     <Grid.RowDefinitions>
                           <RowDefinition Height="*" />
                           <RowDefinition Height="*" />
+                          <RowDefinition Height="Auto"></RowDefinition>
                           <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <TextBlock Name="OverlayNameText" 
@@ -90,10 +91,19 @@
                              TextWrapping="Wrap"
                              Foreground="White" 
                              TextAlignment="Justify"/>
+                    <Grid Grid.Row="2" Visibility="Hidden" Name="ConfigGrid">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                            <TextBlock Text="Scale Factor:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBox x:Name="ScaleInput" Width="50" Text="1.0" TextChanged="ScaleInput_TextChanged"/>
+                            <Slider x:Name="ScaleSlider" Width="150" Minimum="0.5" Maximum="2.0" Value="1.0" 
+                                    Margin="10,0,0,0" TickFrequency="0.1" IsSnapToTickEnabled="True"
+                                    ValueChanged="ScaleSlider_ValueChanged"/>
+                        </StackPanel>
+                    </Grid>
                     <Button Grid.Column="0"
                             Background="#FF3E3E3E"
                             Foreground="White" 
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Click="Toggle_Overlay"
                             Content="Toggle Overlay"
                             Height="30"

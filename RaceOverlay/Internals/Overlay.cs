@@ -73,11 +73,10 @@ public abstract class Overlay: Window
           return _config;
      }
 
-     public void ScaleValueChanges(object sender, RoutedPropertyChangedEventArgs<double> e)
+     public void ScaleValueChanges(double newScale)
      {
-          double newScale = (double)e.NewValue;
-          
           _scaleWindowSize(newScale);
+          _scaleWindow(newScale);
      }
 
      private void _scaleWindowSize(double scale)
