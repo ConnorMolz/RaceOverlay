@@ -145,6 +145,7 @@ public partial class MainWindow : Window
             OverlayNameText.Text = selectedOverlay.OverlayName;
             OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
             ToggleOverlayButton.Visibility = Visibility.Visible;
+            ConfigGrid.Visibility = Visibility.Visible;
             
         }
     }
@@ -230,6 +231,51 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             LicenseText.Text = $"Error loading LICENSE resource: {ex.Message}";
+        }
+    }
+    
+    private void ScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        double scale = ScaleSlider.Value;
+            
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+        if (selectedOverlay != null)
+        {
+            selectedOverlay.ScaleValueChanges(scale);
+            
+        }
+            
+        // Update text box to match (without triggering its event)
+        ScaleInput.TextChanged -= ScaleInput_TextChanged;
+        ScaleInput.Text = scale.ToString("F1");
+        ScaleInput.TextChanged += ScaleInput_TextChanged;
+    }
+    
+    private void ScaleInput_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (ConfigGrid.Visibility != Visibility.Visible)
+        {
+            return;
+        }
+
+        if (float.TryParse(ScaleInput.Text, out float scale))
+        {
+            // Ensure scale is within reasonable bounds
+            scale = Math.Max(0.5f, Math.Min(scale, 2.0f));
+                
+            Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+            if (selectedOverlay != null)
+            {
+                selectedOverlay.ScaleValueChanges(scale);
+            
+            }
+                
+            // Update slider to match (without triggering its event)
+            ScaleSlider.ValueChanged -= ScaleSlider_ValueChanged;
+            ScaleSlider.Value = Math.Max(ScaleSlider.Minimum, Math.Min(scale, ScaleSlider.Maximum));
+            ScaleSlider.ValueChanged += ScaleSlider_ValueChanged;
         }
     }
     

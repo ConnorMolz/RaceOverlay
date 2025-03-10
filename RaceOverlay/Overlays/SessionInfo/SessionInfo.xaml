@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RaceOverlay.Overlays.SessionInfo"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
-        Title="Session Info" Height="66" Width="180"
+        Title="Session Info" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
         Background="#FF1E1E1E"
         WindowStyle="None"
         WindowStartupLocation="Manual"
@@ -24,6 +24,10 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
         
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
                    HorizontalAlignment="Center"

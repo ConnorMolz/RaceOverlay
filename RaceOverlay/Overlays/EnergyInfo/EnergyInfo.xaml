@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RaceOverlay.Overlays.EnergyInfo"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
-        Title="Energy Info" Height="70" Width="200"
+        Title="Energy Info" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
         Background="#FF1E1E1E"
         WindowStyle="None"
         WindowStartupLocation="Manual"
@@ -17,6 +17,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
         
         <Grid Height="50">
             <Rectangle Width="200" 

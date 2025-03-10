@@ -19,6 +19,8 @@ public partial class SessionInfo : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(180, 60);
+        
         Thread thread = new Thread(UpdateThreadMethod);
         
         thread.IsBackground = true;
@@ -27,7 +29,6 @@ public partial class SessionInfo : Overlay
 
     public override void _getData()
     {
-        base._getData();
         _data = MainWindow.IRacingData;
         _timeLeft = _data.SessionData.TimeLeft;
         _timeTotal = _data.SessionData.TimeTotal;
@@ -40,9 +41,8 @@ public partial class SessionInfo : Overlay
 
     public override void _updateWindow()
     {
-        base._updateWindow();
         
-        // TODO: Time Formating
+        // 32767 is the default value for lapsTotal when the session is not using laps for the distance
         if (_lapsTotal == 32767)
         {
             // Time Formatting
@@ -67,7 +67,6 @@ public partial class SessionInfo : Overlay
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {
@@ -86,5 +85,11 @@ public partial class SessionInfo : Overlay
                 Thread.Sleep(16); // ~60 updates per second
             }
         }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }

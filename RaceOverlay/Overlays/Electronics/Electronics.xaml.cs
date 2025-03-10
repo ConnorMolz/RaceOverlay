@@ -14,10 +14,11 @@ public partial class Electronics : Overlay
 
     private iRacingData _data;
     
-    
     public Electronics(): base("Electronics", "An Overlay for displaying the in car adjustments of ABS, TC1, TC2 and Brake Bias(BB).")
     {
         InitializeComponent();
+
+        _setWindowSize(160, 65);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -44,7 +45,6 @@ public partial class Electronics : Overlay
     
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {
@@ -63,5 +63,11 @@ public partial class Electronics : Overlay
                 Thread.Sleep(16); // ~60 updates per second
             }
         }
+    }
+
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }
