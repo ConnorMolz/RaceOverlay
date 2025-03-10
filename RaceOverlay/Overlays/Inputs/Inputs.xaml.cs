@@ -19,6 +19,8 @@ public partial class Inputs : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(180, 130);
+        
         Thread updateThread = new Thread(UpdateThreadMethod);
         
         updateThread.IsBackground = true;
@@ -86,5 +88,11 @@ public partial class Inputs : Overlay
                 Thread.Sleep(16); // ~60 updates per second
             }
         }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }

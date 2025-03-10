@@ -15,6 +15,8 @@ public partial class EnergyInfo : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(200, 70);
+        
         Thread updateThread = new Thread(UpdateThreadMethod);
         
         updateThread.IsBackground = true;
@@ -53,5 +55,11 @@ public partial class EnergyInfo : Overlay
                 Thread.Sleep(16); // ~60 updates per second
             }
         }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }

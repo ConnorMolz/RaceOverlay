@@ -22,6 +22,8 @@ public partial class WeatherInfo : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(150, 130);
+        
         Thread updateThread = new Thread(UpdateThreadMethod);
         updateThread.IsBackground = true;
         updateThread.Start();
@@ -117,5 +119,11 @@ public partial class WeatherInfo : Overlay
                 _isOn = true;
             }
         }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }

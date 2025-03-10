@@ -19,6 +19,8 @@ public partial class SessionInfo : Overlay
     {
         InitializeComponent();
         
+        _setWindowSize(180, 60);
+        
         Thread thread = new Thread(UpdateThreadMethod);
         
         thread.IsBackground = true;
@@ -83,5 +85,11 @@ public partial class SessionInfo : Overlay
                 Thread.Sleep(16); // ~60 updates per second
             }
         }
+    }
+    
+    protected override void _scaleWindow(double scale)
+    {
+        ContentScaleTransform.ScaleX = scale;
+        ContentScaleTransform.ScaleY = scale;
     }
 }
