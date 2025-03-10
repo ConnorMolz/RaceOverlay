@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using RaceOverlay.Data.Models;
@@ -123,7 +124,18 @@ public partial class WeatherInfo : Overlay
     
     protected override void _scaleWindow(double scale)
     {
-        ContentScaleTransform.ScaleX = scale;
-        ContentScaleTransform.ScaleY = scale;
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            this._scale = scale;
+            _setDoubleConfig("_scale", scale);
+            Debug.WriteLine(e);
+        }
     }
+
+    
 }

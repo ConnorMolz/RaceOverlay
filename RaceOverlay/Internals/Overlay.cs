@@ -11,7 +11,7 @@ public abstract class Overlay: Window
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
-     public double scale = 1;
+     protected double _scale = 1;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -47,22 +47,39 @@ public abstract class Overlay: Window
                settingsObject["Overlays"][OverlayName]["active"] = false;
                settingsObject["Overlays"][OverlayName]["Top"] = 0;
                settingsObject["Overlays"][OverlayName]["Left"] = 0;
+               if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+               {
+                    settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+               }
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
           
-          Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
-          Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
-          scale = _getDoubleConfig("scale");
-          if (scale == 0)
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
           {
-               scale = 1;
-               _setDoubleConfig("scale", 1);
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
-          ScaleValueChanges(scale);
+          
           if((bool)settingsObject["Overlays"][OverlayName]["active"])
           {
                Show();
           }
+          
+          Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
+          Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
+          _scale = _getDoubleConfig("_scale");
+          if (_scale == 0 || _scale == null)
+          {
+               _scale = 1;
+               _setDoubleConfig("_scale", 1);
+          }
+          ScaleValueChanges(_scale);
+          
+     }
+
+     public double getScale()
+     {
+          return _scale;
      }
 
      protected void _setWindowSize(int width, int height)
@@ -84,7 +101,10 @@ public abstract class Overlay: Window
      public void ScaleValueChanges(double newScale)
      {
           _scaleWindowSize(newScale);
-          _scaleWindow(newScale);
+          if (IsVisible)
+          {
+               _scaleWindow(newScale);
+          }
      }
 
      private void _scaleWindowSize(double scale)
@@ -222,7 +242,8 @@ public abstract class Overlay: Window
           Show();
           settingsObject["Overlays"][OverlayName]["active"] = true;
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          
+          _scaleWindow(this._scale);
+
      }
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
@@ -280,4 +301,17 @@ public abstract class Overlay: Window
      {
           Hide();
      }
+     
+     protected override void OnContentRendered(EventArgs e)
+     {
+          base.OnContentRendered(e);
+    
+          // Apply scaling when the window is shown
+          if (IsVisible)
+          {
+               _scaleWindow(_scale);
+               _scaleWindowSize(_scale);
+          }
+     }
+     
 }

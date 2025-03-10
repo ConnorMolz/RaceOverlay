@@ -261,7 +261,7 @@ public partial class MainWindow : Window
 
         if (float.TryParse(ScaleInput.Text, out float scale))
         {
-            // Ensure scale is within reasonable bounds
+            // Ensure _scale is within reasonable bounds
             scale = Math.Max(0.5f, Math.Min(scale, 2.0f));
                 
             Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;

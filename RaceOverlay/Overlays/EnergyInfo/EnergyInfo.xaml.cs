@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
@@ -59,7 +60,17 @@ public partial class EnergyInfo : Overlay
     
     protected override void _scaleWindow(double scale)
     {
-        ContentScaleTransform.ScaleX = scale;
-        ContentScaleTransform.ScaleY = scale;
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            scale = 1;
+            
+            _setDoubleConfig("_scale", scale);
+            Debug.WriteLine(e);
+        }
     }
 }
