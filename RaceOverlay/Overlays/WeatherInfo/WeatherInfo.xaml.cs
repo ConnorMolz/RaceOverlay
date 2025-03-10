@@ -131,8 +131,6 @@ public partial class WeatherInfo : Overlay
         }
         catch (Exception e)
         {
-            this._scale = scale;
-            _setDoubleConfig("_scale", scale);
             Debug.WriteLine(e);
         }
     }

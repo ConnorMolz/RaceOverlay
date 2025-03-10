@@ -97,9 +97,6 @@ public partial class SessionInfo : Overlay
         }
         catch (Exception e)
         {
-            scale = 1;
-            
-            _setDoubleConfig("_scale", scale);
             Debug.WriteLine(e);
         }
     }

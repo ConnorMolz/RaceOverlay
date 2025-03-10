@@ -75,9 +75,6 @@ public partial class Electronics : Overlay
         }
         catch (Exception e)
         {
-            scale = 1;
-            
-            _setDoubleConfig("_scale", scale);
             Debug.WriteLine(e);
         }
     }
