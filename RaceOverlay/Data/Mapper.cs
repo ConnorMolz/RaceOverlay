@@ -141,7 +141,15 @@ public class Mapper
         data.LocalDriver.BestLapDelta = irsdkSharper.Data.GetFloat("LapDeltaToSessionBestLap");
         
         // Drive Assistants
-        data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
+        try
+        {
+            data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+
         try
         {
             data.LocalCarTelemetry.Tc1 = irsdkSharper.Data.GetFloat("dcTractionControl");
