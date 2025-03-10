@@ -26,13 +26,35 @@ public partial class LaptimeDelta : Overlay
     public override void _updateWindow()
     {
         //TODO: Implement Logic
+        if (_laptimeDelta < 0)
+        {
+            //DeltaText.Text = ?;
+            DeltaBarPositive.Width = 0;
+            //DeltaBarNegative.Width = ?;
+            return;
+        }
+
+        if (_laptimeDelta > 0)
+        {
+            //DeltaText.Text = ?;
+            DeltaBarNegative.Width = 0;
+            //DeltaBarPositive.Width = ?;
+            return;
+        }
+
+        if (_laptimeDelta == 0)
+        {
+            //DeltaText.Text = ?;
+            DeltaBarNegative.Width = 0;
+            DeltaBarPositive.Width = 0;
+            return;
+        }
     }
 
     public override void _getData()
     {
-        // TODO: Map Data
         _data = MainWindow.IRacingData;
-        //_laptimeDelta = _data;
+        _laptimeDelta = _data.LocalDriver.BestLapDelta;
     }
 
     public override void UpdateThreadMethod()
