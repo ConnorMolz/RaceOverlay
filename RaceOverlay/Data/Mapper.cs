@@ -136,6 +136,10 @@ public class Mapper
         // Lap Data
         data.LocalCarTelemetry.Lap = irsdkSharper.Data.GetInt("Lap");
         
+        // Lap Deltas
+        data.LocalDriver.LastLapDelta = irsdkSharper.Data.GetFloat("LapDeltaToSessionLastlLap");
+        data.LocalDriver.BestLapDelta = irsdkSharper.Data.GetFloat("LapDeltaToSessionBestLap");
+        
         // Drive Assistants
         data.LocalCarTelemetry.BrakeBias = irsdkSharper.Data.GetFloat("dcBrakeBias");
         try
