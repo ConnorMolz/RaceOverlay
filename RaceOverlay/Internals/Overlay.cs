@@ -11,6 +11,7 @@ public abstract class Overlay: Window
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
+     public double scale = 1;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -51,6 +52,13 @@ public abstract class Overlay: Window
           
           Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
           Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
+          scale = _getDoubleConfig("scale");
+          if (scale == 0)
+          {
+               scale = 1;
+               _setDoubleConfig("scale", 1);
+          }
+          ScaleValueChanges(scale);
           if((bool)settingsObject["Overlays"][OverlayName]["active"])
           {
                Show();
@@ -160,6 +168,34 @@ public abstract class Overlay: Window
      }
      
      protected void _setFloatConfig(string key, float value)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = value;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+     }
+     
+     protected double _getDoubleConfig(string key)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+          {
+               return (double)settingsObject["Overlays"][OverlayName]["Configs"][key];
+          }
+          else
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               return 0;
+          }
+     }
+     
+     protected void _setDoubleConfig(string key, double value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
