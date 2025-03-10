@@ -8,6 +8,8 @@ namespace RaceOverlay.Internals;
 
 public abstract class Overlay: Window
 {
+     private int windowWidth = 300;
+     private int windowHeight = 200;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -18,7 +20,34 @@ public abstract class Overlay: Window
 
      public abstract void UpdateThreadMethod();
 
-     private string _getStringConfig(string key)
+     protected void _setWindowSize(int width, int height)
+     {
+          windowWidth = width;
+          windowHeight = height;
+          
+          Width = windowWidth;
+          Height = windowHeight;
+     }
+
+     protected virtual void scaleWindow(double scale)
+     {
+          _scaleWindow(scale);
+     }
+     
+     public void ScaleValueChanges(object sender, RoutedPropertyChangedEventArgs<double> e)
+     {
+          double newScale = (double)e.NewValue;
+          
+          _scaleWindow(newScale);
+     }
+
+     protected void _scaleWindow(double scale)
+     {
+          Width = windowWidth * scale;
+          Height = windowHeight * scale;
+     }
+     
+     protected string _getStringConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
@@ -36,7 +65,7 @@ public abstract class Overlay: Window
           }
      }
 
-     private void _setStringConfig(string key, string value)
+     protected void _setStringConfig(string key, string value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
@@ -46,7 +75,7 @@ public abstract class Overlay: Window
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
      
-     private int _getIntConfig(string key)
+     protected int _getIntConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
@@ -64,7 +93,7 @@ public abstract class Overlay: Window
           }
      }
 
-     private void _setIntConfig(string key, int value)
+     protected void _setIntConfig(string key, int value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
@@ -74,7 +103,7 @@ public abstract class Overlay: Window
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
 
-     private float _getFloatConfig(string key)
+     protected float _getFloatConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
@@ -92,7 +121,7 @@ public abstract class Overlay: Window
           }
      }
      
-     private void _setFloatConfig(string key, float value)
+     protected void _setFloatConfig(string key, float value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
