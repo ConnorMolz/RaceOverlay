@@ -94,7 +94,26 @@
                     
             </Grid>
         </Grid>
-        <Grid Name="InfoPage">
+        <Grid Grid.Row="1" Margin="10" Name="InfoPage" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" FontSize="25" Margin="12" Text="Thank you for using Race Overlay"></TextBlock>
+            
+            <TextBlock Grid.Row="1" FontSize="16" TextAlignment="Center" Text="Quick Guide"></TextBlock>
+            <ScrollViewer Grid.Row="2" Padding="0,0,0,10">
+                <TextBlock Name="QuickGuideText" TextWrapping="Wrap"></TextBlock>
+            </ScrollViewer>
+            
+            <TextBlock Grid.Row="3" FontSize="16" TextAlignment="Center" Text="LICENSE"></TextBlock>
+            <ScrollViewer Grid.Row="4" Padding="0,0,0,10" Height="190">
+                <TextBlock Name="LicenseText" TextWrapping="Wrap"></TextBlock>
+            </ScrollViewer>
             
         </Grid>
     </Grid>
