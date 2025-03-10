@@ -68,7 +68,6 @@ public partial class Inputs : Overlay
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {

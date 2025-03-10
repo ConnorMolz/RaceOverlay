@@ -57,7 +57,6 @@ public partial class WeatherInfo : Overlay
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {

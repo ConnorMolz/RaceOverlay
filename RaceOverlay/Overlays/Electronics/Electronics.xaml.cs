@@ -44,7 +44,6 @@ public partial class Electronics : Overlay
     
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {

@@ -35,7 +35,6 @@ public partial class EnergyInfo : Overlay
     
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {

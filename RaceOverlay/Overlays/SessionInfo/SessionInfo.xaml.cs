@@ -65,7 +65,6 @@ public partial class SessionInfo : Overlay
 
     public override void UpdateThreadMethod()
     {
-        base.UpdateThreadMethod();
         {
             while (true)
             {
