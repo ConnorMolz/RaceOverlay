@@ -146,7 +146,9 @@ public partial class MainWindow : Window
             OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
             ToggleOverlayButton.Visibility = Visibility.Visible;
             ConfigGrid.Visibility = Visibility.Visible;
-            
+            ScaleInput.Text = selectedOverlay.getScale().ToString("F1");
+            ScaleSlider.Value = selectedOverlay.getScale();
+
         }
     }
     

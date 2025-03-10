@@ -100,6 +100,7 @@ public abstract class Overlay: Window
 
      public void ScaleValueChanges(double newScale)
      {
+          _setDoubleConfig("_scale", newScale);
           _scaleWindowSize(newScale);
           if (IsVisible)
           {
