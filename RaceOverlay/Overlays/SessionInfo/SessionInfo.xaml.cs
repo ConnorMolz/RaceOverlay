@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
@@ -89,7 +90,14 @@ public partial class SessionInfo : Overlay
     
     protected override void _scaleWindow(double scale)
     {
-        ContentScaleTransform.ScaleX = scale;
-        ContentScaleTransform.ScaleY = scale;
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 }

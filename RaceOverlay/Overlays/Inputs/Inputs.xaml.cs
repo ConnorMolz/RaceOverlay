@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using RaceOverlay.Data.Models;
@@ -92,7 +93,14 @@ public partial class Inputs : Overlay
     
     protected override void _scaleWindow(double scale)
     {
-        ContentScaleTransform.ScaleX = scale;
-        ContentScaleTransform.ScaleY = scale;
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
 }
