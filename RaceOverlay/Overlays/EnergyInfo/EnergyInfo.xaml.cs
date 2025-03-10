@@ -67,9 +67,6 @@ public partial class EnergyInfo : Overlay
         }
         catch (Exception e)
         {
-            scale = 1;
-            
-            _setDoubleConfig("_scale", scale);
             Debug.WriteLine(e);
         }
     }
