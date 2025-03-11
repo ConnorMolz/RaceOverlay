@@ -197,6 +197,10 @@ public class Mapper
         data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
         data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
         
+        // Pitstop Data
+        data.Pitstop.RequiredRepairTimeLeft = irsdkSharper.Data.GetFloat("PitRepairLeft");
+        data.Pitstop.OptionalRepairTimeLeft = irsdkSharper.Data.GetFloat("PitOptRepairLeft");
+        
         // Return Dataset
         return data;
     }
