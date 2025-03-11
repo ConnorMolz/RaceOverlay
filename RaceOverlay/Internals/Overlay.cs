@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
@@ -210,6 +211,34 @@ public abstract class Overlay: Window
      }
      
      protected void _setDoubleConfig(string key, double value)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = value;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+     }
+     
+     protected bool _getBoolConfig(string key)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+          {
+               return (bool)settingsObject["Overlays"][OverlayName]["Configs"][key];
+          }
+          else
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"][key] = false;
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               return false;
+          }
+     }
+
+     protected void _setBoolConfig(string key, double value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
