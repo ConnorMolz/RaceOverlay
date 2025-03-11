@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
@@ -15,8 +16,6 @@ public abstract class Overlay: Window
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
-     
-     protected OverlayConfig _config { get; set; }
 
      public abstract void _updateWindow();
      public abstract void _getData();
@@ -28,11 +27,8 @@ public abstract class Overlay: Window
      {
           OverlayName = overlayName;
           OverlayDescription = overlayDescription;
-          _config = new ()
-          {
-               OverlayName = OverlayName
-          };
-
+          
+          
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
           
@@ -71,6 +67,7 @@ public abstract class Overlay: Window
           if (_scale == 0 || _scale == null)
           {
                _scale = 1;
+               
                _setDoubleConfig("_scale", 1);
           }
           ScaleValueChanges(_scale);
@@ -93,10 +90,12 @@ public abstract class Overlay: Window
 
      protected abstract void _scaleWindow(double scale);
 
-     public OverlayConfig GetConfigOptions()
+     public virtual Grid GetConfigs()
      {
-          return _config;
+          return new Grid();
      }
+
+     protected virtual void _loadConfig(){}
 
      public void ScaleValueChanges(double newScale)
      {
@@ -217,6 +216,34 @@ public abstract class Overlay: Window
      }
      
      protected void _setDoubleConfig(string key, double value)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = value;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+     }
+     
+     protected bool _getBoolConfig(string key)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+          {
+               return (bool)settingsObject["Overlays"][OverlayName]["Configs"][key];
+          }
+          else
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"][key] = false;
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               return false;
+          }
+     }
+
+     protected void _setBoolConfig(string key, bool value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
