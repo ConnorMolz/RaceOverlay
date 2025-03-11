@@ -12,6 +12,8 @@ public partial class PitstopInfo : Overlay
     private iRacingData _data;
 
     private bool _enablePitHelper;
+    private float _reqRepairTime;
+    private float _optRepairTime;
     
     //TODO: Add description
     public PitstopInfo() : base("Pitstop Info", "TODO")
@@ -31,12 +33,15 @@ public partial class PitstopInfo : Overlay
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
-        
+        _reqRepairTime = _data.Pitstop.RequiredRepairTimeLeft;
+        _optRepairTime = _data.Pitstop.OptionalRepairTimeLeft;
+
     }
     
     public override void _updateWindow()
     {
-        
+        ReqRepairTimeText.Text = _reqRepairTime.ToString();
+        OptRepairTimeText.Text = _optRepairTime.ToString();
     }
 
     public override void UpdateThreadMethod()
