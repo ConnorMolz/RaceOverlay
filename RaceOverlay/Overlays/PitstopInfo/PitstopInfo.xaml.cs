@@ -10,13 +10,15 @@ namespace RaceOverlay.Overlays.PitstopInfo;
 public partial class PitstopInfo : Overlay
 {
     private iRacingData _data;
+
+    private bool _enablePitHelper;
     
     //TODO: Add description
     public PitstopInfo() : base("Pitstop Info", "TODO")
     {
         InitializeComponent();
         
-        _setWindowSize(150, 130);
+        _setWindowSize(210, 65);
         
         _loadConfig();
         
@@ -60,22 +62,45 @@ public partial class PitstopInfo : Overlay
     }
     
 
+    //TODO: If pithelper is implemented remove comment form add child operations
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
         grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         
+        TextBlock pitHelpertextBlock = new TextBlock();
+        pitHelpertextBlock.Text = "Activate Pitstop Helper: ";
+        
+        Grid.SetRow(pitHelpertextBlock, 0);
+        Grid.SetColumn(pitHelpertextBlock, 0);
+        //grid.Children.Add(pitHelpertextBlock);
+        
+        CheckBox pitHelperCheckBox = new CheckBox();
+        pitHelperCheckBox.IsChecked = _enablePitHelper;
+        
+        Grid.SetRow(pitHelperCheckBox, 0);
+        Grid.SetColumn(pitHelperCheckBox, 1);
+        pitHelperCheckBox.Checked += (sender, args) =>
+        {
+            _enablePitHelper = true;
+            _setBoolConfig("_enablePitHelper", _enablePitHelper);
+        };
+        pitHelperCheckBox.Unchecked += (sender, args) =>
+        {
+            _enablePitHelper = false;
+            _setBoolConfig("_enablePitHelper", _enablePitHelper);
+        };
+        //grid.Children.Add(pitHelperCheckBox);
 
         return grid;
     }
 
     protected override void _loadConfig()
     {
-       
+       _enablePitHelper = _getBoolConfig("_enablePitHelper");
     }
 
     protected override void _scaleWindow(double scale)

@@ -13,14 +13,14 @@
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
         Topmost="True">
-    <Grid>
+    <Grid Margin="5">
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
@@ -28,7 +28,11 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         
+        <TextBlock Text="Required Repair Time: " Margin="5"></TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="ReqRepairTimeText" Text="00:00:300" Margin="0, 5"></TextBlock>
         
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Optional Repair Time: " Margin="5"></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Name="OptRepairTimeText" Text="01:43:432" Margin="0,5"></TextBlock>
         
     </Grid>
 </internals:Overlay>
