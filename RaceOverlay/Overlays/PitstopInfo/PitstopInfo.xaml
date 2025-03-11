@@ -1,0 +1,34 @@
+<internals:Overlay x:Class="RaceOverlay.Overlays.PitstopInfo.PitstopInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:RaceOverlay.Overlays.PitstopInfo"
+        xmlns:internals="clr-namespace:RaceOverlay.Internals"
+        mc:Ignorable="d"
+        Title="Pitstop Info" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
+        Background="#FF1E1E1E"
+        Foreground="White"
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize"
+        Topmost="True">
+    <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        
+        
+    </Grid>
+</internals:Overlay>
