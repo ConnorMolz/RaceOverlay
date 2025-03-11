@@ -90,7 +90,12 @@ public abstract class Overlay: Window
 
      protected abstract void _scaleWindow(double scale);
 
-     public virtual void GetConfigOptions(){}
+     public virtual Grid GetConfigs()
+     {
+          return new Grid();
+     }
+
+     protected virtual void _loadConfig(){}
 
      public void ScaleValueChanges(double newScale)
      {
@@ -238,7 +243,7 @@ public abstract class Overlay: Window
           }
      }
 
-     protected void _setBoolConfig(string key, double value)
+     protected void _setBoolConfig(string key, bool value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);

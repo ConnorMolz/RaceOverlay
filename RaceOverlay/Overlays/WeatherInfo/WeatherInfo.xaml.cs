@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
@@ -17,7 +18,10 @@ public partial class WeatherInfo : Overlay
     private string _backgroundColor = "#1E1E1E";
     private string _wetColor = "#0000FF";
     private string _dryColor = "#00FF00";
+    
     private bool _isOn = true;
+
+    private bool _blinkingIsActiv = true;
     
     public WeatherInfo(): base("Weather Info", "Displays the current temperature, precipitation and if the track declared to be wet from race control.")
     {
@@ -32,6 +36,8 @@ public partial class WeatherInfo : Overlay
         Thread blinkAnimationThread = new Thread(BlinkAnimationMethod);
         blinkAnimationThread.IsBackground = true;
         blinkAnimationThread.Start();
+        
+        _loadConfig();
     }
 
     public override void _getData()
@@ -55,6 +61,18 @@ public partial class WeatherInfo : Overlay
         else
         {
             IsWetText.Text = "DRY";
+        }
+
+        if (!_blinkingIsActiv)
+        {
+            if (_isWet)
+            {
+                IsWetBorder.Background = new BrushConverter().ConvertFromString(_wetColor) as SolidColorBrush;
+            }
+            else
+            {
+                IsWetBorder.Background = new BrushConverter().ConvertFromString(_dryColor) as SolidColorBrush;
+            }
         }
     }
 
@@ -84,19 +102,19 @@ public partial class WeatherInfo : Overlay
     {
         while (true)
         {
-            if (IsVisible)
+            if (_blinkingIsActiv)
             {
-                _getData();
-                    
-                // Use Dispatcher to update UI from background thread
-                Dispatcher.Invoke(() =>
+                if (IsVisible)
                 {
-                    BlinkAnimation();
-                });
+                    _getData();
+
+                    // Use Dispatcher to update UI from background thread
+                    Dispatcher.Invoke(() => { BlinkAnimation(); });
+                }
+
+                // Add a small delay to prevent high CPU usage
+                Thread.Sleep(500); // 1 update per 2 seconds
             }
-                
-            // Add a small delay to prevent high CPU usage
-            Thread.Sleep(500); // 1 update per 2 seconds
         }
     }
 
@@ -121,7 +139,56 @@ public partial class WeatherInfo : Overlay
             }
         }
     }
-    
+
+    public override Grid GetConfigs()
+    {
+        Grid grid = new Grid();
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+        TextBlock blinkInputLabel = new TextBlock();
+        blinkInputLabel.Text = "Toggle Blinking: ";
+        
+        TextBlock placeholder = new TextBlock();
+        placeholder.Text = "";
+        
+        CheckBox blinkingCheckBox = new CheckBox();
+        blinkingCheckBox.IsChecked = _blinkingIsActiv;
+        blinkingCheckBox.Checked += (sender, args) =>
+        {
+            _blinkingIsActiv = true;
+            _setBoolConfig("_blinkingIsActiv", true);
+        };
+        blinkingCheckBox.Unchecked += (sender, args) =>
+        {
+            _blinkingIsActiv = false;
+            _setBoolConfig("_blinkingIsActiv", false);
+        };
+        
+        grid.Children.Add(blinkInputLabel);
+        grid.Children.Add(blinkingCheckBox);
+        
+        Grid.SetRow(blinkInputLabel, 0);
+        Grid.SetColumn(blinkInputLabel, 0);
+
+        Grid.SetRow(placeholder, 0);
+        Grid.SetColumn(placeholder, 1);
+        
+        Grid.SetRow(blinkingCheckBox, 0);
+        Grid.SetColumn(blinkingCheckBox, 2);
+
+        return grid;
+    }
+
+    protected override void _loadConfig()
+    {
+        _blinkingIsActiv = _getBoolConfig("_blinkingIsActiv");
+    }
+
     protected override void _scaleWindow(double scale)
     {
         try

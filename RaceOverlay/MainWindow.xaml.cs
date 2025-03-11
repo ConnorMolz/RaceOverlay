@@ -150,6 +150,10 @@ public partial class MainWindow : Window
             ConfigGrid.Visibility = Visibility.Visible;
             ScaleInput.Text = selectedOverlay.getScale().ToString("F1");
             ScaleSlider.Value = selectedOverlay.getScale();
+            
+            CustomConfigContainer.Children.Clear();
+            Grid overlayConfigs = selectedOverlay.GetConfigs();
+            CustomConfigContainer.Children.Add( overlayConfigs );
 
         }
     }

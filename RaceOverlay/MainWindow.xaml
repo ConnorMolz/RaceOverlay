@@ -92,12 +92,19 @@
                              Foreground="White" 
                              TextAlignment="Justify"/>
                     <Grid Grid.Row="2" Visibility="Hidden" Name="ConfigGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
-                            <TextBlock Text="Scale Factor:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Text="Scale Factor:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <TextBox x:Name="ScaleInput" Width="50" Text="1.0" TextChanged="ScaleInput_TextChanged"/>
                             <Slider x:Name="ScaleSlider" Width="150" Minimum="0.5" Maximum="2.0" Value="1.0" 
                                     Margin="10,0,0,0" TickFrequency="0.1" IsSnapToTickEnabled="True"
                                     ValueChanged="ScaleSlider_ValueChanged"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Name="CustomConfigContainer" Margin="10">
+                            
                         </StackPanel>
                     </Grid>
                     <Button Grid.Column="0"
