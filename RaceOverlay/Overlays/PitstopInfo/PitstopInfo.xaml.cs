@@ -20,7 +20,7 @@ public partial class PitstopInfo : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(210, 300);
+        _setWindowSize(240, 350);
         
         _loadConfig();
         
