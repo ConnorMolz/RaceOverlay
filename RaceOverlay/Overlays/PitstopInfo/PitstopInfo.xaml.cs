@@ -11,16 +11,24 @@ public partial class PitstopInfo : Overlay
 {
     private iRacingData _data;
 
-    private bool _enablePitHelper;
+    private bool _enableTyreInfo;
     private float _reqRepairTime;
     private float _optRepairTime;
+    private float _needFuel;
+    
+    private Tyre _tyreFL;
+    private Tyre _tyreFR;
+    private Tyre _tyreRL;
+    private Tyre _tyreRR;
+    
+    private bool _intoPit = false;
     
     //TODO: Add description
     public PitstopInfo() : base("Pitstop Info", "TODO")
     {
         InitializeComponent();
         
-        _setWindowSize(240, 350);
+        _setWindowSize(240, 370);
         
         _loadConfig();
         
@@ -33,15 +41,50 @@ public partial class PitstopInfo : Overlay
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
+        // Repair Times and Fuel Calc
         _reqRepairTime = _data.Pitstop.RequiredRepairTimeLeft;
         _optRepairTime = _data.Pitstop.OptionalRepairTimeLeft;
-
+        // TODO: FUEL CALC
+        /*_needFuel = claculateFuelNeeded(
+            calcRemainingLaps(0, 0),
+            _data.LocalCarTelemetry.FuelLevel
+        );*/
+        _needFuel = 0;
+        
+        // Tyre Infos
+        _tyreFL = _data.LocalCarTelemetry.FrontLeftTyre;
+        _tyreFR = _data.LocalCarTelemetry.FrontRightTyre;
+        _tyreRL = _data.LocalCarTelemetry.RearLeftTyre;
+        _tyreRR = _data.LocalCarTelemetry.RearRightTyre;
+        
     }
     
     public override void _updateWindow()
     {
         ReqRepairTimeText.Text = _reqRepairTime.ToString();
         OptRepairTimeText.Text = _optRepairTime.ToString();
+        FuelNeededText.Text = _needFuel.ToString();
+        
+        // Tyre Infos
+        //FL
+        FLTyreWearTxtL.Text = _tyreFL.WearLeft.ToString();
+        FLTyreWearTxtC.Text = _tyreFL.WearCenter.ToString();
+        FlTyreWearTxtR.Text = _tyreFL.WearRight.ToString();
+        
+        //FR
+        FRTyreWearTxtL.Text = _tyreFR.WearLeft.ToString();
+        FRTyreWearTxtC.Text = _tyreFR.WearCenter.ToString();
+        FRTyreWearTxtR.Text = _tyreFR.WearRight.ToString();
+        
+        //RL
+        RLTyreWearTxtL.Text = _tyreRL.WearLeft.ToString();
+        RLTyreWearTxtC.Text = _tyreRL.WearCenter.ToString();
+        RLTyreWearTxtR.Text = _tyreRL.WearRight.ToString();
+        
+        //RR
+        RRTyreWearTxtL.Text = _tyreRR.WearLeft.ToString();
+        RRTyreWearTxtC.Text = _tyreRR.WearCenter.ToString();
+        RRTyreWearTxtR.Text = _tyreRR.WearRight.ToString();
     }
 
     public override void UpdateThreadMethod()
@@ -49,15 +92,15 @@ public partial class PitstopInfo : Overlay
         {
             while (true)
             {
+                
                 if (IsVisible)
                 {
                     _getData();
-                    
                     // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
+                    if (_intoPit)
                     {
-                        _updateWindow();
-                    });
+                        Dispatcher.Invoke(() => { _updateWindow(); });
+                    }
                 }
                 
                 // Add a small delay to prevent high CPU usage
@@ -72,40 +115,49 @@ public partial class PitstopInfo : Overlay
     {
         Grid grid = new Grid();
         grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         
-        TextBlock pitHelpertextBlock = new TextBlock();
-        pitHelpertextBlock.Text = "Activate Pitstop Helper: ";
         
-        Grid.SetRow(pitHelpertextBlock, 0);
-        Grid.SetColumn(pitHelpertextBlock, 0);
-        //grid.Children.Add(pitHelpertextBlock);
+        // Tyre Info toggle
+        TextBlock tyreInfotextBlock = new TextBlock();
+        tyreInfotextBlock.Text = "Activate Tyre info after stop: ";
         
-        CheckBox pitHelperCheckBox = new CheckBox();
-        pitHelperCheckBox.IsChecked = _enablePitHelper;
+        Grid.SetRow(tyreInfotextBlock, 0);
+        Grid.SetColumn(tyreInfotextBlock, 0);
+        grid.Children.Add(tyreInfotextBlock);
         
-        Grid.SetRow(pitHelperCheckBox, 0);
-        Grid.SetColumn(pitHelperCheckBox, 1);
-        pitHelperCheckBox.Checked += (sender, args) =>
+        CheckBox tyreInfoCheckBox = new CheckBox();
+        tyreInfoCheckBox.IsChecked = _enableTyreInfo;
+        
+        Grid.SetRow(tyreInfoCheckBox, 0);
+        Grid.SetColumn(tyreInfoCheckBox, 1);
+        tyreInfoCheckBox.Checked += (sender, args) =>
         {
-            _enablePitHelper = true;
-            _setBoolConfig("_enablePitHelper", _enablePitHelper);
+            _enableTyreInfo = true;
+            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
         };
-        pitHelperCheckBox.Unchecked += (sender, args) =>
+        tyreInfoCheckBox.Unchecked += (sender, args) =>
         {
-            _enablePitHelper = false;
-            _setBoolConfig("_enablePitHelper", _enablePitHelper);
+            _enableTyreInfo = false;
+            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
         };
-        //grid.Children.Add(pitHelperCheckBox);
+        grid.Children.Add(tyreInfoCheckBox);
+        
+        // Color picker of tyre color by wear
+        
 
         return grid;
     }
 
     protected override void _loadConfig()
     {
-       _enablePitHelper = _getBoolConfig("_enablePitHelper");
+       _enableTyreInfo = _getBoolConfig("_enableTyreInfo");
     }
 
     protected override void _scaleWindow(double scale)
@@ -119,5 +171,15 @@ public partial class PitstopInfo : Overlay
         {
             Debug.WriteLine(e);
         }
+    }
+    
+    private int calcRemainingLaps(float time, float lapTime)
+    {
+        return 0;
+    }
+
+    private float claculateFuelNeeded(float laps, float currentFuel)
+    {
+        return 0;
     }
 }

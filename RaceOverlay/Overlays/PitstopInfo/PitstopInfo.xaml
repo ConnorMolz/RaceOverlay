@@ -27,6 +27,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
         <TextBlock Text="Required Repair Time: " Margin="5"></TextBlock>
@@ -35,7 +36,10 @@
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Optional Repair Time: " Margin="5"></TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="1" Name="OptRepairTimeText" Text="01:43:432" Margin="0,5"></TextBlock>
         
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Name="TyreContainer" Margin="5">
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Fuel Needed: " Margin="5"></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="FuelNeededText" Text="120.0 L" Margin="0,5"></TextBlock>
+        
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="TyreContainer" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
