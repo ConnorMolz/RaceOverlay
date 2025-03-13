@@ -12,46 +12,58 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
 
+        <!-- section with speed-->
+        <StackPanel Grid.Column="0" 
+                    Orientation="Vertical" 
+                    Margin="10,0"
+                    VerticalAlignment="Bottom">
+            <TextBlock Name="SpeedText"
+                       Text="278"
+                       FontSize="35" 
+                       Foreground="White"/>
+            <TextBlock Foreground="White" FontSize="15" Text="Km/h"></TextBlock>
+            </StackPanel>
+        
         <!-- section with input bars -->
         <StackPanel Grid.Column="1" 
                     Orientation="Horizontal" 
                     Margin="10,0"
                     VerticalAlignment="Bottom">
             <!-- Bar 1 (Clutch) -->
-            <Grid Height="100">
+            <Grid Height="75">
                 <Rectangle Width="10" 
-                           Height="100" 
+                           Height="75" 
                            Fill="#FF2A2A2A"/>  
                 <Rectangle x:Name="ClutchBar"
                            Width="10" 
-                           Height="70" 
+                           Height="60" 
                            Fill="#FF0000FF"
                            VerticalAlignment="Bottom"/>
             </Grid>
             
             <!-- Bar 2 (Brake)-->
-            <Grid Height="100" Margin="5,0">
+            <Grid Height="75" Margin="5,0">
                 <Rectangle Width="10" 
-                           Height="100" 
+                           Height="75" 
                            Fill="#FF2A2A2A"/>  
                 <Rectangle x:Name="BrakeBar"
                            Width="10" 
-                           Height="80" 
+                           Height="25" 
                            Fill="#FFFF0000"
                            VerticalAlignment="Bottom"/>
             </Grid>
             
             <!-- Bar 3 (Throttle) -->
-            <Grid Height="100">
+            <Grid Height="75">
                 <Rectangle Width="10" 
-                           Height="100" 
+                           Height="75" 
                            Fill="#FF2A2A2A"/>  
                 <Rectangle x:Name="ThrottleBar"
                            Width="10" 
@@ -61,30 +73,8 @@
             </Grid>
         </StackPanel>
 
-        <!-- speed display -->
-        <Grid Grid.Column="2">
-            <Ellipse Stroke="White" 
-                     StrokeThickness="2" 
-                     Width="80" 
-                     Height="80"/>
-            <StackPanel VerticalAlignment="Center" 
-                       HorizontalAlignment="Center">
-                <TextBlock x:Name="GearText"
-                         Text="4" 
-                         Foreground="White" 
-                         FontSize="24" 
-                         HorizontalAlignment="Center"/>
-                <TextBlock Text="kph" 
-                         Foreground="White" 
-                         FontSize="12" 
-                         HorizontalAlignment="Center"/>
-                <TextBlock x:Name="SpeedText"
-                         Text="124" 
-                         Foreground="White" 
-                         FontSize="12" 
-                         HorizontalAlignment="Center"/>
-            </StackPanel>
-            
-        </Grid>
+        <!-- gear display -->
+        <TextBlock Grid.Column="2" Name="GearText" Text="2" Foreground="White" FontSize="50" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        
     </Grid>
 </internals:Overlay>

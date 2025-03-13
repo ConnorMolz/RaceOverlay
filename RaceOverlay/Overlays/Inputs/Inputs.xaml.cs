@@ -20,7 +20,7 @@ public partial class Inputs : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(180, 130);
+        _setWindowSize(200, 85);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
