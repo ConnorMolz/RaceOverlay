@@ -16,6 +16,9 @@ public partial class PitstopInfo : Overlay
     private float _optRepairTime;
     private float _needFuel;
     
+    private float _tyreGreenUntil;
+    private float _tyreYellowUntil;
+    
     private Tyre _tyreFL;
     private Tyre _tyreFR;
     private Tyre _tyreRL;
@@ -118,7 +121,6 @@ public partial class PitstopInfo : Overlay
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -150,7 +152,32 @@ public partial class PitstopInfo : Overlay
         grid.Children.Add(tyreInfoCheckBox);
         
         // Color picker of tyre color by wear
+        TextBlock showTyreGreenUntil = new TextBlock();
+        showTyreGreenUntil.Text = "Show Tyre Green until wear of: ";
+        Grid.SetColumn(showTyreGreenUntil, 0);
+        Grid.SetRow(showTyreGreenUntil, 1);
+        grid.Children.Add(showTyreGreenUntil);
         
+        TextBox tyreGreenUntil = new TextBox();
+        tyreGreenUntil.Text = _tyreGreenUntil.ToString();
+        Grid.SetColumn(tyreGreenUntil, 1);
+        Grid.SetRow(tyreGreenUntil, 1);
+        grid.Children.Add(tyreGreenUntil);
+        //TODO: Add event for updating _tyreGreenUntil
+        
+        // Color picker of tyre color by wear
+        TextBlock showTyreYellowUntil = new TextBlock();
+        showTyreYellowUntil.Text = "Show Tyre Green until wear of: ";
+        Grid.SetColumn(showTyreYellowUntil, 0);
+        Grid.SetRow(showTyreYellowUntil, 2);
+        grid.Children.Add(showTyreYellowUntil);
+        
+        TextBox tyreYellowUntil = new TextBox();
+        tyreYellowUntil.Text = _tyreYellowUntil.ToString();
+        Grid.SetColumn(tyreYellowUntil, 1);
+        Grid.SetRow(tyreYellowUntil, 2);
+        grid.Children.Add(tyreYellowUntil);
+        //TODO: Add event for updating _tyreGreenUntil
 
         return grid;
     }
