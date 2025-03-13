@@ -15,7 +15,8 @@ public partial class PitstopInfo : Overlay
     private float _reqRepairTime;
     private float _optRepairTime;
     private float _needFuel;
-    
+
+    private float _marginLaps;
     private float _tyreGreenUntil;
     private float _tyreYellowUntil;
     
@@ -179,12 +180,40 @@ public partial class PitstopInfo : Overlay
         grid.Children.Add(tyreYellowUntil);
         //TODO: Add event for updating _tyreGreenUntil
 
+        TextBlock marginLapsLabel = new TextBlock();
+        marginLapsLabel.Text = "Margin Laps: ";
+        Grid.SetColumn(marginLapsLabel, 0);
+        Grid.SetRow(marginLapsLabel, 3);
+        grid.Children.Add(marginLapsLabel);
+        
+        TextBox marginLaps = new TextBox();
+        marginLaps.Text = "0";
+        Grid.SetColumn(marginLaps, 1);
+        Grid.SetRow(marginLaps, 3);
+        grid.Children.Add(marginLaps);
+        
+
         return grid;
     }
 
     protected override void _loadConfig()
     {
        _enableTyreInfo = _getBoolConfig("_enableTyreInfo");
+       _marginLaps = _getFloatConfig("_marginLaps");
+       _tyreGreenUntil = _getFloatConfig("_tyreGreenUntil"); 
+       _tyreYellowUntil = _getFloatConfig("_tyreYellowUntil");
+
+       if (_tyreGreenUntil == 0)
+       {
+           _tyreGreenUntil =75.0f;
+           _setFloatConfig("_tyreGreenUntil", _tyreGreenUntil);
+       }
+       
+       if (_tyreYellowUntil == 0)
+       {
+           _tyreYellowUntil = 50.0f;
+           _setFloatConfig("_tyreYellowUntil", _tyreYellowUntil);
+       }
     }
 
     protected override void _scaleWindow(double scale)
