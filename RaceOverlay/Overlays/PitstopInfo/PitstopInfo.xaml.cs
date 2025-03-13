@@ -70,24 +70,24 @@ public partial class PitstopInfo : Overlay
         
         // Tyre Infos
         //FL
-        FLTyreWearTxtL.Text = _tyreFL.WearLeft.ToString();
-        FLTyreWearTxtC.Text = _tyreFL.WearCenter.ToString();
-        FlTyreWearTxtR.Text = _tyreFL.WearRight.ToString();
+        FLTyreWearTxtL.Text = _tyreFL.WearLeft.ToString("F0") + "%";
+        FLTyreWearTxtC.Text = _tyreFL.WearCenter.ToString("F0") + "%";
+        FlTyreWearTxtR.Text = _tyreFL.WearRight.ToString("F0") + "%";
         
         //FR
-        FRTyreWearTxtL.Text = _tyreFR.WearLeft.ToString();
-        FRTyreWearTxtC.Text = _tyreFR.WearCenter.ToString();
-        FRTyreWearTxtR.Text = _tyreFR.WearRight.ToString();
+        FRTyreWearTxtL.Text = _tyreFR.WearLeft.ToString("F0") + "%";
+        FRTyreWearTxtC.Text = _tyreFR.WearCenter.ToString("F0") + "%";
+        FRTyreWearTxtR.Text = _tyreFR.WearRight.ToString("F0") + "%";
         
         //RL
-        RLTyreWearTxtL.Text = _tyreRL.WearLeft.ToString();
-        RLTyreWearTxtC.Text = _tyreRL.WearCenter.ToString();
-        RLTyreWearTxtR.Text = _tyreRL.WearRight.ToString();
+        RLTyreWearTxtL.Text = _tyreRL.WearLeft.ToString("F0") + "%";
+        RLTyreWearTxtC.Text = _tyreRL.WearCenter.ToString("F0") + "%";
+        RLTyreWearTxtR.Text = _tyreRL.WearRight.ToString("F0") + "%";
         
         //RR
-        RRTyreWearTxtL.Text = _tyreRR.WearLeft.ToString();
-        RRTyreWearTxtC.Text = _tyreRR.WearCenter.ToString();
-        RRTyreWearTxtR.Text = _tyreRR.WearRight.ToString();
+        RRTyreWearTxtL.Text = _tyreRR.WearLeft.ToString("F0") + "%";
+        RRTyreWearTxtC.Text = _tyreRR.WearCenter.ToString("F0") + "%";
+        RRTyreWearTxtR.Text = _tyreRR.WearRight.ToString("F0") + "%";
     }
 
     public override void UpdateThreadMethod()

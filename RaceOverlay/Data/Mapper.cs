@@ -45,36 +45,36 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFtempCL"),
             irsdkSharper.Data.GetFloat("LFtempCM"),
             irsdkSharper.Data.GetFloat("LFtempCR"),
-            irsdkSharper.Data.GetFloat("LFwearL"),
-            irsdkSharper.Data.GetFloat("LFwearM"),
-            irsdkSharper.Data.GetFloat("LFwearR")
+            irsdkSharper.Data.GetFloat("LFwearL") * 100,
+            irsdkSharper.Data.GetFloat("LFwearM") * 100,
+            irsdkSharper.Data.GetFloat("LFwearR") * 100
             );
         data.LocalCarTelemetry.FrontRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RFcoldPressure"),
             irsdkSharper.Data.GetFloat("RFtempCL"),
             irsdkSharper.Data.GetFloat("RFtempCM"),
             irsdkSharper.Data.GetFloat("RFtempCR"),
-        irsdkSharper.Data.GetFloat("RFwearL"),
-        irsdkSharper.Data.GetFloat("RFwearM"),
-        irsdkSharper.Data.GetFloat("RFwearR")
+        irsdkSharper.Data.GetFloat("RFwearL") * 100,
+        irsdkSharper.Data.GetFloat("RFwearM") * 100,
+        irsdkSharper.Data.GetFloat("RFwearR") * 100
         );
         data.LocalCarTelemetry.RearLeftTyre = new Tyre(
             irsdkSharper.Data.GetFloat("LRcoldPressure"),
             irsdkSharper.Data.GetFloat("LRtempCL"),
             irsdkSharper.Data.GetFloat("LRtempCM"),
             irsdkSharper.Data.GetFloat("LRtempCR"),
-            irsdkSharper.Data.GetFloat("LRwearL"),
-            irsdkSharper.Data.GetFloat("LRwearM"),
-            irsdkSharper.Data.GetFloat("LRwearR")
+            irsdkSharper.Data.GetFloat("LRwearL") * 100,
+            irsdkSharper.Data.GetFloat("LRwearM") * 100,
+            irsdkSharper.Data.GetFloat("LRwearR") * 100
         );
         data.LocalCarTelemetry.RearRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RRcoldPressure"),
             irsdkSharper.Data.GetFloat("RRtempCL"),
             irsdkSharper.Data.GetFloat("RRtempCM"),
             irsdkSharper.Data.GetFloat("RRtempCR"),
-            irsdkSharper.Data.GetFloat("RRwearL"),
-            irsdkSharper.Data.GetFloat("RRwearM"),
-            irsdkSharper.Data.GetFloat("RRwearR")
+            irsdkSharper.Data.GetFloat("RRwearL") * 100,
+            irsdkSharper.Data.GetFloat("RRwearM") * 100,
+            irsdkSharper.Data.GetFloat("RRwearR") * 100
         );
         
         // Map Dampers
