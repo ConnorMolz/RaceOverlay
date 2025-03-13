@@ -26,7 +26,11 @@ public partial class PitstopInfo : Overlay
     private Tyre _tyreRL;
     private Tyre _tyreRR;
     
-    private bool _intoPit = false;
+    private SolidColorBrush green = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+    private SolidColorBrush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+    private SolidColorBrush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+    
+    private bool _intoPit = true;
     
     //TODO: Add description
     public PitstopInfo() : base("Pitstop Info", "TODO")
@@ -69,28 +73,40 @@ public partial class PitstopInfo : Overlay
     {
         ReqRepairTimeText.Text = _reqRepairTime.ToString();
         OptRepairTimeText.Text = _optRepairTime.ToString();
-        FuelNeededText.Text = _needFuel.ToString();
+        //FuelNeededText.Text = _needFuel.ToString();
         
         // Tyre Infos
         //FL
         FLTyreWearTxtL.Text = _tyreFL.WearLeft.ToString("F0") + "%";
         FLTyreWearTxtC.Text = _tyreFL.WearCenter.ToString("F0") + "%";
         FlTyreWearTxtR.Text = _tyreFL.WearRight.ToString("F0") + "%";
+        FLTyreWearL.Fill = getTryeColor(_tyreFL.WearLeft);
+        FLTyreWearC.Fill = getTryeColor(_tyreFL.WearCenter);
+        FLTyreWearR.Fill = getTryeColor(_tyreFL.WearRight);
         
         //FR
         FRTyreWearTxtL.Text = _tyreFR.WearLeft.ToString("F0") + "%";
         FRTyreWearTxtC.Text = _tyreFR.WearCenter.ToString("F0") + "%";
         FRTyreWearTxtR.Text = _tyreFR.WearRight.ToString("F0") + "%";
+        FRTyreWearL.Fill = getTryeColor(_tyreFR.WearLeft);
+        FRTyreWearC.Fill = getTryeColor(_tyreFR.WearCenter);
+        FRTyreWearR.Fill = getTryeColor(_tyreFR.WearRight);
         
         //RL
         RLTyreWearTxtL.Text = _tyreRL.WearLeft.ToString("F0") + "%";
         RLTyreWearTxtC.Text = _tyreRL.WearCenter.ToString("F0") + "%";
         RLTyreWearTxtR.Text = _tyreRL.WearRight.ToString("F0") + "%";
+        RLTyreWearL.Fill = getTryeColor(_tyreRL.WearLeft);
+        RLTyreWearC.Fill = getTryeColor(_tyreRL.WearCenter);
+        RLTyreWearR.Fill = getTryeColor(_tyreRL.WearRight);
         
         //RR
         RRTyreWearTxtL.Text = _tyreRR.WearLeft.ToString("F0") + "%";
         RRTyreWearTxtC.Text = _tyreRR.WearCenter.ToString("F0") + "%";
         RRTyreWearTxtR.Text = _tyreRR.WearRight.ToString("F0") + "%";
+        RRTyreWearL.Fill = getTryeColor(_tyreRR.WearLeft);
+        RRTyreWearC.Fill = getTryeColor(_tyreRR.WearCenter);
+        RRTyreWearR.Fill = getTryeColor(_tyreRR.WearRight);
     }
 
     public override void UpdateThreadMethod()
@@ -239,5 +255,21 @@ public partial class PitstopInfo : Overlay
     private float claculateFuelNeeded(float laps, float currentFuel)
     {
         return ((laps * _avgFuelPerLap) - currentFuel) + (_marginLaps * _avgFuelPerLap);
+    }
+
+    private SolidColorBrush getTryeColor(float tyreWear)
+    {
+        if(tyreWear >= _tyreGreenUntil)
+        {
+            return green;
+        }
+        else if (tyreWear >= _tyreYellowUntil)
+        {
+            return yellow;
+        }
+        else
+        {
+            return red;
+        }
     }
 }
