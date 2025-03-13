@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RaceOverlay.Overlays.LaptimeDelta"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
-        Title="Electronics"
+        Title="Lap time Delta"
         Height="{Binding windowHeight}" Width="{Binding windowWidth}"
         Background="#FF1E1E1E"
         Foreground="White"
