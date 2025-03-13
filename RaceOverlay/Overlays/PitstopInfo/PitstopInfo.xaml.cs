@@ -12,8 +12,8 @@ public partial class PitstopInfo : Overlay
     private iRacingData _data;
 
     private bool _enableTyreInfo;
-    private float _reqRepairTime;
-    private float _optRepairTime;
+    private TimeSpan _reqRepairTime;
+    private TimeSpan _optRepairTime;
     private float _needFuel;
     private float _avgFuelPerLap;
 
@@ -51,8 +51,8 @@ public partial class PitstopInfo : Overlay
     {
         _data = MainWindow.IRacingData;
         // Repair Times and Fuel Calc
-        _reqRepairTime = _data.Pitstop.RequiredRepairTimeLeft;
-        _optRepairTime = _data.Pitstop.OptionalRepairTimeLeft;
+        _reqRepairTime = TimeSpan.FromSeconds(_data.Pitstop.RequiredRepairTimeLeft);
+        _optRepairTime = TimeSpan.FromSeconds(_data.Pitstop.OptionalRepairTimeLeft);
         //_avgFuelPerLap = 
         // TODO: FUEL CALC
         /*_needFuel = claculateFuelNeeded(
@@ -71,8 +71,8 @@ public partial class PitstopInfo : Overlay
     
     public override void _updateWindow()
     {
-        ReqRepairTimeText.Text = _reqRepairTime.ToString();
-        OptRepairTimeText.Text = _optRepairTime.ToString();
+        ReqRepairTimeText.Text = $"{_reqRepairTime:hh\\:mm\\:ss}";
+        OptRepairTimeText.Text = $"{_optRepairTime:hh\\:mm\\:ss}";
         //FuelNeededText.Text = _needFuel.ToString();
         
         // Tyre Infos
