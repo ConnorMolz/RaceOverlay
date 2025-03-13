@@ -28,7 +28,7 @@ public partial class MainWindow : Window
     // iRacingData Getter
     private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
-    private List<Overlay> Overlays;
+    public static List<Overlay> Overlays;
     public static bool ShutdownIsTriggerd = false;
     
     
@@ -43,18 +43,18 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        Overlays = new List<Overlay>();
+        MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
-        Overlays.Add(new Electronics());
-        Overlays.Add(new EnergyInfo());
-        Overlays.Add(new Inputs());
-        Overlays.Add(new LaptimeDelta());
-        Overlays.Add(new SessionInfo());
-        Overlays.Add(new WeatherInfo());
+        MainWindow.Overlays.Add(new Electronics());
+        MainWindow.Overlays.Add(new EnergyInfo());
+        MainWindow.Overlays.Add(new Inputs());
+        MainWindow.Overlays.Add(new LaptimeDelta());
+        MainWindow.Overlays.Add(new SessionInfo());
+        MainWindow.Overlays.Add(new WeatherInfo());
         
         
-        OverlayList.ItemsSource = Overlays;
+        OverlayList.ItemsSource = MainWindow.Overlays;
         
     }
 
@@ -107,11 +107,19 @@ public partial class MainWindow : Window
     private static void OnTelemetryData()
     {
         IRacingData = Mapper.MapData(IrsdkSharper);
+        for (int i = 0; i < Overlays.Count; i++)
+        {
+            Overlays[i].ShowOnTelemetry();
+        }
     }
 
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
+        for (int i = 0; i < Overlays.Count; i++)
+        {
+            Overlays[i].HideOnClosed();
+        }
     }
     
     

@@ -13,6 +13,7 @@ public abstract class Overlay: Window
      private int _windowWidth = 300;
      private int _windowHeight = 200;
      protected double _scale = 1;
+     protected bool _windowIsActive;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -55,8 +56,14 @@ public abstract class Overlay: Window
                settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
-          
-          if((bool)settingsObject["Overlays"][OverlayName]["active"])
+
+          _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
+          var _devMode = (bool)settingsObject["Dev"];
+          if (_devMode == null)
+          {
+               _devMode = false;
+          }
+          if(_windowIsActive && _devMode)
           {
                Show();
           }
@@ -339,6 +346,22 @@ public abstract class Overlay: Window
           {
                _scaleWindow(_scale);
                _scaleWindowSize(_scale);
+          }
+     }
+
+     public void ShowOnTelemetry()
+     {
+          if (_windowIsActive)
+          {
+               Show();
+          }
+     }
+     
+     public void HideOnClosed()
+     {
+          if (_windowIsActive)
+          {
+               Hide();
           }
      }
      
