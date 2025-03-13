@@ -126,7 +126,7 @@ public partial class PitstopInfo : Overlay
                 }
                 
                 // Add a small delay to prevent high CPU usage
-                Thread.Sleep(2000); // 1 update per 2 seconds
+                Thread.Sleep(16); // 1 update per 2 seconds
             }
         }
     }
