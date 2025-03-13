@@ -15,6 +15,7 @@ public partial class PitstopInfo : Overlay
     private float _reqRepairTime;
     private float _optRepairTime;
     private float _needFuel;
+    private float _avgFuelPerLap;
 
     private float _marginLaps;
     private float _tyreGreenUntil;
@@ -48,6 +49,7 @@ public partial class PitstopInfo : Overlay
         // Repair Times and Fuel Calc
         _reqRepairTime = _data.Pitstop.RequiredRepairTimeLeft;
         _optRepairTime = _data.Pitstop.OptionalRepairTimeLeft;
+        //_avgFuelPerLap = 
         // TODO: FUEL CALC
         /*_needFuel = claculateFuelNeeded(
             calcRemainingLaps(0, 0),
@@ -229,13 +231,13 @@ public partial class PitstopInfo : Overlay
         }
     }
     
-    private int calcRemainingLaps(float time, float lapTime)
+    private float calcRemainingLaps(float time, float lapTime)
     {
-        return 0;
+        return time/lapTime + 1;
     }
 
     private float claculateFuelNeeded(float laps, float currentFuel)
     {
-        return 0;
+        return ((laps * _avgFuelPerLap) - currentFuel) + (_marginLaps * _avgFuelPerLap);
     }
 }

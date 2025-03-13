@@ -111,6 +111,7 @@ public class Mapper
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
         data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
+        data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
         
         // Oil Temp, Press and level
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");

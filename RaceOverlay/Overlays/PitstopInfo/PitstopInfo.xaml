@@ -30,8 +30,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Fuel Needed: " Margin="5"></TextBlock>
-        <TextBlock Grid.Row="0" Grid.Column="1" Name="FuelNeededText" Text="120.0 L" Margin="0,5"></TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Fuel Needed: " Margin="5" Visibility="Hidden"></TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="FuelNeededText" Text="120.0 L" Margin="0,5" Visibility="Hidden"></TextBlock>
         
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Required Repair Time: " Margin="5"></TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="1" Name="ReqRepairTimeText" Text="00:00:300" Margin="0, 5"></TextBlock>
