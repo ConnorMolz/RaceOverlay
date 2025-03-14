@@ -20,7 +20,7 @@ public partial class Inputs : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(180, 130);
+        _setWindowSize(140, 55);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -32,9 +32,9 @@ public partial class Inputs : Overlay
     {
         try
         {
-            ThrottleBar.Height = _throttle * 100;
-            BrakeBar.Height = _brake * 100;
-            ClutchBar.Height = _clutch * 100;
+            ThrottleBar.Height = _throttle * 50;
+            BrakeBar.Height = _brake * 50;
+            ClutchBar.Height = _clutch * 50;
             GearText.Text = _gear.ToString();
             SpeedText.Text = _speed.ToString("F0");
         }

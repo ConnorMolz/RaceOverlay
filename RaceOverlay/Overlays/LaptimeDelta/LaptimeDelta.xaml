@@ -36,7 +36,7 @@
             <Rectangle Grid.Column="1" x:Name="DeltaBarNegative"
                        Width="75" 
                        Height="30" 
-                       Fill="#FF00FF00"
+                       Fill="#FF009900"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"/>
             <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Name="DeltaText"
