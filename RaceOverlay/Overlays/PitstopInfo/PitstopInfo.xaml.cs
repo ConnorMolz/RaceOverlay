@@ -193,11 +193,21 @@ public partial class PitstopInfo : Overlay
         grid.Children.Add(showTyreGreenUntil);
         
         TextBox tyreGreenUntil = new TextBox();
-        tyreGreenUntil.Text = _tyreGreenUntil.ToString();
+        tyreGreenUntil.Text = _tyreGreenUntil.ToString("F0");
         Grid.SetColumn(tyreGreenUntil, 1);
         Grid.SetRow(tyreGreenUntil, 1);
         grid.Children.Add(tyreGreenUntil);
-        //TODO: Add event for updating _tyreGreenUntil
+        
+        void ParseUntilGreenInput(object sender, TextChangedEventArgs e)
+        {
+            if (float.TryParse(tyreGreenUntil.Text, out float maxValue))
+            {
+                _tyreGreenUntil = maxValue;
+                _setFloatConfig("_tyreGreenUntil", _tyreYellowUntil);
+            }
+        }
+
+        tyreGreenUntil.TextChanged += ParseUntilGreenInput;
         
         // Color picker of tyre color by wear
         TextBlock showTyreYellowUntil = new TextBlock();
@@ -207,11 +217,22 @@ public partial class PitstopInfo : Overlay
         grid.Children.Add(showTyreYellowUntil);
         
         TextBox tyreYellowUntil = new TextBox();
-        tyreYellowUntil.Text = _tyreYellowUntil.ToString();
+        tyreYellowUntil.Text = _tyreYellowUntil.ToString("F0");
         Grid.SetColumn(tyreYellowUntil, 1);
         Grid.SetRow(tyreYellowUntil, 2);
         grid.Children.Add(tyreYellowUntil);
-        //TODO: Add event for updating _tyreGreenUntil
+        
+        void ParseUntilYellowInput(object sender, TextChangedEventArgs e)
+        {
+            if (float.TryParse(tyreYellowUntil.Text, out float maxValue))
+            {
+                _tyreYellowUntil = maxValue;
+                _setFloatConfig("_tyreYellowUntil", _tyreYellowUntil);
+            }
+        }
+
+        tyreYellowUntil.TextChanged += ParseUntilYellowInput;
+        
 
         TextBlock marginLapsLabel = new TextBlock();
         marginLapsLabel.Text = "Margin Laps: ";
@@ -287,4 +308,6 @@ public partial class PitstopInfo : Overlay
             return red;
         }
     }
+
+    
 }
