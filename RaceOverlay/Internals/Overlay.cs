@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,7 @@ using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
-public abstract class Overlay: Window
+public abstract class Overlay: Window, INotifyPropertyChanged
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
@@ -389,22 +390,31 @@ public abstract class Overlay: Window
      // Property to track the _inCar status
      public bool InCar
      {
-          get { return _inCar; }
+          get => _inCar;
           set
           {
                if (_inCar != value)
                {
                     _inCar = value;
-                    // Trigger the event
-                    OnInCarChanged(_inCar);
+                    OnPropertyChanged();
+                    OnInCarChanged();
                }
           }
      }
-     protected virtual void OnInCarChanged(bool newValue)
+
+     protected virtual void OnInCarChanged()
      {
-          InCarChanged?.Invoke(this, newValue);
+          
      }
      
+     
+     // Add INotifyPropertyChanged implementation
+     public event PropertyChangedEventHandler? PropertyChanged;
+    
+     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+     {
+          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+     }
      
      
 }
