@@ -29,7 +29,6 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      public abstract void UpdateThreadMethod();
      
      // Declare the event using EventHandler
-     public event EventHandler<bool> InCarChanged;
      
      public Overlay(String overlayName, String overlayDescription)
      {
@@ -39,17 +38,6 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
-          this.InCarChanged += (sender, inCar) =>
-          {
-               if (inCar)
-               {
-                    ShowOnTelemetry();
-               }
-               else
-               {
-                    HideOnClosed();
-               }
-          };
           
           // Set window position
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -404,7 +392,14 @@ public abstract class Overlay: Window, INotifyPropertyChanged
 
      protected virtual void OnInCarChanged()
      {
-          
+          if (_inCar)
+          {
+               ShowOnTelemetry();
+          }
+          else
+          {
+               HideOnClosed();
+          }
      }
      
      
