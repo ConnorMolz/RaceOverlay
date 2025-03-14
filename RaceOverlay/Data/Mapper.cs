@@ -197,6 +197,9 @@ public class Mapper
         data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
         data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
         
+        // Get if driver is on Track
+        data.InCar = irsdkSharper.Data.GetBool("IsOnTrack");
+        
         // Return Dataset
         return data;
     }

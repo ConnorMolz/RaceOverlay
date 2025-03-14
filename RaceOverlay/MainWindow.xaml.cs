@@ -112,19 +112,12 @@ public partial class MainWindow : Window
     private static void OnTelemetryData()
     {
         IRacingData = Mapper.MapData(IrsdkSharper);
-        for (int i = 0; i < Overlays.Count; i++)
-        {
-            Overlays[i].ShowOnTelemetry();
-        }
     }
 
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
-        for (int i = 0; i < Overlays.Count; i++)
-        {
-            Overlays[i].HideOnClosed();
-        }
+        IRacingData.InCar = false;
     }
     
     

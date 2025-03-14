@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,6 +16,7 @@ public abstract class Overlay: Window
      private bool _devMode = false;
      protected double _scale = 1;
      protected bool _windowIsActive;
+     private bool _inCar = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -25,6 +27,9 @@ public abstract class Overlay: Window
 
      public abstract void UpdateThreadMethod();
      
+     // Declare the event using EventHandler
+     public event EventHandler<bool> InCarChanged;
+     
      public Overlay(String overlayName, String overlayDescription)
      {
           OverlayName = overlayName;
@@ -33,6 +38,17 @@ public abstract class Overlay: Window
           
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
+          this.InCarChanged += (sender, inCar) =>
+          {
+               if (_inCar)
+               {
+                    ShowOnTelemetry();
+               }
+               else
+               {
+                    HideOnClosed();
+               }
+          };
           
           // Set window position
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -369,5 +385,26 @@ public abstract class Overlay: Window
                Dispatcher.Invoke(() => { Hide(); });
           }
      }
+     
+     // Property to track the _inCar status
+     public bool InCar
+     {
+          get { return _inCar; }
+          set
+          {
+               if (_inCar != value)
+               {
+                    _inCar = value;
+                    // Trigger the event
+                    OnInCarChanged(_inCar);
+               }
+          }
+     }
+     protected virtual void OnInCarChanged(bool newValue)
+     {
+          InCarChanged?.Invoke(this, newValue);
+     }
+     
+     
      
 }
