@@ -293,10 +293,10 @@ public abstract class Overlay: Window, INotifyPropertyChanged
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
      {
-          // Check if F7 key was pressed
-          if (e.Key == Key.F7)
+          // Check if F12 key was pressed
+          if (e.Key == Key.F12)
           {
-               Debug.WriteLine($"F7 pressed in overlay: {OverlayName}");
+               Debug.WriteLine($"F12 pressed in overlay: {OverlayName}");
                TogglePositionLock();
           }
      }

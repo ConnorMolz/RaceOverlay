@@ -20,7 +20,7 @@ public partial class Inputs : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(180, 130);
+        _setWindowSize(140, 55);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -32,10 +32,10 @@ public partial class Inputs : Overlay
     {
         try
         {
-            ThrottleBar.Height = _throttle * 100;
-            BrakeBar.Height = _brake * 100;
-            ClutchBar.Height = _clutch * 100;
-            GearText.Text = _gear.ToString();
+            ThrottleBar.Height = _throttle * 50;
+            BrakeBar.Height = _brake * 50;
+            ClutchBar.Height = _clutch * 50;
+            GearText.Text = formatGear(_gear);
             SpeedText.Text = _speed.ToString("F0");
         }
         catch (Exception e)
@@ -110,5 +110,15 @@ public partial class Inputs : Overlay
         {
             Debug.WriteLine(e);
         }
+    }
+
+    private string formatGear(int value)
+    {
+        return value switch
+        {
+            -1 => "R",
+            0 => "N",
+            _ => value.ToString()
+        };
     }
 }
