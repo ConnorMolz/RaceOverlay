@@ -12,6 +12,7 @@ using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
 using RaceOverlay.Overlays.LaptimeDelta;
+using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
@@ -46,13 +47,16 @@ public partial class MainWindow : Window
         MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
-        MainWindow.Overlays.Add(new Electronics());
-        MainWindow.Overlays.Add(new EnergyInfo());
-        MainWindow.Overlays.Add(new Inputs());
-        MainWindow.Overlays.Add(new LaptimeDelta());
-        MainWindow.Overlays.Add(new SessionInfo());
-        MainWindow.Overlays.Add(new WeatherInfo());
+        Overlays.Add(new Electronics());
+        Overlays.Add(new EnergyInfo());
+        Overlays.Add(new Inputs());
+        Overlays.Add(new LaptimeDelta());
+        Overlays.Add(new PitstopInfo());
+        Overlays.Add(new SessionInfo());
+        Overlays.Add(new WeatherInfo());
+
         
+        Overlays = Overlays.OrderBy(o => o.OverlayName).ToList();
         
         OverlayList.ItemsSource = MainWindow.Overlays;
         
