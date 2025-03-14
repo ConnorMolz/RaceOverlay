@@ -238,13 +238,13 @@ public partial class PitstopInfo : Overlay
         marginLapsLabel.Text = "Margin Laps: ";
         Grid.SetColumn(marginLapsLabel, 0);
         Grid.SetRow(marginLapsLabel, 3);
-        grid.Children.Add(marginLapsLabel);
+       // grid.Children.Add(marginLapsLabel);
         
         TextBox marginLaps = new TextBox();
         marginLaps.Text = "0";
         Grid.SetColumn(marginLaps, 1);
         Grid.SetRow(marginLaps, 3);
-        grid.Children.Add(marginLaps);
+        //grid.Children.Add(marginLaps);
         
 
         return grid;
