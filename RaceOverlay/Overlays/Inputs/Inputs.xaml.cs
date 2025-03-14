@@ -58,11 +58,11 @@ public partial class Inputs : Overlay
             _speed = _data.LocalCarTelemetry.Speed;
             if (!_devMode)
             {
-                _inCar = _data.InCar;
+                InCar = _data.InCar;
             }
             else
             {
-                _inCar = true;
+                InCar = true;
             }
         }
         catch (TargetInvocationException e)
@@ -82,9 +82,9 @@ public partial class Inputs : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

@@ -40,11 +40,11 @@ public partial class SessionInfo : Overlay
         _incidents = _data.SessionData.Incidents;
         if (!_devMode)
         {
-            _inCar = _data.InCar;
+            InCar = _data.InCar;
         }
         else
         {
-            _inCar = true;
+            InCar = true;
         }
     }
 
@@ -79,9 +79,9 @@ public partial class SessionInfo : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

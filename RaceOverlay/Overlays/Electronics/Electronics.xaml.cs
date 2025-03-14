@@ -36,11 +36,11 @@ public partial class Electronics : Overlay
         _brakeBias = _data.LocalCarTelemetry.BrakeBias;
         if (!_devMode)
         {
-            _inCar = _data.InCar;
+            InCar = _data.InCar;
         }
         else
         {
-            _inCar = true;
+            InCar = true;
         }
     }
 
@@ -57,9 +57,9 @@ public partial class Electronics : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>
