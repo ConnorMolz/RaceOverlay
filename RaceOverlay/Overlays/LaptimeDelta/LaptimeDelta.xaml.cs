@@ -58,6 +58,14 @@ public partial class LaptimeDelta : Overlay
     {
         _data = MainWindow.IRacingData;
         _laptimeDelta = _data.LocalDriver.BestLapDelta;
+        if (!_devMode)
+        {
+            _inCar = _data.InCar;
+        }
+        else
+        {
+            _inCar = true;
+        }
     }
 
     public override void UpdateThreadMethod()

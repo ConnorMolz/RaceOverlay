@@ -13,10 +13,10 @@ public abstract class Overlay: Window
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
-     private bool _devMode = false;
+     protected bool _devMode = false;
      protected double _scale = 1;
      protected bool _windowIsActive;
-     private bool _inCar = false;
+     protected bool _inCar = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;

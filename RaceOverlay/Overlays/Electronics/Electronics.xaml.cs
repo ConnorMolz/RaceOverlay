@@ -34,6 +34,14 @@ public partial class Electronics : Overlay
         _tc1 = _data.LocalCarTelemetry.Tc1;
         _tc2 = _data.LocalCarTelemetry.Tc2;
         _brakeBias = _data.LocalCarTelemetry.BrakeBias;
+        if (!_devMode)
+        {
+            _inCar = _data.InCar;
+        }
+        else
+        {
+            _inCar = true;
+        }
     }
 
     public override void _updateWindow()

@@ -34,6 +34,14 @@ public partial class EnergyInfo : Overlay
     {
         _data = MainWindow.IRacingData;
         _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct * 1;
+        if (!_devMode)
+        {
+            _inCar = _data.InCar;
+        }
+        else
+        {
+            _inCar = true;
+        }
     }
     
     public override void UpdateThreadMethod()

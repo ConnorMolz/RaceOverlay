@@ -56,6 +56,14 @@ public partial class Inputs : Overlay
             _clutch = 1 - _data.Inputs.Clutch;
             _gear = _data.LocalCarTelemetry.Gear;
             _speed = _data.LocalCarTelemetry.Speed;
+            if (!_devMode)
+            {
+                _inCar = _data.InCar;
+            }
+            else
+            {
+                _inCar = true;
+            }
         }
         catch (TargetInvocationException e)
         {

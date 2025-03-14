@@ -38,6 +38,14 @@ public partial class SessionInfo : Overlay
         _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
         _maxIncidents = _data.SessionData.MaxIncidents;
         _incidents = _data.SessionData.Incidents;
+        if (!_devMode)
+        {
+            _inCar = _data.InCar;
+        }
+        else
+        {
+            _inCar = true;
+        }
     }
 
     public override void _updateWindow()

@@ -47,6 +47,14 @@ public partial class WeatherInfo : Overlay
         _trackTemp = _data.WeatherData.TrackTemp;
         _precipitation = _data.WeatherData.Precipitation;
         _isWet = _data.WeatherData.WeatherDeclaredWet;
+        if (!_devMode)
+        {
+            _inCar = _data.InCar;
+        }
+        else
+        {
+            _inCar = true;
+        }
     }
     
     public override void _updateWindow()
