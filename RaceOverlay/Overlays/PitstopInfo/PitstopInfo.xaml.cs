@@ -67,6 +67,16 @@ public partial class PitstopInfo : Overlay
         _tyreRL = _data.LocalCarTelemetry.RearLeftTyre;
         _tyreRR = _data.LocalCarTelemetry.RearRightTyre;
         
+        // Get in car info
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
+        
     }
     
     public override void _updateWindow()
@@ -114,10 +124,9 @@ public partial class PitstopInfo : Overlay
         {
             while (true)
             {
-                
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     // Use Dispatcher to update UI from background thread
                     if (_intoPit)
                     {
