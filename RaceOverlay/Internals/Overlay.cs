@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,11 +10,14 @@ using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
-public abstract class Overlay: Window
+public abstract class Overlay: Window, INotifyPropertyChanged
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
+     protected bool _devMode = false;
      protected double _scale = 1;
+     protected bool _windowIsActive;
+     protected bool _inCar = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -22,6 +27,8 @@ public abstract class Overlay: Window
      protected virtual void _getConfig(){}
 
      public abstract void UpdateThreadMethod();
+     
+     // Declare the event using EventHandler
      
      public Overlay(String overlayName, String overlayDescription)
      {
@@ -55,8 +62,18 @@ public abstract class Overlay: Window
                settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
+
+          _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
+          if (settingsObject["Dev"] == null)
+          {
+                _devMode = false;
+          }
+          else
+          {
+               _devMode = (bool)settingsObject["Dev"];
+          }
           
-          if((bool)settingsObject["Overlays"][OverlayName]["active"])
+          if(_windowIsActive && _devMode)
           {
                Show();
           }
@@ -276,10 +293,10 @@ public abstract class Overlay: Window
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
      {
-          // Check if F7 key was pressed
-          if (e.Key == Key.F7)
+          // Check if F12 key was pressed
+          if (e.Key == Key.F12)
           {
-               Debug.WriteLine($"F7 pressed in overlay: {OverlayName}");
+               Debug.WriteLine($"F12 pressed in overlay: {OverlayName}");
                TogglePositionLock();
           }
      }
@@ -341,5 +358,58 @@ public abstract class Overlay: Window
                _scaleWindowSize(_scale);
           }
      }
+
+     public void ShowOnTelemetry()
+     {
+          if (_windowIsActive)
+          {
+               Dispatcher.Invoke(() => { Show(); });
+          }
+     }
+     
+     public void HideOnClosed()
+     {
+          if (_windowIsActive)
+          {
+               Dispatcher.Invoke(() => { Hide(); });
+          }
+     }
+     
+     // Property to track the _inCar status
+     public bool InCar
+     {
+          get => _inCar;
+          set
+          {
+               if (_inCar != value)
+               {
+                    _inCar = value;
+                    OnPropertyChanged();
+                    OnInCarChanged();
+               }
+          }
+     }
+
+     protected virtual void OnInCarChanged()
+     {
+          if (_inCar)
+          {
+               ShowOnTelemetry();
+          }
+          else
+          {
+               HideOnClosed();
+          }
+     }
+     
+     
+     // Add INotifyPropertyChanged implementation
+     public event PropertyChangedEventHandler? PropertyChanged;
+    
+     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+     {
+          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+     }
+     
      
 }

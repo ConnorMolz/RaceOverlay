@@ -198,9 +198,14 @@ public class Mapper
         data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
         data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
         
+
+        // Get if driver is on Track
+        data.InCar = irsdkSharper.Data.GetBool("IsOnTrack");
+
         // Pitstop Data
         data.Pitstop.RequiredRepairTimeLeft = irsdkSharper.Data.GetFloat("PitRepairLeft");
         data.Pitstop.OptionalRepairTimeLeft = irsdkSharper.Data.GetFloat("PitOptRepairLeft");
+
         
         // Return Dataset
         return data;

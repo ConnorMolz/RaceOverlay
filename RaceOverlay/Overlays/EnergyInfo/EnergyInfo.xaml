@@ -22,13 +22,13 @@
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
-        <Grid Height="50">
+        <Grid Height="30">
             <Rectangle Width="200" 
-                       Height="50" 
+                       Height="30" 
                        Fill="#FF2A2A2A"/>  
             <Rectangle x:Name="EnergyBar"
                        Width="150" 
-                       Height="50" 
+                       Height="30" 
                        Fill="#FF00FF00"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"/>

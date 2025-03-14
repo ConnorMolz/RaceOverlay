@@ -29,7 +29,7 @@ public partial class MainWindow : Window
     // iRacingData Getter
     private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
-    private List<Overlay> Overlays;
+    public static List<Overlay> Overlays;
     public static bool ShutdownIsTriggerd = false;
     
     
@@ -44,7 +44,7 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        Overlays = new List<Overlay>();
+        MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
         Overlays.Add(new Electronics());
@@ -54,10 +54,11 @@ public partial class MainWindow : Window
         Overlays.Add(new PitstopInfo());
         Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
+
         
         Overlays = Overlays.OrderBy(o => o.OverlayName).ToList();
         
-        OverlayList.ItemsSource = Overlays;
+        OverlayList.ItemsSource = MainWindow.Overlays;
         
     }
 
@@ -99,6 +100,8 @@ public partial class MainWindow : Window
     private static void OnDisconnected()
     {
         Debug.Print( "OnDisconnected() fired!" );
+        
+        
     }
 
     private static void OnSessionInfo()
@@ -115,6 +118,7 @@ public partial class MainWindow : Window
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
+        IRacingData.InCar = false;
     }
     
     
