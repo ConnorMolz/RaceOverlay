@@ -8,9 +8,12 @@ public class iRacingData
     public SessionData SessionData { get; set; }
     public WeatherData WeatherData { get; set; }
     
-    public LocalDriver LocalDriver { get; set; }
-    public bool InCar { get; set; }
 
+    public LocalDriver LocalDriver { get; set; }
+    public Pitstop Pitstop { get; set; }
+  
+    public bool InCar { get; set; }
+  
     public iRacingData()
     {
         LocalCarTelemetry = new LocalCarTelemetry();
@@ -18,5 +21,6 @@ public class iRacingData
         SessionData = new SessionData();
         WeatherData = new WeatherData();
         LocalDriver = new LocalDriver();
+        Pitstop = new Pitstop();
     }
 }

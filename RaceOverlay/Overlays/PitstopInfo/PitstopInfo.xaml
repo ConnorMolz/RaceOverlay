@@ -1,0 +1,156 @@
+<internals:Overlay x:Class="RaceOverlay.Overlays.PitstopInfo.PitstopInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:RaceOverlay.Overlays.PitstopInfo"
+        xmlns:internals="clr-namespace:RaceOverlay.Internals"
+        mc:Ignorable="d"
+        Title="Pitstop Info" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
+        Background="#FF1E1E1E"
+        Foreground="White"
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize"
+        Topmost="True">
+    <Grid Margin="5">
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+       <!--- <TextBlock Grid.Column="0" Grid.Row="0" Text="Fuel Needed: " Margin="5" Visibility="Hidden"></TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" Name="FuelNeededText" Text="120.0 L" Margin="0,5" Visibility="Hidden"></TextBlock>
+        -->
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Required Repair Time: " Margin="5"></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Name="ReqRepairTimeText" Text="00:00:300" Margin="0, 5"></TextBlock>
+        
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Optional Repair Time: " Margin="5"></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="OptRepairTimeText" Text="01:43:432" Margin="0,5"></TextBlock>
+        
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="TyreContainer" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <Border Grid.Column="0" Grid.Row="0" Height="130" Background="#333333" CornerRadius="10" Padding="10" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Rectangle Grid.Column="0" Fill="White" Margin="2" Name="FLTyreWearL"/>
+                    <Rectangle Grid.Column="1" Fill="White" Margin="2" Name="FLTyreWearC"/>
+                    <Rectangle Grid.Column="2" Fill="White" Margin="2" Name="FLTyreWearR"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="FLTyreWearTxtL" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Name="FLTyreWearTxtC" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Name="FlTyreWearTxtR" Text="100%" ></TextBlock>
+                    
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="12" Margin="2"/>
+                </Grid>
+            </Border>
+            
+            <Border Grid.Column="1" Grid.Row="0" Height="130" Background="#333333" CornerRadius="10" Padding="10" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Rectangle Grid.Column="0" Fill="White" Margin="2" Name="FRTyreWearL"/>
+                    <Rectangle Grid.Column="1" Fill="White" Margin="2" Name="FRTyreWearC"/>
+                    <Rectangle Grid.Column="2" Fill="White" Margin="2" Name="FRTyreWearR"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="FRTyreWearTxtL" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Name="FRTyreWearTxtC" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Name="FRTyreWearTxtR" Text="100%" ></TextBlock>
+                    
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="12" Margin="2"/>
+                </Grid>
+            </Border>
+            
+            <Border Grid.Column="0" Grid.Row="1" Height="130" Background="#333333" CornerRadius="10" Padding="10" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Rectangle Grid.Column="0" Fill="White" Margin="2" Name="RLTyreWearL"/>
+                    <Rectangle Grid.Column="1" Fill="White" Margin="2" Name="RLTyreWearC"/>
+                    <Rectangle Grid.Column="2" Fill="White" Margin="2" Name="RLTyreWearR"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="RLTyreWearTxtL" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Name="RLTyreWearTxtC" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Name="RLTyreWearTxtR" Text="100%" ></TextBlock>
+                    
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="12" Margin="2"/>
+                </Grid>
+            </Border>
+            
+            <Border Grid.Column="1" Grid.Row="1" Height="130" Background="#333333" CornerRadius="10" Padding="10" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Rectangle Grid.Row="0" Grid.Column="0" Fill="White" Margin="2" Name="RRTyreWearL"/>
+                    <Rectangle Grid.Row="0"  Grid.Column="1" Fill="White" Margin="2" Name="RRTyreWearC"/>
+                    <Rectangle Grid.Row="0"  Grid.Column="2" Fill="White" Margin="2" Name="RRTyreWearR"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="RRTyreWearTxtL" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Name="RRTyreWearTxtC" Text="100%" ></TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Name="RRTyreWearTxtR" Text="100%" ></TextBlock>
+                    
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="12" Margin="2"/>
+                </Grid>
+            </Border>
+            
+        </Grid>
+        
+    </Grid>
+</internals:Overlay>
