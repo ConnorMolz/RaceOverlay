@@ -49,11 +49,11 @@ public partial class WeatherInfo : Overlay
         _isWet = _data.WeatherData.WeatherDeclaredWet;
         if (!_devMode)
         {
-            _inCar = _data.InCar;
+            InCar = _data.InCar;
         }
         else
         {
-            _inCar = true;
+            InCar = true;
         }
     }
     
