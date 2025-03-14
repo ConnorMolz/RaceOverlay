@@ -96,6 +96,11 @@ public partial class MainWindow : Window
     private static void OnDisconnected()
     {
         Debug.Print( "OnDisconnected() fired!" );
+        for (int i = 0; i < Overlays.Count; i++)
+        {
+            Overlays[i].HideOnClosed();
+        }
+        
     }
 
     private static void OnSessionInfo()

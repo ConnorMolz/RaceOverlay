@@ -12,6 +12,7 @@ public abstract class Overlay: Window
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
+     private bool _devMode = false;
      protected double _scale = 1;
      protected bool _windowIsActive;
      public String OverlayName { get; set; }
@@ -58,11 +59,15 @@ public abstract class Overlay: Window
           }
 
           _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
-          var _devMode = (bool)settingsObject["Dev"];
-          if (_devMode == null)
+          if (settingsObject["Dev"] == null)
           {
-               _devMode = false;
+                _devMode = false;
           }
+          else
+          {
+               _devMode = (bool)settingsObject["Dev"];
+          }
+          
           if(_windowIsActive && _devMode)
           {
                Show();
@@ -353,7 +358,7 @@ public abstract class Overlay: Window
      {
           if (_windowIsActive)
           {
-               Show();
+               Dispatcher.Invoke(() => { Show(); });
           }
      }
      
@@ -361,7 +366,7 @@ public abstract class Overlay: Window
      {
           if (_windowIsActive)
           {
-               Hide();
+               Dispatcher.Invoke(() => { Hide(); });
           }
      }
      
