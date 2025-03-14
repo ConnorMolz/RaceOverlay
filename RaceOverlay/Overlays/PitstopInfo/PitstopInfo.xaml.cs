@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 
@@ -82,14 +83,7 @@ public partial class PitstopInfo : Overlay
     
     public override void _updateWindow()
     {
-        if (_intoPit)
-        {
-            Show();
-        }
-        else
-        {
-            Hide();
-        }
+        Show();
         ReqRepairTimeText.Text = $"{_reqRepairTime:hh\\:mm\\:ss}";
         OptRepairTimeText.Text = $"{_optRepairTime:hh\\:mm\\:ss}";
         //FuelNeededText.Text = _needFuel.ToString();
@@ -141,6 +135,10 @@ public partial class PitstopInfo : Overlay
                     {
                         Dispatcher.Invoke(() => { _updateWindow(); });
                     }
+                    else
+                    {
+                        Dispatcher.Invoke(() => { Hide(); });
+                    }
                 }
                 
                 // Add a small delay to prevent high CPU usage
@@ -169,7 +167,7 @@ public partial class PitstopInfo : Overlay
         
         Grid.SetRow(tyreInfotextBlock, 0);
         Grid.SetColumn(tyreInfotextBlock, 0);
-        grid.Children.Add(tyreInfotextBlock);
+        //grid.Children.Add(tyreInfotextBlock);
         
         CheckBox tyreInfoCheckBox = new CheckBox();
         tyreInfoCheckBox.IsChecked = _enableTyreInfo;
@@ -186,7 +184,7 @@ public partial class PitstopInfo : Overlay
             _enableTyreInfo = false;
             _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
         };
-        grid.Children.Add(tyreInfoCheckBox);
+        //grid.Children.Add(tyreInfoCheckBox);
         
         // Color picker of tyre color by wear
         TextBlock showTyreGreenUntil = new TextBlock();
