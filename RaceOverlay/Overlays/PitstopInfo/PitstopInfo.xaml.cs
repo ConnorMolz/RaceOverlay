@@ -30,7 +30,7 @@ public partial class PitstopInfo : Overlay
     private SolidColorBrush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
     private SolidColorBrush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
     
-    private bool _intoPit = true;
+    private bool _intoPit = false;
     
     //TODO: Add description
     public PitstopInfo() : base("Pitstop Info", "TODO")
@@ -66,6 +66,7 @@ public partial class PitstopInfo : Overlay
         _tyreFR = _data.LocalCarTelemetry.FrontRightTyre;
         _tyreRL = _data.LocalCarTelemetry.RearLeftTyre;
         _tyreRR = _data.LocalCarTelemetry.RearRightTyre;
+        _intoPit = _data.Pitstop.InPit;
         
         // Get in car info
         if (!_devMode)
@@ -81,6 +82,14 @@ public partial class PitstopInfo : Overlay
     
     public override void _updateWindow()
     {
+        if (_intoPit)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
         ReqRepairTimeText.Text = $"{_reqRepairTime:hh\\:mm\\:ss}";
         OptRepairTimeText.Text = $"{_optRepairTime:hh\\:mm\\:ss}";
         //FuelNeededText.Text = _needFuel.ToString();

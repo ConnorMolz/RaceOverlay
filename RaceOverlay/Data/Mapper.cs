@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using IRSDKSharper;
 using RaceOverlay.Data.Models;
 
@@ -111,7 +112,15 @@ public class Mapper
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
         data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
-        data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
+        try
+        {
+            data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
+        }
+        catch (Exception e)
+        {
+            //ignored
+        }
+       
         
         // Oil Temp, Press and level
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
@@ -205,6 +214,8 @@ public class Mapper
         // Pitstop Data
         data.Pitstop.RequiredRepairTimeLeft = irsdkSharper.Data.GetFloat("PitRepairLeft");
         data.Pitstop.OptionalRepairTimeLeft = irsdkSharper.Data.GetFloat("PitOptRepairLeft");
+        data.Pitstop.InPit = irsdkSharper.Data.GetBool("OnPitRoad");
+        Debug.WriteLine(data.Pitstop.InPit);
 
         
         // Return Dataset

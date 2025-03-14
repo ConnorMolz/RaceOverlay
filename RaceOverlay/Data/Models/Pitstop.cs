@@ -6,5 +6,6 @@ public class Pitstop
     public float OptionalRepairTimeLeft { get; set; }
     
     public float PitSpeedLimit { get; set; }
+    public bool InPit { get; set; }
     
 }
