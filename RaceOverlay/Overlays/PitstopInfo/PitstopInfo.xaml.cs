@@ -33,8 +33,7 @@ public partial class PitstopInfo : Overlay
     
     private bool _intoPit = false;
     
-    //TODO: Add description
-    public PitstopInfo() : base("Pitstop Info", "TODO")
+    public PitstopInfo() : base("Pitstop Info", "This Overlay shows the current Repair Times and Tyre Status if car is standing in pitbox.\nThis Overlay is only show if the car is on pitroad")
     {
         InitializeComponent();
         
