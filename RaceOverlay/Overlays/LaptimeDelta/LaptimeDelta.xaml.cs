@@ -62,6 +62,15 @@ public partial class LaptimeDelta : Overlay
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
+        _laptimeDelta = _data.LocalDriver.BestLapDelta;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
         if (_useBestLap)
         {
             _laptimeDelta = _data.LocalDriver.BestLapDelta;
@@ -76,9 +85,10 @@ public partial class LaptimeDelta : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
+                    
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

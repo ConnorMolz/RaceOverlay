@@ -9,6 +9,7 @@ public class iRacingData
     public WeatherData WeatherData { get; set; }
     
     public LocalDriver LocalDriver { get; set; }
+    public bool InCar { get; set; }
 
     public iRacingData()
     {

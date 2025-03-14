@@ -38,6 +38,14 @@ public partial class SessionInfo : Overlay
         _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
         _maxIncidents = _data.SessionData.MaxIncidents;
         _incidents = _data.SessionData.Incidents;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
 
     public override void _updateWindow()
@@ -71,9 +79,9 @@ public partial class SessionInfo : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

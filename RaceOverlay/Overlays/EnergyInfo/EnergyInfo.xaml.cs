@@ -34,6 +34,14 @@ public partial class EnergyInfo : Overlay
     {
         _data = MainWindow.IRacingData;
         _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct * 1;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
     
     public override void UpdateThreadMethod()
@@ -41,9 +49,9 @@ public partial class EnergyInfo : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

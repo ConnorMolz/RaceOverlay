@@ -47,6 +47,14 @@ public partial class WeatherInfo : Overlay
         _trackTemp = _data.WeatherData.TrackTemp;
         _precipitation = _data.WeatherData.Precipitation;
         _isWet = _data.WeatherData.WeatherDeclaredWet;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
     
     public override void _updateWindow()
@@ -81,9 +89,9 @@ public partial class WeatherInfo : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

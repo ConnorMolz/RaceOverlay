@@ -56,6 +56,14 @@ public partial class Inputs : Overlay
             _clutch = 1 - _data.Inputs.Clutch;
             _gear = _data.LocalCarTelemetry.Gear;
             _speed = _data.LocalCarTelemetry.Speed;
+            if (!_devMode)
+            {
+                InCar = _data.InCar;
+            }
+            else
+            {
+                InCar = true;
+            }
         }
         catch (TargetInvocationException e)
         {
@@ -74,9 +82,9 @@ public partial class Inputs : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>

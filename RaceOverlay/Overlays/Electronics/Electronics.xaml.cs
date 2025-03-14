@@ -34,6 +34,14 @@ public partial class Electronics : Overlay
         _tc1 = _data.LocalCarTelemetry.Tc1;
         _tc2 = _data.LocalCarTelemetry.Tc2;
         _brakeBias = _data.LocalCarTelemetry.BrakeBias;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
 
     public override void _updateWindow()
@@ -49,9 +57,9 @@ public partial class Electronics : Overlay
         {
             while (true)
             {
+                _getData();
                 if (IsVisible)
                 {
-                    _getData();
                     
                     // Use Dispatcher to update UI from background thread
                     Dispatcher.Invoke(() =>
