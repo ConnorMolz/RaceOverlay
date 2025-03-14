@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using IRSDKSharper;
 using RaceOverlay.Data.Models;
 
@@ -45,36 +46,36 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFtempCL"),
             irsdkSharper.Data.GetFloat("LFtempCM"),
             irsdkSharper.Data.GetFloat("LFtempCR"),
-            irsdkSharper.Data.GetFloat("LFwearL"),
-            irsdkSharper.Data.GetFloat("LFwearM"),
-            irsdkSharper.Data.GetFloat("LFwearR")
+            irsdkSharper.Data.GetFloat("LFwearL") * 100,
+            irsdkSharper.Data.GetFloat("LFwearM") * 100,
+            irsdkSharper.Data.GetFloat("LFwearR") * 100
             );
         data.LocalCarTelemetry.FrontRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RFcoldPressure"),
             irsdkSharper.Data.GetFloat("RFtempCL"),
             irsdkSharper.Data.GetFloat("RFtempCM"),
             irsdkSharper.Data.GetFloat("RFtempCR"),
-        irsdkSharper.Data.GetFloat("RFwearL"),
-        irsdkSharper.Data.GetFloat("RFwearM"),
-        irsdkSharper.Data.GetFloat("RFwearR")
+        irsdkSharper.Data.GetFloat("RFwearL") * 100,
+        irsdkSharper.Data.GetFloat("RFwearM") * 100,
+        irsdkSharper.Data.GetFloat("RFwearR") * 100
         );
         data.LocalCarTelemetry.RearLeftTyre = new Tyre(
             irsdkSharper.Data.GetFloat("LRcoldPressure"),
             irsdkSharper.Data.GetFloat("LRtempCL"),
             irsdkSharper.Data.GetFloat("LRtempCM"),
             irsdkSharper.Data.GetFloat("LRtempCR"),
-            irsdkSharper.Data.GetFloat("LRwearL"),
-            irsdkSharper.Data.GetFloat("LRwearM"),
-            irsdkSharper.Data.GetFloat("LRwearR")
+            irsdkSharper.Data.GetFloat("LRwearL") * 100,
+            irsdkSharper.Data.GetFloat("LRwearM") * 100,
+            irsdkSharper.Data.GetFloat("LRwearR") * 100
         );
         data.LocalCarTelemetry.RearRightTyre = new Tyre(
             irsdkSharper.Data.GetFloat("RRcoldPressure"),
             irsdkSharper.Data.GetFloat("RRtempCL"),
             irsdkSharper.Data.GetFloat("RRtempCM"),
             irsdkSharper.Data.GetFloat("RRtempCR"),
-            irsdkSharper.Data.GetFloat("RRwearL"),
-            irsdkSharper.Data.GetFloat("RRwearM"),
-            irsdkSharper.Data.GetFloat("RRwearR")
+            irsdkSharper.Data.GetFloat("RRwearL") * 100,
+            irsdkSharper.Data.GetFloat("RRwearM") * 100,
+            irsdkSharper.Data.GetFloat("RRwearR") * 100
         );
         
         // Map Dampers
@@ -111,6 +112,15 @@ public class Mapper
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
         data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
+        try
+        {
+            data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
+        }
+        catch (Exception e)
+        {
+            //ignored
+        }
+       
         
         // Oil Temp, Press and level
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
@@ -196,6 +206,17 @@ public class Mapper
         data.WeatherData.WeatherDeclaredWet = irsdkSharper.Data.GetBool("WeatherDeclaredWet");
         data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
         data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
+        
+
+        // Get if driver is on Track
+        data.InCar = irsdkSharper.Data.GetBool("IsOnTrack");
+
+        // Pitstop Data
+        data.Pitstop.RequiredRepairTimeLeft = irsdkSharper.Data.GetFloat("PitRepairLeft");
+        data.Pitstop.OptionalRepairTimeLeft = irsdkSharper.Data.GetFloat("PitOptRepairLeft");
+        data.Pitstop.InPit = irsdkSharper.Data.GetBool("OnPitRoad");
+        Debug.WriteLine(data.Pitstop.InPit);
+
         
         // Return Dataset
         return data;

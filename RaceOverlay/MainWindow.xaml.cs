@@ -12,6 +12,7 @@ using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
 using RaceOverlay.Overlays.LaptimeDelta;
+using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
@@ -28,7 +29,7 @@ public partial class MainWindow : Window
     // iRacingData Getter
     private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
-    private List<Overlay> Overlays;
+    public static List<Overlay> Overlays;
     public static bool ShutdownIsTriggerd = false;
     
     
@@ -43,18 +44,21 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
-        Overlays = new List<Overlay>();
+        MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
         Overlays.Add(new Electronics());
         Overlays.Add(new EnergyInfo());
         Overlays.Add(new Inputs());
         Overlays.Add(new LaptimeDelta());
+        Overlays.Add(new PitstopInfo());
         Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
+
         
+        Overlays = Overlays.OrderBy(o => o.OverlayName).ToList();
         
-        OverlayList.ItemsSource = Overlays;
+        OverlayList.ItemsSource = MainWindow.Overlays;
         
     }
 
@@ -96,6 +100,8 @@ public partial class MainWindow : Window
     private static void OnDisconnected()
     {
         Debug.Print( "OnDisconnected() fired!" );
+        
+        
     }
 
     private static void OnSessionInfo()
@@ -112,6 +118,7 @@ public partial class MainWindow : Window
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
+        IRacingData.InCar = false;
     }
     
     
@@ -150,6 +157,10 @@ public partial class MainWindow : Window
             ConfigGrid.Visibility = Visibility.Visible;
             ScaleInput.Text = selectedOverlay.getScale().ToString("F1");
             ScaleSlider.Value = selectedOverlay.getScale();
+            
+            CustomConfigContainer.Children.Clear();
+            Grid overlayConfigs = selectedOverlay.GetConfigs();
+            CustomConfigContainer.Children.Add( overlayConfigs );
 
         }
     }

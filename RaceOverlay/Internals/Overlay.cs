@@ -1,22 +1,26 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
-public abstract class Overlay: Window
+public abstract class Overlay: Window, INotifyPropertyChanged
 {
      private int _windowWidth = 300;
      private int _windowHeight = 200;
+     protected bool _devMode = false;
      protected double _scale = 1;
+     protected bool _windowIsActive;
+     protected bool _inCar = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
-     
-     protected OverlayConfig _config { get; set; }
 
      public abstract void _updateWindow();
      public abstract void _getData();
@@ -24,15 +28,14 @@ public abstract class Overlay: Window
 
      public abstract void UpdateThreadMethod();
      
+     // Declare the event using EventHandler
+     
      public Overlay(String overlayName, String overlayDescription)
      {
           OverlayName = overlayName;
           OverlayDescription = overlayDescription;
-          _config = new ()
-          {
-               OverlayName = OverlayName
-          };
-
+          
+          
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
           
@@ -59,8 +62,18 @@ public abstract class Overlay: Window
                settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
+
+          _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
+          if (settingsObject["Dev"] == null)
+          {
+                _devMode = false;
+          }
+          else
+          {
+               _devMode = (bool)settingsObject["Dev"];
+          }
           
-          if((bool)settingsObject["Overlays"][OverlayName]["active"])
+          if(_windowIsActive && _devMode)
           {
                Show();
           }
@@ -71,6 +84,7 @@ public abstract class Overlay: Window
           if (_scale == 0 || _scale == null)
           {
                _scale = 1;
+               
                _setDoubleConfig("_scale", 1);
           }
           ScaleValueChanges(_scale);
@@ -93,10 +107,12 @@ public abstract class Overlay: Window
 
      protected abstract void _scaleWindow(double scale);
 
-     public OverlayConfig GetConfigOptions()
+     public virtual Grid GetConfigs()
      {
-          return _config;
+          return new Grid();
      }
+
+     protected virtual void _loadConfig(){}
 
      public void ScaleValueChanges(double newScale)
      {
@@ -226,6 +242,34 @@ public abstract class Overlay: Window
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
      
+     protected bool _getBoolConfig(string key)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+          {
+               return (bool)settingsObject["Overlays"][OverlayName]["Configs"][key];
+          }
+          else
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"][key] = false;
+               File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               return false;
+          }
+     }
+
+     protected void _setBoolConfig(string key, bool value)
+     {
+          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+          string jsonContent = File.ReadAllText(settingsFilePath);
+          JObject settingsObject = JObject.Parse(jsonContent);
+          
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = value;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+     }
+     
      
 
      public void ToggleOverlay()
@@ -249,10 +293,10 @@ public abstract class Overlay: Window
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
      {
-          // Check if F7 key was pressed
-          if (e.Key == Key.F7)
+          // Check if F12 key was pressed
+          if (e.Key == Key.F12)
           {
-               Debug.WriteLine($"F7 pressed in overlay: {OverlayName}");
+               Debug.WriteLine($"F12 pressed in overlay: {OverlayName}");
                TogglePositionLock();
           }
      }
@@ -314,5 +358,58 @@ public abstract class Overlay: Window
                _scaleWindowSize(_scale);
           }
      }
+
+     public void ShowOnTelemetry()
+     {
+          if (_windowIsActive)
+          {
+               Dispatcher.Invoke(() => { Show(); });
+          }
+     }
+     
+     public void HideOnClosed()
+     {
+          if (_windowIsActive)
+          {
+               Dispatcher.Invoke(() => { Hide(); });
+          }
+     }
+     
+     // Property to track the _inCar status
+     public bool InCar
+     {
+          get => _inCar;
+          set
+          {
+               if (_inCar != value)
+               {
+                    _inCar = value;
+                    OnPropertyChanged();
+                    OnInCarChanged();
+               }
+          }
+     }
+
+     protected virtual void OnInCarChanged()
+     {
+          if (_inCar)
+          {
+               ShowOnTelemetry();
+          }
+          else
+          {
+               HideOnClosed();
+          }
+     }
+     
+     
+     // Add INotifyPropertyChanged implementation
+     public event PropertyChangedEventHandler? PropertyChanged;
+    
+     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+     {
+          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+     }
+     
      
 }
