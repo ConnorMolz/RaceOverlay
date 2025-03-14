@@ -40,7 +40,7 @@ public abstract class Overlay: Window
           this.KeyDown += Overlay_KeyDown;
           this.InCarChanged += (sender, inCar) =>
           {
-               if (_inCar)
+               if (inCar)
                {
                     ShowOnTelemetry();
                }
