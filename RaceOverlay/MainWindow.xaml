@@ -59,10 +59,11 @@
                           Grid.Column="0" 
                           SelectionChanged="OverlaySelectionChanged"
                           Width="180"
-                          HorizontalAlignment="Left">
+                          HorizontalAlignment="Left"
+                          BorderThickness="0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding OverlayName}" Padding="5"/>
+                            <TextBlock Text="{Binding OverlayName}" Padding="5" FontSize="16" TextDecorations="Underline"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
