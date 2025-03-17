@@ -221,7 +221,7 @@ public partial class Electronics : Overlay
         Grid.SetRow(absElement, 0);
         grid.Children.Add(absElement);
         
-        CheckBoxElement tc1Element = new CheckBoxElement("Show TC: ", _showTc1);
+        CheckBoxElement tc1Element = new CheckBoxElement("Show TC1: ", _showTc1);
         
         tc1Element.CheckBox.Checked += (sender, args) =>
         {
@@ -238,7 +238,7 @@ public partial class Electronics : Overlay
         Grid.SetRow(tc1Element, 1);
         grid.Children.Add(tc1Element);
         
-        CheckBoxElement tc2Element = new CheckBoxElement("Show TC: ", _showTc2);
+        CheckBoxElement tc2Element = new CheckBoxElement("Show TC2: ", _showTc2);
         
         tc2Element.CheckBox.Checked += (sender, args) =>
         {
