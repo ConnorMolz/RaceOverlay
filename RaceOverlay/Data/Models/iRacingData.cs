@@ -13,6 +13,7 @@ public class iRacingData
     public Pitstop Pitstop { get; set; }
   
     public bool InCar { get; set; }
+    public DriverModel[] Drivers { get; set; }
   
     public iRacingData()
     {
@@ -22,5 +23,6 @@ public class iRacingData
         WeatherData = new WeatherData();
         LocalDriver = new LocalDriver();
         Pitstop = new Pitstop();
+        Drivers = [];
     }
 }
