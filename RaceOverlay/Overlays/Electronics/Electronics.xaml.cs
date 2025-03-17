@@ -171,6 +171,16 @@ public partial class Electronics : Overlay
             size += _fieldBaseWidth;
         }
 
+        if (size == 0)
+        {
+            Hide();
+        }
+
+        if (size != 0 && _windowIsActive)
+        {
+            Show();
+        }
+        
         return size;
     }
 
