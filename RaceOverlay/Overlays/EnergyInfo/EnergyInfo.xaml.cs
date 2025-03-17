@@ -16,7 +16,7 @@ public partial class EnergyInfo : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(200, 47);
+        _setWindowSize(200, 35);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         

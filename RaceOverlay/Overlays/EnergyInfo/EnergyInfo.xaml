@@ -7,47 +7,56 @@
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
         Title="Energy Info" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
-        Background="#FF1E1E1E"
+        Background="Transparent"
         WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
-        Topmost="True">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <Grid.LayoutTransform>
-            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
-        </Grid.LayoutTransform>
-        
-        <Grid Height="30">
-            <Rectangle Width="200" 
-                       Height="30" 
-                       Fill="#FF2A2A2A"/>  
-            <Rectangle x:Name="EnergyBar"
-                       Width="150" 
-                       Height="30" 
-                       Fill="#FF00FF00"
-                       VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left"/>
-            <TextBlock Name="EnergyPctText"
-                       Text="75%"
-                          Foreground="Black"
-                            FontSize="20"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                       >
+        Topmost="True"
+        AllowsTransparency="True">
+    <Border Background="#FF1E1E1E" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+            </Grid.LayoutTransform>
+            
+            <Grid Height="35">
+                <Rectangle Width="200" 
+                           Height="35" 
+                           Fill="#FF2A2A2A"
+                           RadiusX="10"
+                           RadiusY="10"/>  
+                <Rectangle x:Name="EnergyBar"
+                           Width="150" 
+                           Height="35" 
+                           Fill="#FF00FF00"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           RadiusX="10"
+                           RadiusY="10"/>
+              
+                <Path Stroke="White" StrokeThickness="2" Fill="White" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <Path.Data>
+                        <!-- M = Move, L = Line, Z = Close path -->
+                        <PathGeometry Figures="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
+                    </Path.Data>
+                </Path>
                 
-            </TextBlock>
+                <TextBlock Name="EnergyPctText"
+                           Text="75%"
+                              Foreground="Black"
+                                FontSize="20"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                           >
+                    
+                </TextBlock>
+            </Grid>
+            
         </Grid>
-        
-        <TextBlock Grid.Row="1"
-                   Text="Energy Level"
-                   FontSize="13"
-                   TextAlignment="Center"
-                   Foreground="White"></TextBlock>
-        
-    </Grid>
+    </Border>
 </internals:Overlay>
