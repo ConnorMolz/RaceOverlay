@@ -133,17 +133,17 @@ public partial class Electronics : Overlay
 
     public int calcWindowWidth()
     {
-        absText.Visibility = Visibility.Hidden;
-        absValue.Visibility = Visibility.Hidden;
+        absText.Visibility = Visibility.Collapsed;
+        absValue.Visibility = Visibility.Collapsed;
         
-        tc1Text.Visibility = Visibility.Hidden;
-        tc1Value.Visibility = Visibility.Hidden;
+        tc1Text.Visibility = Visibility.Collapsed;
+        tc1Value.Visibility = Visibility.Collapsed;
         
-        tc2Text.Visibility = Visibility.Hidden;
-        tc2Value.Visibility = Visibility.Hidden;
+        tc2Text.Visibility = Visibility.Collapsed;
+        tc2Value.Visibility = Visibility.Collapsed;
         
-        bbText.Visibility = Visibility.Hidden;
-        bbValue.Visibility = Visibility.Hidden;
+        bbText.Visibility = Visibility.Collapsed;
+        bbValue.Visibility = Visibility.Collapsed;
         
         int size = 0;
         if (_showAbs)
