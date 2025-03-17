@@ -218,39 +218,7 @@ public class Mapper
         Debug.WriteLine(data.Pitstop.InPit);
         
         // Map Driver Data
-        List<CarModel> carsInSession = new();
         
-        //TODO: get driver number
-        for(int i = 0; i< 100; i++)
-        {
-            int driverCount = irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.Count;
-            DriverModel[] drivers = new DriverModel[driverCount];
-            
-            // Get Drivers
-            for (int j = 0; j < driverCount; j++)
-            {
-                drivers[j] = new DriverModel(
-                    j,
-                    irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[j].UserName,
-                    irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[j].IRating,
-                    irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[j].LicLevel,
-                    irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[j].LicSubLevel
-                );
-            }
-            
-            string carName = irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[0].CarScreenName;
-            string carNumber = irsdkSharper.Data.SessionInfo.DriverInfo.Drivers[0].CarNumber;
-            
-            carsInSession.Add(new CarModel
-            {
-                CarIdx = i,
-                CarName = carName,
-                CarNumber = carNumber,
-                Drivers = drivers
-            });
-        }
-        
-        data.CarsInSession = carsInSession.ToArray();
         
         // Return Dataset
         return data;
