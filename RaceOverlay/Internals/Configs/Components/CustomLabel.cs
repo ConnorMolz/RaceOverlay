@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RaceOverlay.Internals.Configs;
+namespace RaceOverlay.Internals.Configs.Components;
 
 public class CustomLabel: TextBlock
 {

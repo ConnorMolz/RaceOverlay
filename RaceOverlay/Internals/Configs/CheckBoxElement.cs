@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using RaceOverlay.Internals.Configs.Components;
 
 namespace RaceOverlay.Internals.Configs;
 
