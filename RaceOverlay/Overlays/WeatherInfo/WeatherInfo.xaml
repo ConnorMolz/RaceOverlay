@@ -7,77 +7,80 @@
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         mc:Ignorable="d"
         Title="Weather Info"  Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
-        Background="#FF1E1E1E"
+        Background="Transparent"
         Foreground="White"
         WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
-        Topmost="True">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.LayoutTransform>
-            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
-        </Grid.LayoutTransform>
-        
-        <TextBlock Grid.Column="0" Grid.Row="0"
-                   Text="Air Temp:"
-                   Padding="5"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="0"
-                   Padding="5"
-                   Name="AirTempText"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   Text="40.2 C°"></TextBlock>
-        
-        <TextBlock Grid.Column="0" Grid.Row="1"
-                   Text="Track Temp:"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Padding="5"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="1"
-                   Padding="5"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   Name="TrackTempText"
-                   Text="55.4 C°"></TextBlock>
-        
-        <TextBlock Grid.Column="0" Grid.Row="2"
-                   Text="Precipitation:"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Padding="5"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="2"
-                   Padding="5"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   Name="PrecipitationText"
-                   Text="100%"></TextBlock>
-        
-        <Grid Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="#FF0000FF"
-                Width="100" Height="40"
-                Name="IsWetBorder"
-                >
-            <Grid Width="80" Height="20" Background="#FF1E1E1E">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Text="WET"
-                           Name="IsWetText"
-                ></TextBlock>
+        Topmost="True"
+        AllowsTransparency="True">
+    <Border Background="#FF1E1E1E" CornerRadius="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+            </Grid.LayoutTransform>
+            
+            <TextBlock Grid.Column="0" Grid.Row="0"
+                       Text="Air Temp:"
+                       Padding="5"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0"
+                       Padding="5"
+                       Name="AirTempText"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Text="40.2 C°"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="1"
+                       Text="Track Temp:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Padding="5"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1"
+                       Padding="5"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Name="TrackTempText"
+                       Text="55.4 C°"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="2"
+                       Text="Precipitation:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Padding="5"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="2"
+                       Padding="5"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Name="PrecipitationText"
+                       Text="100%"></TextBlock>
+            
+            <Grid Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF0000FF"
+                    Width="100" Height="40"
+                    Name="IsWetBorder"
+                    >
+                <Grid Width="80" Height="20" Background="#FF1E1E1E">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="WET"
+                               Name="IsWetText"
+                    ></TextBlock>
+                </Grid>
             </Grid>
+            
         </Grid>
-        
-    </Grid>
+    </Border>
 </internals:Overlay>
