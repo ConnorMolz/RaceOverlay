@@ -203,79 +203,57 @@ public partial class Electronics : Overlay
         grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-        TextBlock absLabel = new TextBlock();
-        absLabel.Text = "Show ABS: ";
-        Grid.SetColumn(absLabel, 0);
-        Grid.SetRow(absLabel, 0);
-        grid.Children.Add(absLabel);
+        CheckBoxElement absElement = new CheckBoxElement("Show ABS: ", _showAbs);
         
-        CheckBox absCheck = new CheckBox();
-        absCheck.IsChecked = _showAbs;
-        absCheck.Checked += (sender, args) =>
+        absElement.CheckBox.Checked += (sender, args) =>
         {
             _showAbs = true;
             _setBoolConfig("_showAbs", _showAbs);
             WindowWidth = calcWindowWidth();
         };
-        absCheck.Unchecked += (sender, args) =>
+        absElement.CheckBox.Unchecked += (sender, args) =>
         {
             _showAbs = false;
             _setBoolConfig("_showAbs", _showAbs);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetColumn(absCheck, 1);
-        Grid.SetRow(absCheck, 0);
-        grid.Children.Add(absCheck);
+        Grid.SetRow(absElement, 0);
+        grid.Children.Add(absElement);
         
-        TextBlock tc1Label = new TextBlock();
-        tc1Label.Text = "Show TC1: ";
-        Grid.SetColumn(tc1Label, 0);
-        Grid.SetRow(tc1Label, 1);
-        grid.Children.Add(tc1Label);
+        CheckBoxElement tc1Element = new CheckBoxElement("Show TC: ", _showTc1);
         
-        CheckBox tc1Check = new CheckBox();
-        tc1Check.IsChecked = _showTc1;
-        tc1Check.Checked += (sender, args) =>
+        tc1Element.CheckBox.Checked += (sender, args) =>
         {
             _showTc1 = true;
             _setBoolConfig("_showTc1", _showTc1);
             WindowWidth = calcWindowWidth();
         };
-        tc1Check.Unchecked += (sender, args) =>
+        tc1Element.CheckBox.Unchecked += (sender, args) =>
         {
             _showTc1 = false;
             _setBoolConfig("_showTc1", _showTc1);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetColumn(tc1Check, 1);
-        Grid.SetRow(tc1Check, 1);
-        grid.Children.Add(tc1Check);
+        Grid.SetRow(tc1Element, 1);
+        grid.Children.Add(tc1Element);
         
-        TextBlock tc2Label = new TextBlock();
-        tc2Label.Text = "Show TC2: ";
-        Grid.SetColumn(tc2Label, 0);
-        Grid.SetRow(tc2Label, 2);
-        grid.Children.Add(tc2Label);
+        CheckBoxElement tc2Element = new CheckBoxElement("Show TC: ", _showTc2);
         
-        CheckBox tc2Check = new CheckBox();
-        tc2Check.IsChecked = _showTc2;
-        tc2Check.Checked += (sender, args) =>
+        tc2Element.CheckBox.Checked += (sender, args) =>
         {
             _showTc2 = true;
             _setBoolConfig("_showTc2", _showTc2);
             WindowWidth = calcWindowWidth();
         };
-        tc2Check.Unchecked += (sender, args) =>
+        tc2Element.CheckBox.Unchecked += (sender, args) =>
         {
             _showTc2 = false;
             _setBoolConfig("_showTc2", _showTc2);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetColumn(tc2Check, 1);
-        Grid.SetRow(tc2Check, 2);
-        grid.Children.Add(tc2Check);
+        Grid.SetRow(tc2Element, 2);
+        grid.Children.Add(tc2Element);
         
         CheckBoxElement bbElement = new CheckBoxElement("Show Brake Bias: ", _showBB);
         bbElement.CheckBox.Checked += (sender, args) =>
