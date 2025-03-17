@@ -3,11 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
         Title="Inputs" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
-        Background="#FF1E1E1E"
+        Background="Transparent"
         WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
-        Topmost="True">
+        Topmost="True"
+        AllowsTransparency="True">
+    <Border CornerRadius="10" Background="#FF1E1E1E">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -77,4 +79,5 @@
         <TextBlock Grid.Column="2" Name="GearText" Text="2" Foreground="White" FontSize="40" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
         
     </Grid>
+    </Border>
 </internals:Overlay>
