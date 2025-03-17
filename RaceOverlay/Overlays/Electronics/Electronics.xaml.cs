@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.Electronics;
 
@@ -276,29 +277,21 @@ public partial class Electronics : Overlay
         Grid.SetRow(tc2Check, 2);
         grid.Children.Add(tc2Check);
         
-        TextBlock bbLabel = new TextBlock();
-        bbLabel.Text = "Show Brake Bias: ";
-        Grid.SetColumn(bbLabel, 0);
-        Grid.SetRow(bbLabel, 3);
-        grid.Children.Add(bbLabel);
-        
-        CheckBox bbCheck = new CheckBox();
-        bbCheck.IsChecked = _showBB;
-        bbCheck.Checked += (sender, args) =>
+        CheckBoxElement bbElement = new CheckBoxElement("Show Brake Bias: ", _showBB);
+        bbElement.CheckBox.Checked += (sender, args) =>
         {
             _showBB = true;
             _setBoolConfig("_showBB", _showBB);
             WindowWidth = calcWindowWidth();
         };
-        bbCheck.Unchecked += (sender, args) =>
+        bbElement.CheckBox.Unchecked += (sender, args) =>
         {
             _showBB = false;
             _setBoolConfig("_showBB", _showBB);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetColumn(bbCheck, 1);
-        Grid.SetRow(bbCheck, 3);
-        grid.Children.Add(bbCheck);
+        Grid.SetRow(bbElement, 3);
+        grid.Children.Add(bbElement);
 
         return grid;
     }
