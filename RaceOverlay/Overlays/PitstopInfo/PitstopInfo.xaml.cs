@@ -146,44 +146,15 @@ public partial class PitstopInfo : Overlay
         }
     }
     
-
-    //TODO: If pithelper is implemented remove comment form add child operations
+    
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        
-        
-        // Tyre Info toggle
-        TextBlock tyreInfotextBlock = new TextBlock();
-        tyreInfotextBlock.Text = "Activate Tyre info after stop: ";
-        
-        Grid.SetRow(tyreInfotextBlock, 0);
-        Grid.SetColumn(tyreInfotextBlock, 0);
-        //grid.Children.Add(tyreInfotextBlock);
-        
-        CheckBox tyreInfoCheckBox = new CheckBox();
-        tyreInfoCheckBox.IsChecked = _enableTyreInfo;
-        
-        Grid.SetRow(tyreInfoCheckBox, 0);
-        Grid.SetColumn(tyreInfoCheckBox, 1);
-        tyreInfoCheckBox.Checked += (sender, args) =>
-        {
-            _enableTyreInfo = true;
-            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
-        };
-        tyreInfoCheckBox.Unchecked += (sender, args) =>
-        {
-            _enableTyreInfo = false;
-            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
-        };
-        //grid.Children.Add(tyreInfoCheckBox);
         
         // Color picker of tyre color by wear
         TextBlock showTyreGreenUntil = new TextBlock();
@@ -232,20 +203,6 @@ public partial class PitstopInfo : Overlay
         }
 
         tyreYellowUntil.TextChanged += ParseUntilYellowInput;
-        
-
-        TextBlock marginLapsLabel = new TextBlock();
-        marginLapsLabel.Text = "Margin Laps: ";
-        Grid.SetColumn(marginLapsLabel, 0);
-        Grid.SetRow(marginLapsLabel, 3);
-       // grid.Children.Add(marginLapsLabel);
-        
-        TextBox marginLaps = new TextBox();
-        marginLaps.Text = "0";
-        Grid.SetColumn(marginLaps, 1);
-        Grid.SetRow(marginLaps, 3);
-        //grid.Children.Add(marginLaps);
-        
 
         return grid;
     }
