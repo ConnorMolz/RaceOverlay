@@ -238,7 +238,8 @@ public class Mapper
                         irsdkSharper.Data.GetInt("CarIdxClassPosition", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
                         irsdkSharper.Data.GetInt("CarIdxLap", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
                         irsdkSharper.Data.GetFloat("CarIdxLastLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetFloat("CarIdxBestLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx)
+                        irsdkSharper.Data.GetFloat("CarIdxBestLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetBool("CarIdxOnPitRoad", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx)
                     )
                 );
             }

@@ -18,8 +18,9 @@ public class DriverModel
     public int Lap { get; set; }
     public float LastLap { get; set; }
     public float BestLap { get; set; }
+    public bool OnPitRoad { get; set; }
 
-    public DriverModel(string name, int iRating, string license, int carNumber, string carClass, string carName, int idx, float lapDistance, float estCarClassNeededLapTime, int position, int classPosition, int lap, float lastLap, float bestLap)
+    public DriverModel(string name, int iRating, string license, int carNumber, string carClass, string carName, int idx, float lapDistance, float estCarClassNeededLapTime, int position, int classPosition, int lap, float lastLap, float bestLap, bool onPitRoad)
     {
         Name = name;
         this.iRating = iRating;
@@ -35,5 +36,6 @@ public class DriverModel
         Lap = lap;
         LastLap = lastLap;
         BestLap = bestLap;
+        OnPitRoad = onPitRoad;
     }
 }
