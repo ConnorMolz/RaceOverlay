@@ -10,7 +10,7 @@ public class CustomCheckBox: CheckBox
         IsChecked = isChecked;
         Width = 300;
         Height = 30;
-        Background = new SolidColorBrush(Color.FromArgb(255, 62, 62, 62));
+        Background = new SolidColorBrush(Color.FromArgb(255, 122, 122, 122));
         Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
         
     }
