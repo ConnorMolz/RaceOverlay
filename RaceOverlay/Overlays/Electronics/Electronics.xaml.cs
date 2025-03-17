@@ -56,10 +56,25 @@ public partial class Electronics : Overlay
 
     public override void _updateWindow()
     {
-        absValue.Text = _abs.ToString();
-        tc1Value.Text = _tc1.ToString();
-        tc2Value.Text = _tc2.ToString();
-        bbValue.Text = _brakeBias.ToString("F2");
+        if (_showAbs)
+        {
+            absValue.Text = _abs.ToString("F0");
+        }
+
+        if (_showTc1)
+        {
+            tc1Value.Text = _tc1.ToString("F0");
+        }
+
+        if (_showTc2)
+        {
+            tc2Value.Text = _tc2.ToString("F0");
+        }
+
+        if (_showBB)
+        {
+            bbValue.Text = _brakeBias.ToString("F2");
+        }
     }
     
     public override void UpdateThreadMethod()
@@ -106,7 +121,7 @@ public partial class Electronics : Overlay
             {
                 _width = value;
                 OnPropertyChanged();
-                OnInCarChanged();
+                OnWidthChanged();
             }
         }
     }
@@ -118,21 +133,41 @@ public partial class Electronics : Overlay
 
     public int calcWindowWidth()
     {
+        absText.Visibility = Visibility.Hidden;
+        absValue.Visibility = Visibility.Hidden;
+        
+        tc1Text.Visibility = Visibility.Hidden;
+        tc1Value.Visibility = Visibility.Hidden;
+        
+        tc2Text.Visibility = Visibility.Hidden;
+        tc2Value.Visibility = Visibility.Hidden;
+        
+        bbText.Visibility = Visibility.Hidden;
+        bbValue.Visibility = Visibility.Hidden;
+        
         int size = 0;
         if (_showAbs)
         {
+            absText.Visibility = Visibility.Visible;
+            absValue.Visibility = Visibility.Visible;
             size += _fieldBaseWidth;
         }
         if (_showTc1)
         {
+            tc1Text.Visibility = Visibility.Visible;
+            tc1Value.Visibility = Visibility.Visible;
             size += _fieldBaseWidth;
         }
         if (_showTc2)
         {
+            tc2Text.Visibility = Visibility.Visible;
+            tc2Value.Visibility = Visibility.Visible;
             size += _fieldBaseWidth;
         }
         if (_showBB)
         {
+            bbText.Visibility = Visibility.Visible;
+            bbValue.Visibility = Visibility.Visible;
             size += _fieldBaseWidth;
         }
 

@@ -29,16 +29,16 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Column="0" Padding="10" Grid.Row="0" Text="ABS" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="0" Padding="10" Grid.Row="0" Text="ABS" Name="absText" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.Column="0" Padding="10" Grid.Row="1" Name="absValue" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="1" Padding="10" Grid.Row="0" Text="TC1" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="1" Padding="10" Grid.Row="0" Text="TC1" Name="tc1Text" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.Column="1" Padding="10" Grid.Row="1" Name="tc1Value" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="2" Padding="10" Grid.Row="0" Text="TC2" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="2" Padding="10" Grid.Row="0" Text="TC2" Name="tc2Text" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.Column="2" Padding="10" Grid.Row="1" Name="tc2Value" TextAlignment="Center"></TextBlock>
         
-        <TextBlock Grid.Column="3" Padding="10" Grid.Row="0" Text="BB" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="3" Padding="10" Grid.Row="0" Text="BB" Name="bbText" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.Column="3" Padding="10" Grid.Row="1" Name="bbValue" TextAlignment="Center"></TextBlock>
         
     </Grid>
