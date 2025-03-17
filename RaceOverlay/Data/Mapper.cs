@@ -218,7 +218,37 @@ public class Mapper
         Debug.WriteLine(data.Pitstop.InPit);
         
         // Map Driver Data
+        List<DriverModel> drivers = new List<DriverModel>();
+        try
+        {
+            for (int i = 0; i < irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.Count; i++)
+            {
+                drivers.Add(
+                    new DriverModel(
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).UserName,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).IRating,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).LicString,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarNumberRaw,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassShortName,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarScreenNameShort,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx,
+                        irsdkSharper.Data.GetFloat("CarIdxLapDistPct", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx) *100,
+                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassEstLapTime,
+                        irsdkSharper.Data.GetInt("CarIdxPosition", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetInt("CarIdxClassPosition", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetInt("CarIdxLap", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetFloat("CarIdxLastLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetFloat("CarIdxBestLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx)
+                    )
+                );
+            }
+        }
+        catch (Exception e)
+        {
+            //ignored
+        }
         
+        data.Drivers = drivers.ToArray();
         
         // Return Dataset
         return data;
