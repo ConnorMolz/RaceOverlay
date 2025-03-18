@@ -14,14 +14,19 @@ public partial class Electronics : Overlay
     private float _tc1;
     private float _tc2;
     private float _brakeBias;
+    private float _ARBFront;
+    private float _ARBRear;
 
     private bool _showBB;
     private bool _showTc1;
     private bool _showTc2;
     private bool _showAbs;
+    private bool _showARBFront;
+    private bool _showARBRear;
 
     private int _width = 0;
-    private  readonly int _fieldBaseWidth = 40;
+    private readonly int _smallFieldBaseWidth = 40;
+    private readonly int _largeFieldBaseWidth = 52;
 
     private iRacingData _data;
     
@@ -30,7 +35,7 @@ public partial class Electronics : Overlay
         InitializeComponent();
         _getConfig();
 
-        _setWindowSize(calcWindowWidth(), 65);
+        _setWindowSize(calcWindowWidth(), 68);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -45,6 +50,8 @@ public partial class Electronics : Overlay
         _tc1 = _data.LocalCarTelemetry.Tc1;
         _tc2 = _data.LocalCarTelemetry.Tc2;
         _brakeBias = _data.LocalCarTelemetry.BrakeBias;
+        _ARBFront = _data.LocalCarTelemetry.ARBFront;
+        _ARBRear = _data.LocalCarTelemetry.ARBRear;
         if (!_devMode)
         {
             InCar = _data.InCar;
@@ -75,6 +82,16 @@ public partial class Electronics : Overlay
         if (_showBB)
         {
             bbValue.Text = _brakeBias.ToString("F2");
+        }
+        
+        if (_showARBFront)
+        {
+            ARBFValue.Text = _ARBFront.ToString("F0");
+        }
+        
+        if (_showARBRear)
+        {
+            ARBRValue.Text = _ARBRear.ToString("F0");
         }
     }
     
@@ -129,7 +146,7 @@ public partial class Electronics : Overlay
     
     private void OnWidthChanged()
     {
-        _setWindowSize(WindowWidth, 65);
+        _setWindowSize(WindowWidth, 68);
     }
 
     public int calcWindowWidth()
@@ -145,31 +162,51 @@ public partial class Electronics : Overlay
         
         bbText.Visibility = Visibility.Collapsed;
         bbValue.Visibility = Visibility.Collapsed;
+
+        ARBFText.Visibility = Visibility.Collapsed;
+        ARBFValue.Visibility = Visibility.Collapsed;
+        
+        ARBRText.Visibility = Visibility.Collapsed;
+        ARBRValue.Visibility = Visibility.Collapsed;
         
         int size = 0;
         if (_showAbs)
         {
             absText.Visibility = Visibility.Visible;
             absValue.Visibility = Visibility.Visible;
-            size += _fieldBaseWidth;
+            size += _smallFieldBaseWidth;
         }
         if (_showTc1)
         {
             tc1Text.Visibility = Visibility.Visible;
             tc1Value.Visibility = Visibility.Visible;
-            size += _fieldBaseWidth;
+            size += _smallFieldBaseWidth;
         }
         if (_showTc2)
         {
             tc2Text.Visibility = Visibility.Visible;
             tc2Value.Visibility = Visibility.Visible;
-            size += _fieldBaseWidth;
+            size += _smallFieldBaseWidth;
         }
         if (_showBB)
         {
             bbText.Visibility = Visibility.Visible;
             bbValue.Visibility = Visibility.Visible;
-            size += _fieldBaseWidth;
+            size += _smallFieldBaseWidth;
+        }
+
+        if (_showARBFront)
+        {
+            ARBFText.Visibility = Visibility.Visible;
+            ARBFValue.Visibility = Visibility.Visible;
+            size += _largeFieldBaseWidth;
+        }
+        
+        if (_showARBRear)
+        {
+            ARBRText.Visibility = Visibility.Visible;
+            ARBRValue.Visibility = Visibility.Visible;
+            size += _largeFieldBaseWidth;
         }
 
         if (size == 0)
@@ -191,12 +228,16 @@ public partial class Electronics : Overlay
         _showTc1 = _getBoolConfig("_showTc1");
         _showTc2 = _getBoolConfig("_showTc2");
         _showBB = _getBoolConfig("_showBB");
+        _showARBFront = _getBoolConfig("_showARBFront");
+        _showARBRear = _getBoolConfig("_showARBRear");
     }
 
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
         
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
@@ -270,6 +311,41 @@ public partial class Electronics : Overlay
         };
         Grid.SetRow(bbElement, 3);
         grid.Children.Add(bbElement);
+        
+        CheckBoxElement ARBFrontElement = new CheckBoxElement("Show ARB Front: ", _showARBFront);
+        ARBFrontElement.CheckBox.Checked += (sender, args) =>
+        {
+            _showARBFront = true;
+            _setBoolConfig("_showARBFront", _showARBFront);
+            WindowWidth = calcWindowWidth();
+        };
+        
+        ARBFrontElement.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showARBFront = false;
+            _setBoolConfig("_showARBFront", _showARBFront);
+            WindowWidth = calcWindowWidth();
+        };
+        Grid.SetRow(ARBFrontElement, 4);
+        grid.Children.Add(ARBFrontElement);
+        
+        CheckBoxElement ARBRearElement = new CheckBoxElement("Show ARB Rear: ", _showARBRear);
+        ARBRearElement.CheckBox.Checked += (sender, args) =>
+        {
+            _showARBRear = true;
+            _setBoolConfig("_showARBRear", _showARBRear);
+            WindowWidth = calcWindowWidth();
+        };
+        
+        ARBRearElement.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showARBRear = false;
+            _setBoolConfig("_showARBRear", _showARBRear);
+            WindowWidth = calcWindowWidth();
+        };
+        
+        Grid.SetRow(ARBRearElement, 5);
+        grid.Children.Add(ARBRearElement);
 
         return grid;
     }

@@ -57,6 +57,8 @@ public class LocalCarTelemetry
     public float Tc1 { get; set; }
     public float Tc2 { get; set; }
     public float Abs { get; set; }
+    public float ARBFront { get; set; }  //ARB = Anti Roll Bar
+    public float ARBRear { get; set; }
 
 
 }

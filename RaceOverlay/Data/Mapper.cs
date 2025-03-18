@@ -189,6 +189,24 @@ public class Mapper
         {
             // ignored
         }
+        
+        try
+        {
+            data.LocalCarTelemetry.ARBFront = irsdkSharper.Data.GetFloat("dcAntiRollFront");
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+        
+        try
+        {
+            data.LocalCarTelemetry.ARBRear = irsdkSharper.Data.GetFloat("dcAntiRollRear");
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
 
 
 
