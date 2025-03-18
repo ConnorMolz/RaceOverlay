@@ -21,8 +21,7 @@ public partial class Leaderboard : Overlay
     private int _maxIncidents;
     private int _incidents;
     
-    // TODO: Add Description
-    public Leaderboard(): base("Leaderboard", "TODO")
+    public Leaderboard(): base("Leaderboard", "This overlay displays the current leaderboard (from the last Lap which is completed)")
     {
         InitializeComponent();
         _setWindowSize(300, 250);
