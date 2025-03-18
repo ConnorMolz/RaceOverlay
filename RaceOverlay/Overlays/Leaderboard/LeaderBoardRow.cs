@@ -33,7 +33,7 @@ public class LeaderBoardRow: Grid
         
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position.ToString();
-        positionTextBlock.Background = _getClassColorBrush(classColorCode);
+        positionTextBlock.Background = _getClassColorBrush(classColorCode.Replace("0x", "#"));
         
         positionTextBlock.SetValue(Grid.ColumnProperty, 0);
         positionTextBlock.SetValue(Grid.RowProperty, 0);
