@@ -26,7 +26,7 @@ public partial class Electronics : Overlay
 
     private int _width = 0;
     private readonly int _smallFieldBaseWidth = 40;
-    private readonly int _largeFieldBaseWidth = 50;
+    private readonly int _largeFieldBaseWidth = 52;
 
     private iRacingData _data;
     
@@ -35,7 +35,7 @@ public partial class Electronics : Overlay
         InitializeComponent();
         _getConfig();
 
-        _setWindowSize(calcWindowWidth(), 65);
+        _setWindowSize(calcWindowWidth(), 68);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -146,7 +146,7 @@ public partial class Electronics : Overlay
     
     private void OnWidthChanged()
     {
-        _setWindowSize(WindowWidth, 65);
+        _setWindowSize(WindowWidth, 68);
     }
 
     public int calcWindowWidth()
