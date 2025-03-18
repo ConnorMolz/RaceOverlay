@@ -1,0 +1,32 @@
+<internals:Overlay x:Class="RaceOverlay.Overlays.Leaderboard.Leaderboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:RaceOverlay.Overlays.Leaderboard"
+        xmlns:internals="clr-namespace:RaceOverlay.Internals"
+        mc:Ignorable="d"
+        Title="Leaderboard" Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
+        Background="Transparent"
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        ResizeMode="NoResize"
+        Topmost="True"
+        AllowsTransparency="True">
+    <Border CornerRadius="10" Background="#FF1E1E1E">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            
+        </Grid.RowDefinitions>
+        
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
+        </Grid.LayoutTransform>
+        
+    </Grid>
+    </Border>
+</internals:Overlay>
