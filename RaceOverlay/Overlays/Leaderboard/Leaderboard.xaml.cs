@@ -26,6 +26,7 @@ public partial class Leaderboard : Overlay
 
     public override void _updateWindow()
     {
+        Body.Children.Clear();
         DriverModel player = _drivers.Find(driver => driver.Idx == _playerCarIdx);
 
         for (int i = player.Position - 2; i <= player.Position + 2; i++)
@@ -43,9 +44,9 @@ public partial class Leaderboard : Overlay
                 Body.Children.Add(new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap, driver.BestLap,
                     driver.iRating, driver.ClassColorCode));
             }
-           
             
         }
+        
     }
 
     public override void _getData()
