@@ -240,6 +240,7 @@ public partial class Electronics : Overlay
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
 
