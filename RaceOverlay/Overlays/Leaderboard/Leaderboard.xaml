@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         Topmost="True"
         Foreground="White">
-    <Border CornerRadius="10" Background="#FF1E1E1E">
+    <Border CornerRadius="10" Background="#991E1E1E">
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
             
