@@ -19,12 +19,21 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
+        
+        <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header">
+            
+        </Grid>
+        
+        <Grid Grid.Row="0" Grid.Column="0" Name="Body">
+            
+        </Grid>
         
     </Grid>
     </Border>

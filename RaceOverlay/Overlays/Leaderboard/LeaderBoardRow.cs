@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -11,6 +12,8 @@ public class LeaderBoardRow: Grid
     public float LastLap { get; set; }
     public float BestLap { get; set; }
     public int IRating { get; set;}
+    
+    TextBlock driverNameTextBlock { get; set; }
 
     public LeaderBoardRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
     {
@@ -36,7 +39,7 @@ public class LeaderBoardRow: Grid
         positionTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(positionTextBlock);
         
-        TextBlock driverNameTextBlock = new TextBlock();
+        driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 1);
@@ -78,6 +81,12 @@ public class LeaderBoardRow: Grid
         }
 
         return new BrushConverter().ConvertFromString(classColorCode) as SolidColorBrush;
+    }
+    
+    public void SetToPlayerRow()
+    {
+        driverNameTextBlock.FontWeight = FontWeights.Bold;
+        driverNameTextBlock.Foreground = Brushes.Gold;
     }
     
 }
