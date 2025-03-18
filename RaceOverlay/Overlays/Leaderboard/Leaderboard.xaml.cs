@@ -63,8 +63,9 @@ public partial class Leaderboard : Overlay
         {
             Body.Children.Clear();
             DriverModel player = _drivers.Find(driver => driver.Idx == _playerCarIdx);
+            int driverCount = _drivers.Count;
 
-            for (int i = player.Position - 2; i <= player.Position + 2; i++)
+            for (int i = player.Position - _getPlayerPositionStartOffset(player.Position, driverCount); i <= _getPlayerPositionEndOffset(player.Position, driverCount) + 2; i++)
             {
                 DriverModel driver = _drivers.Find(driver => driver.Position == i);
                 if (driver.Idx == _playerCarIdx)
@@ -147,5 +148,43 @@ public partial class Leaderboard : Overlay
         {
             Debug.WriteLine(e);
         }
+    }
+
+    private int _getPlayerPositionStartOffset(int position, int count)
+    {
+        if (position == count)
+        {
+            return 0;
+        }
+
+        if (position == count - 1)
+        {
+            return 1;
+        }
+        return position switch
+        {
+            1 => 4,
+            2 => 3,
+            _ => 2
+        };
+    }
+    
+    private int _getPlayerPositionEndOffset(int position, int count)
+    {
+        if (position == count)
+        {
+            return 4;
+        }
+
+        if (position == count - 1)
+        {
+            return 3;
+        }
+        return position switch
+        {
+            1 => 0,
+            2 => 1,
+            _ => 2
+        };
     }
 }
