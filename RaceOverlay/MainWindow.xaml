@@ -26,7 +26,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="10">
+            <StackPanel Grid.Column="0" Margin="10, 0, 0, 0">
                 <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
             </StackPanel>
             
@@ -50,6 +50,7 @@
         <Grid Margin="10" Grid.Row="1" Name="MainPage" Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
@@ -63,12 +64,18 @@
                           BorderThickness="0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding OverlayName}" Padding="5" FontSize="16" TextDecorations="Underline"/>
+                            <TextBlock Text="{Binding OverlayName}" Padding="5" FontSize="16" FontWeight="Bold"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
                 
-                <Grid Grid.Column="1"
+            <Rectangle Grid.Column="1" 
+                       Width="1" 
+                       Margin="10,0" 
+                       Fill="White" 
+                       VerticalAlignment="Stretch"/>
+            
+                <Grid Grid.Column="2"
                       HorizontalAlignment="Center"
                       
                       Margin="0">
