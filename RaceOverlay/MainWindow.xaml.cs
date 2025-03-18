@@ -54,7 +54,7 @@ public partial class MainWindow : Window
         Overlays.Add(new LaptimeDelta());
         Overlays.Add(new Leaderboard());
         Overlays.Add(new PitstopInfo());
-        Overlays.Add(new SessionInfo());
+        //Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
 
         
