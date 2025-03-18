@@ -12,6 +12,9 @@ public class Mapper
     {
         iRacingData data = new();
         
+        // Getting Idx of the player
+        data.PlayerIdx = irsdkSharper.Data.GetInt("PlayerCarIdx");
+        
         // Map Session Data
         data.SessionData.TimeLeft = irsdkSharper.Data.GetDouble("SessionTimeRemain");
         data.SessionData.TimeTotal = irsdkSharper.Data.GetDouble("SessionTimeTotal");

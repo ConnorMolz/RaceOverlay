@@ -14,6 +14,7 @@ public class iRacingData
   
     public bool InCar { get; set; }
     public DriverModel[] Drivers { get; set; }
+    public int PlayerIdx { get; set; }
   
     public iRacingData()
     {
