@@ -26,11 +26,15 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="10, 0, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="10, 0, 0, 0">
                 <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
             </StackPanel>
             
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <Button Click="goToInfoButton_Click" Name="NavButton" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent">
                     <StackPanel Orientation="Vertical">
                         <Grid>
@@ -44,6 +48,11 @@
                 <Button Click="minimizeButton_Click" Content="_" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
                 <Button Click="closeButton_Click" Content="x" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent"></Button>
             </StackPanel>
+            <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                       Height="1" 
+                       Margin="0,0" 
+                       Fill="White" 
+                       HorizontalAlignment="Stretch"/>
         </Grid>
         
         
@@ -71,7 +80,7 @@
                 
             <Rectangle Grid.Column="1" 
                        Width="1" 
-                       Margin="10,0" 
+                       Margin="10,-10" 
                        Fill="White" 
                        VerticalAlignment="Stretch"/>
             
