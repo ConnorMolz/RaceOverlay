@@ -69,7 +69,7 @@ public partial class Leaderboard : Overlay
                 DriverModel driver = _drivers.Find(driver => driver.Position == i);
                 if (driver.Idx == _playerCarIdx)
                 {
-                    LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap,
+                    LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap,
                         driver.BestLap,
                         driver.iRating, driver.ClassColorCode);
                     playerRow.SetToPlayerRow();
@@ -77,7 +77,7 @@ public partial class Leaderboard : Overlay
                 }
                 else
                 {
-                    Body.Children.Add(new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap, driver.BestLap,
+                    Body.Children.Add(new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap, driver.BestLap,
                         driver.iRating, driver.ClassColorCode));
                 }
 
