@@ -16,6 +16,8 @@ public partial class Leaderboard : Overlay
     private int _lapsLeft;
     private int _lapsTotal;
     private int _lapsLeftEstimated;
+    private float _trackTemp;
+    private float _airTemp;
     private int _maxIncidents;
     private int _incidents;
     
@@ -54,6 +56,9 @@ public partial class Leaderboard : Overlay
         
         // Incident Formating
         IncidentsText.Text = $"X: {_incidents}/{_maxIncidents}";
+        
+        AirTempText.Text = "Air: " + _airTemp.ToString("F1") + "C°";
+        TrackTempText.Text = "Track: " +  _trackTemp.ToString("F1") + "C°";
 
         try
         {
@@ -98,6 +103,8 @@ public partial class Leaderboard : Overlay
         _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
         _maxIncidents = _data.SessionData.MaxIncidents;
         _incidents = _data.SessionData.Incidents;
+        _airTemp = _data.WeatherData.AirTemp;
+        _trackTemp = _data.WeatherData.TrackTemp;
         if (!_devMode)
         {
             InCar = _data.InCar;

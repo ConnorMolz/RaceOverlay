@@ -38,6 +38,19 @@
                            HorizontalAlignment="Right"
                            Padding="5">
                 </TextBlock>
+                
+                <TextBlock
+                    Name="AirTempText"
+                    HorizontalAlignment="Right"
+                    Padding="5">
+                </TextBlock>
+                
+                <TextBlock
+                    Name="TrackTempText"
+                    HorizontalAlignment="Right"
+                    Padding="5">
+                </TextBlock>
+                
             </StackPanel>
         </Grid>
         
