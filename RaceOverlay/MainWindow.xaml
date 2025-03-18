@@ -99,7 +99,8 @@
                                Grid.Column="0"
                                Grid.Row="0"
                                TextAlignment="Center"
-                               FontSize="20"
+                               FontSize="22"
+                               FontWeight="Bold"
                                Text=""></TextBlock>
                     <TextBlock Name="OverlayDescriptionText"
                              Grid.Column="0"
