@@ -11,8 +11,7 @@
         WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
-        Topmost="True"
-        AllowsTransparency="True">
+        Topmost="True">
     <Border Background="#FF1E1E1E" CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>

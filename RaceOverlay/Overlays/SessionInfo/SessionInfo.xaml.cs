@@ -62,7 +62,6 @@ public partial class SessionInfo : Overlay
         }
         
         
-        // TODO: Lap Formating
         if (_lapsTotal != 32767)
         {
             // Lap Formatting
