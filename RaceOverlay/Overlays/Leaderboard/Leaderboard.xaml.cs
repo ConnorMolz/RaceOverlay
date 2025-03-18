@@ -11,12 +11,19 @@ public partial class Leaderboard : Overlay
 
     private List<DriverModel> _drivers;
     private int _playerCarIdx;
+    private double _timeLeft;
+    private double _timeTotal;
+    private int _lapsLeft;
+    private int _lapsTotal;
+    private int _lapsLeftEstimated;
+    private int _maxIncidents;
+    private int _incidents;
     
     // TODO: Add Description
     public Leaderboard(): base("Leaderboard", "TODO")
     {
         InitializeComponent();
-        _setWindowSize(200, 350);
+        _setWindowSize(300, 250);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -26,27 +33,57 @@ public partial class Leaderboard : Overlay
 
     public override void _updateWindow()
     {
-        Body.Children.Clear();
-        DriverModel player = _drivers.Find(driver => driver.Idx == _playerCarIdx);
-
-        for (int i = player.Position - 2; i <= player.Position + 2; i++)
+        // Update the Header
+        // 32767 is the default value for lapsTotal when the session is not using laps for the distance
+        if (_lapsTotal == 32767)
         {
-            DriverModel driver = _drivers.Find(driver => driver.Position == i);
-            if (driver.Idx == _playerCarIdx)
-            {
-                LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap, driver.BestLap,
-                    driver.iRating, driver.ClassColorCode);
-                playerRow.SetToPlayerRow();
-                Body.Children.Add(playerRow);
-            }
-            else
-            {
-                Body.Children.Add(new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap, driver.BestLap,
-                    driver.iRating, driver.ClassColorCode));
-            }
-            
+            // Time Formatting
+            // 00:00:00 / 00:00:00 ~ 0/0 Laps
+            TimeSpan timeLeft = TimeSpan.FromSeconds(_timeLeft);
+            TimeSpan timeTotal = TimeSpan.FromSeconds(_timeTotal);
+            TimeOrLaps.Text = $"{timeLeft:hh\\:mm\\:ss} / {timeTotal:hh\\:mm\\:ss}";
         }
         
+        
+        if (_lapsTotal != 32767)
+        {
+            // Lap Formatting
+            // 0/0 Laps
+            TimeOrLaps.Text = $"{_lapsTotal - _lapsLeft}/{_lapsTotal} Laps";
+        }
+        
+        // Incident Formating
+        IncidentsText.Text = $"X: {_incidents}/{_maxIncidents}";
+
+        try
+        {
+            Body.Children.Clear();
+            DriverModel player = _drivers.Find(driver => driver.Idx == _playerCarIdx);
+
+            for (int i = player.Position - 2; i <= player.Position + 2; i++)
+            {
+                DriverModel driver = _drivers.Find(driver => driver.Position == i);
+                if (driver.Idx == _playerCarIdx)
+                {
+                    LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap,
+                        driver.BestLap,
+                        driver.iRating, driver.ClassColorCode);
+                    playerRow.SetToPlayerRow();
+                    Body.Children.Add(playerRow);
+                }
+                else
+                {
+                    Body.Children.Add(new LeaderBoardRow(driver.Name, driver.Position, driver.LastLap, driver.BestLap,
+                        driver.iRating, driver.ClassColorCode));
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            //ignore
+        }
+
     }
 
     public override void _getData()
@@ -54,6 +91,21 @@ public partial class Leaderboard : Overlay
         _data = MainWindow.IRacingData;
         _drivers = _data.Drivers.ToList();
         _playerCarIdx = _data.PlayerIdx;
+        _timeLeft = _data.SessionData.TimeLeft;
+        _timeTotal = _data.SessionData.TimeTotal;
+        _lapsLeft = _data.SessionData.LapsLeft;
+        _lapsTotal = _data.SessionData.LapsTotal;
+        _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
+        _maxIncidents = _data.SessionData.MaxIncidents;
+        _incidents = _data.SessionData.Incidents;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
 
     public override void UpdateThreadMethod()

@@ -11,9 +11,10 @@
         WindowStyle="None"
         WindowStartupLocation="Manual"
         ResizeMode="NoResize"
-        Topmost="True">
+        Topmost="True"
+        Foreground="White">
     <Border CornerRadius="10" Background="#FF1E1E1E">
-    <Grid Margin="10">
+    <Grid Margin="0">
         <Grid.ColumnDefinitions>
             
         </Grid.ColumnDefinitions>
@@ -27,8 +28,17 @@
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
-        <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header">
-            
+        <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header" Background="#FF2E2E2E" Margin="0, 0, 0, 10">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Padding="5"
+                           Name="TimeOrLaps"></TextBlock>
+                
+                <TextBlock
+                           Name="IncidentsText"
+                           HorizontalAlignment="Right"
+                           Padding="5">
+                </TextBlock>
+            </StackPanel>
         </Grid>
         
         <Grid Grid.Row="0" Grid.Column="0" Name="Body">
