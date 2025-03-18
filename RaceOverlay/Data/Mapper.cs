@@ -223,6 +223,11 @@ public class Mapper
         {
             for (int i = 0; i < irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.Count; i++)
             {
+                if (irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIsPaceCar == 1)
+                {
+                    // Skip the Pace Car
+                    continue;
+                }
                 drivers.Add(
                     new DriverModel(
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).UserName,
