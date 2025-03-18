@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
 
@@ -27,11 +28,15 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      protected virtual void _getConfig(){}
 
      public abstract void UpdateThreadMethod();
+     public Grid DragGrid { get; set; }
+     private MouseButtonEventHandler _dragMoveHandler;
      
      // Declare the event using EventHandler
      
      public Overlay(String overlayName, String overlayDescription)
      {
+          AllowsTransparency = true;
+          WindowStyle = WindowStyle.None;
           OverlayName = overlayName;
           OverlayDescription = overlayDescription;
           
@@ -305,12 +310,14 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      {
           if(PositionIsLocked)
           {
-               WindowStyle = WindowStyle.SingleBorderWindow;
+               _dragMoveHandler = (sender, args) => DragMove();
+               MouseLeftButtonDown += _dragMoveHandler;
                PositionIsLocked = false;
                return;
           }
-          WindowStyle = WindowStyle.None;
+          MouseLeftButtonDown -= _dragMoveHandler;
           PositionIsLocked = true;
+          
           
           //write new position to settings.json
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
