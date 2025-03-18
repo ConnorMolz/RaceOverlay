@@ -23,6 +23,8 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -40,6 +42,12 @@
         
         <TextBlock Grid.Column="3" Padding="10" Grid.Row="0" Text="BB" Name="bbText" TextAlignment="Center"></TextBlock>
         <TextBlock Grid.Column="3" Padding="10" Grid.Row="1" Name="bbValue" TextAlignment="Center"></TextBlock>
+        
+        <TextBlock Grid.Column="4" Padding="10" Grid.Row="0" Text="ARB F" Name="ARBFText" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="4" Padding="10" Grid.Row="1" Name="ARBFValue" TextAlignment="Center"></TextBlock>
+        
+        <TextBlock Grid.Column="5" Padding="10" Grid.Row="0" Text="ARB R" Name="ARBRText" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Column="5" Padding="10" Grid.Row="1" Name="ARBRValue" TextAlignment="Center"></TextBlock>
         
     </Grid>
 </internals:Overlay>
