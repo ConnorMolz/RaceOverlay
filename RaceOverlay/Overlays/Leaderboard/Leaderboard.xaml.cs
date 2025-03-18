@@ -25,7 +25,7 @@ public partial class Leaderboard : Overlay
     public Leaderboard(): base("Leaderboard", "This overlay displays the current leaderboard (from the last Lap which is completed)")
     {
         InitializeComponent();
-        _setWindowSize(300, 250);
+        _setWindowSize(480, 130);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
