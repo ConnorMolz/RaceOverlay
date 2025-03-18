@@ -54,7 +54,7 @@
             </StackPanel>
         </Grid>
         
-        <Grid Grid.Row="0" Grid.Column="0" Name="Body">
+        <Grid Grid.Row="1" Grid.Column="0" Name="Body">
             
         </Grid>
         

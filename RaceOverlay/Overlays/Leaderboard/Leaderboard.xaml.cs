@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 
@@ -62,27 +63,37 @@ public partial class Leaderboard : Overlay
         try
         {
             Body.Children.Clear();
-            DriverModel player = _drivers.Find(driver => driver.Idx == _playerCarIdx);
+            DriverModel player = _drivers.FirstOrDefault(driver => driver.Idx == _playerCarIdx);
+            int playerPosition = player.ClassPosition;
             int driverCount = _drivers.Count;
+            int offset = getDriverOffset(playerPosition, driverCount);
+            int row = 0;
 
-            for (int i = player.Position - _getPlayerPositionStartOffset(player.Position, driverCount); i <= _getPlayerPositionEndOffset(player.Position, driverCount) + 2; i++)
+            for (int i = playerPosition - 2 + offset; i < playerPosition + 2 + offset; i++)
             {
-                DriverModel driver = _drivers.Find(driver => driver.Position == i);
+                Body.RowDefinitions.Add(new RowDefinition());
+                DriverModel driver = _getDriverOnClassPosition(i, player.CarClass);
                 if (driver.Idx == _playerCarIdx)
                 {
                     LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap,
                         driver.BestLap,
                         driver.iRating, driver.ClassColorCode);
                     playerRow.SetToPlayerRow();
+                    Grid.SetRow(playerRow, row);
                     Body.Children.Add(playerRow);
                 }
                 else
                 {
-                    Body.Children.Add(new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap, driver.BestLap,
-                        driver.iRating, driver.ClassColorCode));
+                    LeaderBoardRow driverRow = new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap,
+                        driver.BestLap,
+                        driver.iRating, driver.ClassColorCode);
+                    Grid.SetRow(driverRow, row);
+                    Body.Children.Add(driverRow);
                 }
 
+                row++;
             }
+            
         }
         catch (Exception e)
         {
@@ -149,42 +160,30 @@ public partial class Leaderboard : Overlay
             Debug.WriteLine(e);
         }
     }
-
-    private int _getPlayerPositionStartOffset(int position, int count)
+    
+    private DriverModel _getDriverOnClassPosition(int position, string carClass)
     {
-        if (position == count)
+        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && driver.CarClass == carClass);
+    }
+    
+    private int getDriverOffset(int position, int driverCount)
+    {
+        if (position == driverCount)
         {
-            return 0;
+            return -2;
         }
 
-        if (position == count - 1)
+        if (position == driverCount - 1)
         {
-            return 1;
+            return -1;
         }
+
         return position switch
         {
-            1 => 4,
-            2 => 3,
-            _ => 2
+            1 => 2,
+            2 => 1,
+            _ => 0
         };
     }
     
-    private int _getPlayerPositionEndOffset(int position, int count)
-    {
-        if (position == count)
-        {
-            return 4;
-        }
-
-        if (position == count - 1)
-        {
-            return 3;
-        }
-        return position switch
-        {
-            1 => 0,
-            2 => 1,
-            _ => 2
-        };
-    }
 }
