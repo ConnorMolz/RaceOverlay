@@ -63,7 +63,7 @@ public class LeaderBoardRow: Grid
         Children.Add(bestLapTextBlock);
         
         TextBlock iRatingTextBlock = new TextBlock();
-        string iRatingText = (IRating / 1000).ToString("F1") + "k";
+        string iRatingText = ((float)IRating / 1000).ToString("F1") + "k";
         iRatingTextBlock.Text = iRatingText;
         
         iRatingTextBlock.SetValue(Grid.ColumnProperty, 4);
