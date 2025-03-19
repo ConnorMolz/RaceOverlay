@@ -11,10 +11,10 @@ car and track information which is usable on most cars and tracks.
 - Session Infos (Incidents and Race duration)
 - Current Weather Information
 - Pit Info
+- Leaderboard (last lap)
 
 ## Planned overlays
 - Fuel Info
-- Leaderboard (last lap)
 - Relative Standings
 
 ## Installation

@@ -26,11 +26,15 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="10, 0, 0, 0">
                 <TextBlock Text="Race Overlay" FontSize="24" FontWeight="Bold"></TextBlock>
             </StackPanel>
             
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <Button Click="goToInfoButton_Click" Name="NavButton" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent">
                     <StackPanel Orientation="Vertical">
                         <Grid>
@@ -44,12 +48,18 @@
                 <Button Click="minimizeButton_Click" Content="_" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent" HorizontalAlignment="Right"></Button>
                 <Button Click="closeButton_Click" Content="x" Foreground="White" BorderBrush="Transparent" Width="40" Height="40" Background="Transparent"></Button>
             </StackPanel>
+            <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                       Height="1" 
+                       Margin="0,0" 
+                       Fill="White" 
+                       HorizontalAlignment="Stretch"/>
         </Grid>
         
         
         <Grid Margin="10" Grid.Row="1" Name="MainPage" Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
@@ -59,15 +69,22 @@
                           Grid.Column="0" 
                           SelectionChanged="OverlaySelectionChanged"
                           Width="180"
-                          HorizontalAlignment="Left">
+                          HorizontalAlignment="Left"
+                          BorderThickness="0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding OverlayName}" Padding="5"/>
+                            <TextBlock Text="{Binding OverlayName}" Padding="5" FontSize="16" FontWeight="Bold"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
                 
-                <Grid Grid.Column="1"
+            <Rectangle Grid.Column="1" 
+                       Width="1" 
+                       Margin="10,-10" 
+                       Fill="White" 
+                       VerticalAlignment="Stretch"/>
+            
+                <Grid Grid.Column="2"
                       HorizontalAlignment="Center"
                       
                       Margin="0">
@@ -82,7 +99,8 @@
                                Grid.Column="0"
                                Grid.Row="0"
                                TextAlignment="Center"
-                               FontSize="20"
+                               FontSize="22"
+                               FontWeight="Bold"
                                Text=""></TextBlock>
                     <TextBlock Name="OverlayDescriptionText"
                              Grid.Column="0"
@@ -104,7 +122,7 @@
                                     Margin="10,0,0,0" TickFrequency="0.1" IsSnapToTickEnabled="True"
                                     ValueChanged="ScaleSlider_ValueChanged"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" Name="CustomConfigContainer" Margin="10">
+                        <StackPanel Grid.Row="1" Name="CustomConfigContainer" Margin="10" CanVerticallyScroll="True">
                             
                         </StackPanel>
                     </Grid>

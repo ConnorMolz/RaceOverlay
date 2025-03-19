@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.WeatherInfo;
 
@@ -151,43 +152,27 @@ public partial class WeatherInfo : Overlay
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
+        
         grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-        TextBlock blinkInputLabel = new TextBlock();
-        blinkInputLabel.Text = "Toggle Blinking: ";
         
-        TextBlock placeholder = new TextBlock();
-        placeholder.Text = "";
+        CheckBoxElement blinkingCheckBoxElement = new CheckBoxElement("Toggle Blinking: ", _blinkingIsActiv);
         
-        CheckBox blinkingCheckBox = new CheckBox();
-        blinkingCheckBox.IsChecked = _blinkingIsActiv;
-        blinkingCheckBox.Checked += (sender, args) =>
+        blinkingCheckBoxElement.CheckBox.Checked += (sender, args) =>
         {
             _blinkingIsActiv = true;
             _setBoolConfig("_blinkingIsActiv", true);
         };
-        blinkingCheckBox.Unchecked += (sender, args) =>
+        blinkingCheckBoxElement.CheckBox.Unchecked += (sender, args) =>
         {
             _blinkingIsActiv = false;
             _setBoolConfig("_blinkingIsActiv", false);
         };
+        Grid.SetRow(blinkingCheckBoxElement, 0);
+        Grid.SetColumn(blinkingCheckBoxElement, 0);
         
-        grid.Children.Add(blinkInputLabel);
-        grid.Children.Add(blinkingCheckBox);
-        
-        Grid.SetRow(blinkInputLabel, 0);
-        Grid.SetColumn(blinkInputLabel, 0);
-
-        Grid.SetRow(placeholder, 0);
-        Grid.SetColumn(placeholder, 1);
-        
-        Grid.SetRow(blinkingCheckBox, 0);
-        Grid.SetColumn(blinkingCheckBox, 2);
+        grid.Children.Add(blinkingCheckBoxElement);
 
         return grid;
     }

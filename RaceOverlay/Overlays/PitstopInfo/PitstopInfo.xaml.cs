@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.PitstopInfo;
 
@@ -146,106 +147,46 @@ public partial class PitstopInfo : Overlay
         }
     }
     
-
-    //TODO: If pithelper is implemented remove comment form add child operations
+    
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
         
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        
-        
-        // Tyre Info toggle
-        TextBlock tyreInfotextBlock = new TextBlock();
-        tyreInfotextBlock.Text = "Activate Tyre info after stop: ";
-        
-        Grid.SetRow(tyreInfotextBlock, 0);
-        Grid.SetColumn(tyreInfotextBlock, 0);
-        //grid.Children.Add(tyreInfotextBlock);
-        
-        CheckBox tyreInfoCheckBox = new CheckBox();
-        tyreInfoCheckBox.IsChecked = _enableTyreInfo;
-        
-        Grid.SetRow(tyreInfoCheckBox, 0);
-        Grid.SetColumn(tyreInfoCheckBox, 1);
-        tyreInfoCheckBox.Checked += (sender, args) =>
-        {
-            _enableTyreInfo = true;
-            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
-        };
-        tyreInfoCheckBox.Unchecked += (sender, args) =>
-        {
-            _enableTyreInfo = false;
-            _setBoolConfig("_enableTyreInfo", _enableTyreInfo);
-        };
-        //grid.Children.Add(tyreInfoCheckBox);
         
         // Color picker of tyre color by wear
-        TextBlock showTyreGreenUntil = new TextBlock();
-        showTyreGreenUntil.Text = "Show Tyre Green until wear of: ";
-        Grid.SetColumn(showTyreGreenUntil, 0);
-        Grid.SetRow(showTyreGreenUntil, 1);
-        grid.Children.Add(showTyreGreenUntil);
+        InputElement showTyreGreenUntilELement = new InputElement("Show Tyre Green until wear of: ", _tyreGreenUntil.ToString("F0"));
         
-        TextBox tyreGreenUntil = new TextBox();
-        tyreGreenUntil.Text = _tyreGreenUntil.ToString("F0");
-        Grid.SetColumn(tyreGreenUntil, 1);
-        Grid.SetRow(tyreGreenUntil, 1);
-        grid.Children.Add(tyreGreenUntil);
+        Grid.SetRow(showTyreGreenUntilELement, 1);
+        grid.Children.Add(showTyreGreenUntilELement);
         
         void ParseUntilGreenInput(object sender, TextChangedEventArgs e)
         {
-            if (float.TryParse(tyreGreenUntil.Text, out float maxValue))
+            if (float.TryParse(showTyreGreenUntilELement.InputField.Text, out float maxValue))
             {
                 _tyreGreenUntil = maxValue;
                 _setFloatConfig("_tyreGreenUntil", _tyreYellowUntil);
             }
         }
 
-        tyreGreenUntil.TextChanged += ParseUntilGreenInput;
+        showTyreGreenUntilELement.InputField.TextChanged += ParseUntilGreenInput;
         
         // Color picker of tyre color by wear
-        TextBlock showTyreYellowUntil = new TextBlock();
-        showTyreYellowUntil.Text = "Show Tyre Green until wear of: ";
-        Grid.SetColumn(showTyreYellowUntil, 0);
-        Grid.SetRow(showTyreYellowUntil, 2);
-        grid.Children.Add(showTyreYellowUntil);
-        
-        TextBox tyreYellowUntil = new TextBox();
-        tyreYellowUntil.Text = _tyreYellowUntil.ToString("F0");
-        Grid.SetColumn(tyreYellowUntil, 1);
-        Grid.SetRow(tyreYellowUntil, 2);
-        grid.Children.Add(tyreYellowUntil);
+        InputElement showTyreYellowUntilELement = new InputElement("Show Tyre Yellow until wear of: ", _tyreYellowUntil.ToString("F0"));
         
         void ParseUntilYellowInput(object sender, TextChangedEventArgs e)
         {
-            if (float.TryParse(tyreYellowUntil.Text, out float maxValue))
+            if (float.TryParse(showTyreYellowUntilELement.Label.Text, out float maxValue))
             {
                 _tyreYellowUntil = maxValue;
                 _setFloatConfig("_tyreYellowUntil", _tyreYellowUntil);
             }
         }
+        grid.Children.Add(showTyreYellowUntilELement);
 
-        tyreYellowUntil.TextChanged += ParseUntilYellowInput;
-        
-
-        TextBlock marginLapsLabel = new TextBlock();
-        marginLapsLabel.Text = "Margin Laps: ";
-        Grid.SetColumn(marginLapsLabel, 0);
-        Grid.SetRow(marginLapsLabel, 3);
-       // grid.Children.Add(marginLapsLabel);
-        
-        TextBox marginLaps = new TextBox();
-        marginLaps.Text = "0";
-        Grid.SetColumn(marginLaps, 1);
-        Grid.SetRow(marginLaps, 3);
-        //grid.Children.Add(marginLaps);
-        
+        showTyreYellowUntilELement.InputField.TextChanged += ParseUntilYellowInput;
 
         return grid;
     }
