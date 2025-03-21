@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup Hider</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <img src="" alt="Setup Hider" id="SetupHider" visible="false">
+    <script>
+        async function updateInputs() {
+            try {
+                const response = await fetch('/overlay/setup_hider/data');
+                const data = await response.json();
+
+                document.getElementById("SetupHider").src = data.imagePath;
+                document.getElementById("SetupHider").style.visibility = valueParser(data.inGarage);
+                
+            } catch (error) {
+                console.error('Failed to update inputs:', error);
+            }
+        }
+        
+        function valueParser(value) {
+            if (value) {
+                return "visible";
+            } else {
+                return "hidden";
+            }
+        }
+
+        // Update every 16ms (approximately 60fps)
+        setInterval(updateInputs, 16);
+    </script>
+</body>
+</html>

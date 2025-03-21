@@ -31,6 +31,8 @@
         <EmbeddedResource Include="API\Overlays\Inputs\Inputs.html" />
         <None Remove="Resources\SetupHider.jpg" />
         <EmbeddedResource Include="Resources\SetupHider.jpg" />
+        <None Remove="API\Overlays\SetupHider\SetupHider.html" />
+        <EmbeddedResource Include="API\Overlays\SetupHider\SetupHider.html" />
     </ItemGroup>
     
 </Project>

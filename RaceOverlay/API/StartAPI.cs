@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RaceOverlay.API.Overlays.SetupHider;
 
 namespace RaceOverlay.API;
 
@@ -65,7 +66,32 @@ public class StartAPI
                                     return Results.Ok(data);
                                 })
                                 .WithName("GetInputsOverlayData");
-                        });
+                        
+                        endpoints.MapGet("/overlay/setup_hider", () =>
+                            {
+                                var assembly = typeof(StartAPI).Assembly;
+                                var resourceName = "RaceOverlay.API.Overlays.SetupHider.SetupHider.html";
+
+                                using var stream = assembly.GetManifestResourceStream(resourceName);
+                                if (stream == null)
+                                {
+                                    return Results.NotFound("Overlay file not found");
+                                }
+
+                                using var reader = new StreamReader(stream);
+                                var htmlContent = reader.ReadToEnd();
+                                return Results.Content(htmlContent, "text/html");
+                            })
+                            .WithName("GetSetupHiderOverlay");
+
+                        endpoints.MapGet("/overlay/setup_hider/data", () =>
+                            {
+                                Debug.WriteLine("GetSetupHiderOverlayData");
+                                SetupHiderModel data = new SetupHiderModel();
+                                return Results.Ok(data);
+                            })
+                            .WithName("GetSetupHiderOverlayData");
+                    });
                         
                     })
                     .UseUrls("http://localhost:5480"); // Change port if needed
