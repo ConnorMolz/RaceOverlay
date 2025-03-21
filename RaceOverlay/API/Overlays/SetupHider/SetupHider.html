@@ -14,35 +14,33 @@
             width: 100%;
             height: 100vh;
             object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
-    <img src="" alt="Setup Hider" id="SetupHider" visible="false">
-    <script>
-        async function updateInputs() {
-            try {
-                const response = await fetch('/overlay/setup_hider/data');
-                const data = await response.json();
+<img src="" alt="Setup Hider" id="SetupHider" height="100%" width="100%">
+<script>
+    async function updateInputs() {
+        try {
+            const response = await fetch('/overlay/setup_hider/data');
+            const data = await response.json();
 
-                document.getElementById("SetupHider").src = data.imagePath;
-                document.getElementById("SetupHider").style.visibility = valueParser(data.inGarage);
-                
-            } catch (error) {
-                console.error('Failed to update inputs:', error);
-            }
-        }
-        
-        function valueParser(value) {
-            if (value) {
-                return "visible";
-            } else {
-                return "hidden";
-            }
-        }
+            const image = document.getElementById("SetupHider");
+            image.src = data.imagePath; // Base64 data will be used directly
+            image.style.display = data.inGarage ? "block" : "none";
 
-        // Update every 16ms (approximately 60fps)
-        setInterval(updateInputs, 16);
-    </script>
+        } catch (error) {
+            console.error('Failed to update inputs:', error);
+        }
+    }
+
+    // Initial load
+    updateInputs();
+    // Update every 16ms (approximately 60fps)
+    setInterval(updateInputs, 16);
+</script>
 </body>
 </html>
