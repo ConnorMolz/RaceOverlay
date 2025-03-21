@@ -27,6 +27,8 @@
         <EmbeddedResource Include="Resources\LICENSE" />
         <None Remove="Resources\Manual" />
         <EmbeddedResource Include="Resources\Manual" />
+        <None Remove="API\Overlays\Inputs\Inputs.html" />
+        <EmbeddedResource Include="API\Overlays\Inputs\Inputs.html" />
     </ItemGroup>
     
 </Project>
