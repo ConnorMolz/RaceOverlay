@@ -399,7 +399,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
 
      protected virtual void OnInCarChanged()
      {
-          if (_inCar)
+          if (_inCar && _windowIsActive)
           {
                ShowOnTelemetry();
           }
