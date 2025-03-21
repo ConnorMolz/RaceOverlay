@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Windows;
 using System;
 using System.IO;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RaceOverlay.API;
 
 namespace RaceOverlay;
 
@@ -19,11 +21,14 @@ public partial class App : Application
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "RaceOverlay");
     
+    IHost? _apiHost;
+    
     public App()
     {
         Debug.Print("Starting RaceOverlay...");
         CheckAppSettings();
         CheckForFirstRun();
+        _apiHost = StartAPI.StartApiServer();
     }
 
     private void CheckAppSettings()
@@ -73,6 +78,16 @@ public partial class App : Application
             FirstStartPage firstStartPage = new();
             firstStartPage.Show();
         }
+    }
+    
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        if (_apiHost != null)
+        {
+            await _apiHost.StopAsync();
+            _apiHost.Dispose();
+        }
+        base.OnExit(e);
     }
     
 }
