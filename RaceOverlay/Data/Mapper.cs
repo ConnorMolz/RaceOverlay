@@ -278,6 +278,7 @@ public class Mapper
         }
         
         data.Drivers = drivers.ToArray();
+        data.InGarage = irsdkSharper.Data.GetBool("IsInGarage");
         
         // Return Dataset
         return data;
