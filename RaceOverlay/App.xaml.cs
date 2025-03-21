@@ -27,6 +27,7 @@ public partial class App : Application
     {
         Debug.Print("Starting RaceOverlay...");
         CheckAppSettings();
+        InitSetupHiderImage();
         CheckForFirstRun();
         _apiHost = StartAPI.StartApiServer();
     }
@@ -88,6 +89,21 @@ public partial class App : Application
             _apiHost.Dispose();
         }
         base.OnExit(e);
+    }
+
+    private void InitSetupHiderImage()
+    {
+        // Define the path to settings.json
+        string filePath = Path.Combine(AppDataPath, "SetupHider.jpg");
+        
+        // Check if the file exists, create it if not
+        if (!File.Exists(filePath))
+        {
+            var assembly = typeof(App).Assembly;
+            var stream = assembly.GetManifestResourceStream("RaceOverlay.Resources.SetupHider.jpg");
+            Debug.WriteLine("SetupHider.jpg doesn't exist. Creating it with default values.");
+            File.WriteAllBytes(filePath, new BinaryReader(stream).ReadBytes((int)stream.Length));
+        }
     }
     
 }

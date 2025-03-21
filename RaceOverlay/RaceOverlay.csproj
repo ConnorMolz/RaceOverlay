@@ -29,6 +29,8 @@
         <EmbeddedResource Include="Resources\Manual" />
         <None Remove="API\Overlays\Inputs\Inputs.html" />
         <EmbeddedResource Include="API\Overlays\Inputs\Inputs.html" />
+        <None Remove="Resources\SetupHider.jpg" />
+        <EmbeddedResource Include="Resources\SetupHider.jpg" />
     </ItemGroup>
     
 </Project>
