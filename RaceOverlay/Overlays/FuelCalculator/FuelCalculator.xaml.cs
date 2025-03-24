@@ -140,7 +140,13 @@ public partial class FuelCalculator : Overlay
             var avgLapTime = _lastLapTimes.Average();
             _lapsToFinish = (float)(_data.SessionData.TimeLeft / avgLapTime);
         }
-        return (float) _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
+
+        var neededFuel = _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
+        if (neededFuel > _data.LocalCarTelemetry.FuelCapacity)
+        {
+            return _data.LocalCarTelemetry.FuelCapacity;
+        }
+        return neededFuel;
     }
     
 }
