@@ -19,23 +19,30 @@ using System.Collections.Generic;
                             var fuelCalculator = new RaceOverlay.Overlays.FuelCalculator.FuelCalculator(true);
                             var type = fuelCalculator.GetType();
                             fuelCalculator.Hide();
-                            
-                    
-                            // Rest of the test remains the same
+
                             // Setup mock data
                             var mockData = new iRacingData();
-                            var mockDriver = new DriverModel();
-                    
-                            mockDriver.LastLap = 80.5f;
-                            mockDriver.Idx = 0;
-                    
+                            mockData.PlayerIdx = 0;
+                            mockData.SessionData = new SessionData();
+                            mockData.LocalCarTelemetry = new LocalCarTelemetry();
+                            var mockDriver = new DriverModel
+                            {
+                                LastLap = 80.5f,
+                                Idx = 0
+                            };
+
                             mockData.Drivers = new[] { mockDriver };
                             mockData.PlayerIdx = 0;
-                            
+
+                            // Initialize all required fields
                             type.GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, mockData);
                             type.GetField("_currentFuel", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, 100.0f);
                             type.GetField("_fuelOnLastLap", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, 102.0f);
-                    
+                            type.GetField("_lastLapTimes", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, new List<float>());
+                            type.GetField("_lastLapFuel", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, new List<float>());
+                            type.GetField("_marginLaps", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, 1.0f);
+                            type.GetField("_initialized", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, true);
+
                             // Act
                             var onLapChangedMethod = type.GetMethod("OnLapChanged", BindingFlags.NonPublic | BindingFlags.Instance);
                             onLapChangedMethod?.Invoke(fuelCalculator, null);

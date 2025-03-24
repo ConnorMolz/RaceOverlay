@@ -37,9 +37,12 @@ public partial class FuelCalculator : Overlay
         _getConfig();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
-        
+    
         updateThread.IsBackground = true;
         updateThread.Start();
+        
+        _lastLapFuel = new List<float>();
+        _lastLapTimes = new List<float>();
     }
     public FuelCalculator(bool isTest) : base("","", isTest)
     {
@@ -47,11 +50,15 @@ public partial class FuelCalculator : Overlay
         _setWindowSize(300, 30);
         
         _getConfig();
-        
-        Thread updateThread = new Thread(UpdateThreadMethod);
-        
-        updateThread.IsBackground = true;
-        updateThread.Start();
+        if (!_isTest)
+        {
+            Thread updateThread = new Thread(UpdateThreadMethod);
+
+            updateThread.IsBackground = true;
+            updateThread.Start();
+        }
+        _lastLapFuel = new List<float>();
+        _lastLapTimes = new List<float>();
     }
 
     public override void _updateWindow()

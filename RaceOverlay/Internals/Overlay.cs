@@ -34,7 +34,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      
      // Declare the event using EventHandler
 
-     public Overlay(String overlayName, String overlayDescription, bool? isTest = false)
+     public Overlay(String overlayName, String overlayDescription, bool? isTest = null)
      {
           AllowsTransparency = true;
           WindowStyle = WindowStyle.None;
@@ -47,58 +47,58 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           this.KeyDown += Overlay_KeyDown;
           if(!_isTest)
           {
-          // Set window position
-          string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
-          string jsonContent = File.ReadAllText(settingsFilePath);
-          JObject settingsObject = JObject.Parse(jsonContent);
+               // Set window position
+               string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
+               string jsonContent = File.ReadAllText(settingsFilePath);
+               JObject settingsObject = JObject.Parse(jsonContent);
 
-          if (settingsObject["Overlays"][OverlayName] == null)
-          {
-               settingsObject["Overlays"][OverlayName] = new JObject();
-               settingsObject["Overlays"][OverlayName]["active"] = false;
-               settingsObject["Overlays"][OverlayName]["Top"] = 0;
-               settingsObject["Overlays"][OverlayName]["Left"] = 0;
+               if (settingsObject["Overlays"][OverlayName] == null)
+               {
+                    settingsObject["Overlays"][OverlayName] = new JObject();
+                    settingsObject["Overlays"][OverlayName]["active"] = false;
+                    settingsObject["Overlays"][OverlayName]["Top"] = 0;
+                    settingsObject["Overlays"][OverlayName]["Left"] = 0;
+                    if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+                    {
+                         settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+                    }
+
+                    File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               }
+
                if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
                {
                     settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+                    File.WriteAllText(settingsFilePath, settingsObject.ToString());
                }
 
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          }
+               _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
+               if (settingsObject["Dev"] == null)
+               {
+                    _devMode = false;
+               }
+               else
+               {
+                    _devMode = (bool)settingsObject["Dev"];
+               }
 
-          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          }
+               if (_windowIsActive && _devMode)
+               {
+                    Show();
+               }
 
-          _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
-          if (settingsObject["Dev"] == null)
-          {
-               _devMode = false;
-          }
-          else
-          {
-               _devMode = (bool)settingsObject["Dev"];
-          }
+               Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
+               Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
+               _scale = _getDoubleConfig("_scale");
+               if (_scale == 0 || _scale == null)
+               {
+                    _scale = 1;
 
-          if (_windowIsActive && _devMode)
-          {
-               Show();
+                    _setDoubleConfig("_scale", 1);
+               }
+
+               ScaleValueChanges(_scale);
           }
-
-          Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
-          Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
-          _scale = _getDoubleConfig("_scale");
-          if (_scale == 0 || _scale == null)
-          {
-               _scale = 1;
-
-               _setDoubleConfig("_scale", 1);
-          }
-
-          ScaleValueChanges(_scale);
-     }
 
 }
 
