@@ -41,7 +41,7 @@ public partial class FuelCalculator : Overlay
 
     public override void _updateWindow()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public override void _getData()
@@ -56,7 +56,7 @@ public partial class FuelCalculator : Overlay
 
     public override void UpdateThreadMethod()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     protected override void _scaleWindow(double scale)
@@ -113,13 +113,13 @@ public partial class FuelCalculator : Overlay
         _lastLapTimes.Add(_data.GetDriverByIdx(_data.PlayerIdx).LastLap);
         _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
         _fuelOnLastLap = _currentFuel;
-        CalculateFuelToEnd();
+        _fuelToFinish = CalculateFuelToEnd();
     }
 
     private float CalculateFuelToEnd()
     {
         _fuelPerLap = _lastLapFuel.Average();
-        if (_data.SessionData.LapsTotal == 32767)
+        if (_data.SessionData.LapsTotal != 32767)
         {
             _lapsToFinish = _data.SessionData.LapsTotal - _data.LocalCarTelemetry.Lap;
         }
@@ -128,7 +128,7 @@ public partial class FuelCalculator : Overlay
             var avgLapTime = _lastLapTimes.Average();
             _lapsToFinish = (float)(_data.SessionData.TimeLeft / avgLapTime);
         }
-        return _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
+        return (float) _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
     }
     
 }
