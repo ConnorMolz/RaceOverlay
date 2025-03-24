@@ -38,6 +38,18 @@ public partial class FuelCalculator : Overlay
         updateThread.IsBackground = true;
         updateThread.Start();
     }
+    public FuelCalculator(bool isTest) : base("","", isTest)
+    {
+        InitializeComponent();
+        _setWindowSize(300, 30);
+        
+        _getConfig();
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
+    }
 
     public override void _updateWindow()
     {

@@ -19,6 +19,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      protected double _scale = 1;
      protected bool _windowIsActive;
      protected bool _inCar = false;
+     private bool _isTest = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
@@ -32,24 +33,25 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      private MouseButtonEventHandler _dragMoveHandler;
      
      // Declare the event using EventHandler
-     
-     public Overlay(String overlayName, String overlayDescription)
+
+     public Overlay(String overlayName, String overlayDescription, bool? isTest = false)
      {
           AllowsTransparency = true;
           WindowStyle = WindowStyle.None;
           OverlayName = overlayName;
           OverlayDescription = overlayDescription;
-          
-          
+
+
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
-          
+          if(!_isTest)
+          {
           // Set window position
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName] == null)
+
+          if (settingsObject["Overlays"][OverlayName] == null)
           {
                settingsObject["Overlays"][OverlayName] = new JObject();
                settingsObject["Overlays"][OverlayName]["active"] = false;
@@ -59,9 +61,10 @@ public abstract class Overlay: Window, INotifyPropertyChanged
                {
                     settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
                }
+
                File.WriteAllText(settingsFilePath, settingsObject.ToString());
           }
-          
+
           if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
           {
                settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
@@ -71,30 +74,32 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
           if (settingsObject["Dev"] == null)
           {
-                _devMode = false;
+               _devMode = false;
           }
           else
           {
                _devMode = (bool)settingsObject["Dev"];
           }
-          
-          if(_windowIsActive && _devMode)
+
+          if (_windowIsActive && _devMode)
           {
                Show();
           }
-          
+
           Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
           Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
           _scale = _getDoubleConfig("_scale");
           if (_scale == 0 || _scale == null)
           {
                _scale = 1;
-               
+
                _setDoubleConfig("_scale", 1);
           }
+
           ScaleValueChanges(_scale);
-          
      }
+
+}
 
      public double getScale()
      {

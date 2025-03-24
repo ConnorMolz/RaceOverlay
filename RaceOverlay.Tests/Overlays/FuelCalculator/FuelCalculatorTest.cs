@@ -16,9 +16,10 @@ using System.Collections.Generic;
                         public void OnLapChangeTest()
                         {
                             // Arrange
-                            var fuelCalculator = new RaceOverlay.Overlays.FuelCalculator.FuelCalculator();
+                            var fuelCalculator = new RaceOverlay.Overlays.FuelCalculator.FuelCalculator(true);
                             var type = fuelCalculator.GetType();
                             fuelCalculator.Hide();
+                            
                     
                             // Rest of the test remains the same
                             // Setup mock data
@@ -30,7 +31,7 @@ using System.Collections.Generic;
                     
                             mockData.Drivers = new[] { mockDriver };
                             mockData.PlayerIdx = 0;
-                    
+                            
                             type.GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, mockData);
                             type.GetField("_currentFuel", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, 100.0f);
                             type.GetField("_fuelOnLastLap", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, 102.0f);
@@ -72,7 +73,7 @@ using System.Collections.Generic;
                         public void CalculateFuelToEndTest()
                         {
                             // Arrange
-                            var fuelCalculator = new RaceOverlay.Overlays.FuelCalculator.FuelCalculator();
+                            var fuelCalculator = new RaceOverlay.Overlays.FuelCalculator.FuelCalculator(true);
                             var type = fuelCalculator.GetType();
                             fuelCalculator.Hide();
 
