@@ -85,6 +85,7 @@ using System.Collections.Generic;
                             mockData.SessionData.TimeLeft = 3600; // 1 hour left
                             mockData.SessionData.LapsTotal = 32767; // Time-based race
                             mockData.LocalCarTelemetry.Lap = 10;
+                            mockData.LocalCarTelemetry.FuelCapacity = 100;
 
                             // Initialize lists and set values via reflection
                             var lastLapTimes = new List<float> { 80.0f, 81.0f, 82.0f }; // Average: 81 seconds
@@ -117,5 +118,17 @@ using System.Collections.Generic;
                             expectedFuelNeeded = (expectedLapsToFinish * expectedFuelPerLap) + (expectedFuelPerLap * marginLaps);
 
                             Assert.AreEqual(expectedFuelNeeded, result, 0.1f);
+                            
+                            // Test for Fuel capacity test
+                            mockData.LocalCarTelemetry.FuelCapacity = 50;
+                            mockData.SessionData.LapsTotal = 300;
+                            type.GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(fuelCalculator, mockData);
+                            
+                            result = (float)calculateFuelToEndMethod?.Invoke(fuelCalculator, null);
+
+                            expectedLapsToFinish = 40f; // 50 total - 10 current
+                            expectedFuelNeeded = (expectedLapsToFinish * expectedFuelPerLap) + (expectedFuelPerLap * marginLaps);
+
+                            Assert.AreEqual(mockData.LocalCarTelemetry.FuelCapacity, result, 0.1f);
                         }
                     }
