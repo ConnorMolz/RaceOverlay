@@ -44,7 +44,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
 
           // Register the key down event handler
           this.KeyDown += Overlay_KeyDown;
-          if(!_isTest)
+          if(_isTest)
           {
           // Set window position
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
