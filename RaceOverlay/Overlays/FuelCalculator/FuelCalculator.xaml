@@ -15,41 +15,23 @@
         ResizeMode="NoResize"
         Topmost="True">
     <Border Background="#FF1E1E1E" CornerRadius="10">
-        <Grid>
+        <Grid Margin="5">
             <Grid.LayoutTransform>
                 <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
             </Grid.LayoutTransform>
             
-            <Grid Height="30">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="300" 
-                           Height="30" 
-                           Fill="#FF2A2A2A"/>  
-                <Rectangle Grid.Column="0" x:Name="DeltaBarPositive"
-                           Width="0" 
-                           Height="30" 
-                           Fill="#FFFF0000"
-                           VerticalAlignment="Bottom"
-                           HorizontalAlignment="Right"/>
-                <Rectangle Grid.Column="1" x:Name="DeltaBarNegative"
-                           Width="75" 
-                           Height="30" 
-                           Fill="#FF009900"
-                           VerticalAlignment="Bottom"
-                           HorizontalAlignment="Left"/>
-                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Name="DeltaText"
-                           Text="-0.500"
-                           Foreground="White"
-                           FontSize="20"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                >
-                    
-                </TextBlock>
-            </Grid>
+            <Grid.RowDefinitions>
+                
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Fuel Needed to Finish: " Grid.Column="0" Grid.Row="0"></TextBlock>
+            <TextBlock Name="FuelNeededText" Grid.Row="0" Grid.Column="1"></TextBlock>
+            
             
         </Grid>
     </Border>

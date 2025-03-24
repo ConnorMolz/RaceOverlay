@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 
@@ -8,14 +10,14 @@ public partial class FuelCalculator : Overlay
 {
 
     // Values which gets changed on lap change
-    private iRacingData _data;
-    private int _lap;
     private float _fuelOnLastLap;
     private List<float> _lastLapTimes;
     private List<float> _lastLapFuel;
     
     // Values which gets pulled by update thread
     private float _currentFuel;
+    private iRacingData _data;
+    private int _lap;
     
     // Calculated values
     private float _fuelPerLap;
@@ -26,7 +28,7 @@ public partial class FuelCalculator : Overlay
     private float _marginLaps;
     
     
-    public FuelCalculator() : base("","")
+    public FuelCalculator() : base("Fuel Calculator","This Overlay calculates the fuel needed to finish")
     {
         InitializeComponent();
         _setWindowSize(300, 30);
@@ -53,7 +55,16 @@ public partial class FuelCalculator : Overlay
 
     public override void _updateWindow()
     {
-        //throw new NotImplementedException();
+        if (_fuelToFinish < 0)
+        {
+            FuelNeededText.Background = Brushes.Green;
+            FuelNeededText.Text = (_fuelToFinish * -1).ToString("F2");
+        }
+        else
+        {
+            FuelNeededText.Background = Brushes.Red;
+            FuelNeededText.Text = _fuelToFinish.ToString("F2");
+        }
     }
 
     public override void _getData()
@@ -62,7 +73,6 @@ public partial class FuelCalculator : Overlay
         
         _currentFuel = _data.LocalCarTelemetry.FuelLevel;
         _lap = _data.LocalCarTelemetry.Lap;
-        
         
     }
 
@@ -73,7 +83,15 @@ public partial class FuelCalculator : Overlay
 
     protected override void _scaleWindow(double scale)
     {
-        throw new NotImplementedException();
+        try
+        {
+            ContentScaleTransform.ScaleX = scale;
+            ContentScaleTransform.ScaleY = scale;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
     }
     
     public int Lap
@@ -125,7 +143,7 @@ public partial class FuelCalculator : Overlay
         _lastLapTimes.Add(_data.GetDriverByIdx(_data.PlayerIdx).LastLap);
         _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
         _fuelOnLastLap = _currentFuel;
-        _fuelToFinish = CalculateFuelToEnd();
+        _fuelToFinish = CalculateFuelToEnd() - _currentFuel;
     }
 
     private float CalculateFuelToEnd()
