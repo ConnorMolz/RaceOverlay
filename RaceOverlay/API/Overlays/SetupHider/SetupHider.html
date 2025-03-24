@@ -28,28 +28,29 @@
         try {
             const response = await fetch('/overlay/setup_hider/image');
             const data = await response.json();
+            const image = document.getElementById('SetupHider');
             image.src = data.image;
         } catch (error) {
             console.error('Failed to get image:', error);
         }
     }
-    async function updateInputs() {
+    async function updateData() {
         try {
             const response = await fetch('/overlay/setup_hider/data');
             const data = await response.json();
-            
+            const image = document.getElementById('SetupHider');
             image.style.display = data.inGarage ? "block" : "none";
 
         } catch (error) {
-            console.error('Failed to update inputs:', error);
+            console.error('Failed to update image:', error);
         }
     }
     
     // Initial load
     getImage();
-    updateInputs();
-    // Update every 16ms (approximately 60fps)
-    setInterval(updateInputs, 32);
+    updateData();
+    // Update every 32ms (approximately 30fps)
+    setInterval(updateData, 32);
 </script>
 </body>
 </html>
