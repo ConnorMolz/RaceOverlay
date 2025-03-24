@@ -73,10 +73,16 @@ public class LeaderBoardRow: Grid
     
     private SolidColorBrush _getClassColorBrush(string classColorCode)
     {
+        if (classColorCode == "#FFFFFF" || classColorCode == "#000000")
+        {
+            var brush = new SolidColorBrush();
+            brush.Color = Colors.Navy;
+            return brush;
+        }
         if (!(new BrushConverter().ConvertFromString(classColorCode) is SolidColorBrush))
         {
             var brush = new SolidColorBrush();
-            brush.Color = Colors.White;
+            brush.Color = Colors.Navy;
             return brush;
         }
 
