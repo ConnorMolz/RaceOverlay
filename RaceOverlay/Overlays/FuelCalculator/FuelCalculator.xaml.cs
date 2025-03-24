@@ -1,8 +1,9 @@
 using System.Diagnostics;
-using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.FuelCalculator;
 
@@ -181,5 +182,30 @@ public partial class FuelCalculator : Overlay
         }
         return neededFuel;
     }
-    
+
+    protected override void _getConfig()
+    {
+        _marginLaps = _getFloatConfig("_marginLaps");
+    }
+
+    public override Grid GetConfigs()
+    {
+        Grid grid = new Grid();
+        InputElement marginLapsInputElement = new InputElement("Margin Laps: ", _marginLaps.ToString("F1"));
+        
+        Grid.SetRow(marginLapsInputElement, 1);
+        grid.Children.Add(marginLapsInputElement);
+        
+        void ParseMarignInput(object sender, TextChangedEventArgs e)
+        {
+            if (float.TryParse(marginLapsInputElement.InputField.Text, out float marginLaps))
+            {
+                _marginLaps = marginLaps;
+                _setFloatConfig("_marginLaps", _marginLaps);
+            }
+        }
+
+        marginLapsInputElement.InputField.TextChanged += ParseMarignInput;
+        return grid;
+    }
 }
