@@ -357,18 +357,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+
           if (IsVisible)
           {
                Hide();
                settingsObject["Overlays"][OverlayName]["active"] = false;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return;
           }
-          Show();
-          settingsObject["Overlays"][OverlayName]["active"] = true;
-          File.WriteAllText(settingsFilePath, settingsObject.ToString());
-          _scaleWindow(this._scale);
+          else
+          {
+               Show();
+               settingsObject["Overlays"][OverlayName]["active"] = true;
+               _scaleWindow(this._scale);
+          }
 
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
     
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
