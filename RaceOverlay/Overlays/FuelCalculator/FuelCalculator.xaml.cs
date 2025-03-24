@@ -185,7 +185,10 @@ public partial class FuelCalculator : Overlay
 
     protected override void _getConfig()
     {
-        _marginLaps = _getFloatConfig("_marginLaps");
+        if (!_isTest)
+        {
+            _marginLaps = _getFloatConfig("_marginLaps");
+        }
     }
 
     public override Grid GetConfigs()

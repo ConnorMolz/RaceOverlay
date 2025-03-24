@@ -19,7 +19,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      protected double _scale = 1;
      protected bool _windowIsActive;
      protected bool _inCar = false;
-     private bool _isTest = false;
+     protected bool _isTest = false;
      public String OverlayName { get; set; }
      public String OverlayDescription { get; set; }
      public bool PositionIsLocked { get; set; } = true;
