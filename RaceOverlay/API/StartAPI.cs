@@ -91,6 +91,15 @@ public class StartAPI
                                 return Results.Ok(data);
                             })
                             .WithName("GetSetupHiderOverlayData");
+                        
+                        endpoints.MapGet("/overlay/setup_hider/image", () =>
+                        {
+                            Debug.WriteLine("GetSetupHiderImage");
+                            
+                            var imagePath = Path.Combine(App.AppDataPath, "SetupHider.jpg");
+                            ImageClass data = new ImageClass(ConvertImageToBase64(imagePath));
+                            return Results.Ok(data);
+                        }).WithName("GetSetupHiderImage");
                     });
                         
                     })
@@ -100,6 +109,29 @@ public class StartAPI
 
         _apiHost.StartAsync();
         return _apiHost;
+    }
+    
+    private static string ConvertImageToBase64(string imagePath)
+    {
+        Debug.WriteLine($"Looking for image at: {imagePath}");
+        if (!File.Exists(imagePath))
+        {
+            Debug.WriteLine("Image file not found!");
+            return string.Empty;
+        }
+
+        try
+        {
+            byte[] imageBytes = File.ReadAllBytes(imagePath);
+            string base64String = Convert.ToBase64String(imageBytes);
+            Debug.WriteLine("Image successfully converted to Base64.");
+            return $"data:image/jpeg;base64,{base64String}";
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error reading image file: {ex.Message}");
+            return string.Empty;
+        }
     }
     
 }
