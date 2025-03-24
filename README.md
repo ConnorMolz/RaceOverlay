@@ -8,7 +8,6 @@ car and track information which is usable on most cars and tracks.
 - Electronic Infos (TC, ABS, BB)
 - Battery Status (Only for GTP)
 - Lap Time Delta (to best lap or to last lap)
-- Session Infos (Incidents and Race duration)
 - Current Weather Information
 - Pit Info
 - Leaderboard (last lap)
