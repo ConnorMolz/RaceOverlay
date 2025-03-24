@@ -11,6 +11,7 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.FuelCalculator;
 using RaceOverlay.Overlays.LaptimeDelta;
 using RaceOverlay.Overlays.Leaderboard;
 using RaceOverlay.Overlays.PitstopInfo;
@@ -50,6 +51,7 @@ public partial class MainWindow : Window
         // Add here every Overlay
         Overlays.Add(new Electronics());
         Overlays.Add(new EnergyInfo());
+        Overlays.Add(new FuelCalculator());
         Overlays.Add(new Inputs());
         Overlays.Add(new LaptimeDelta());
         Overlays.Add(new Leaderboard());
