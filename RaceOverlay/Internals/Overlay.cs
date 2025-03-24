@@ -145,17 +145,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
           {
                return settingsObject["Overlays"][OverlayName]["Configs"][key].ToString();
           }
-          else
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"][key] = "";
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return "";
-          }
+
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = "";
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          return "";
      }
 
      protected void _setStringConfig(string key, string value)
@@ -173,17 +187,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
           {
                return (int)settingsObject["Overlays"][OverlayName]["Configs"][key];
           }
-          else
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return 0;
-          }
+
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          return 0;
      }
 
      protected void _setIntConfig(string key, int value)
@@ -201,17 +229,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
           {
                return (float)settingsObject["Overlays"][OverlayName]["Configs"][key];
           }
-          else
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return 0;
-          }
+
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          return 0;
      }
      
      protected void _setFloatConfig(string key, float value)
@@ -229,17 +271,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
           {
                return (double)settingsObject["Overlays"][OverlayName]["Configs"][key];
           }
-          else
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return 0;
-          }
+
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = 0;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          return 0;
      }
      
      protected void _setDoubleConfig(string key, double value)
@@ -257,17 +313,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
           string jsonContent = File.ReadAllText(settingsFilePath);
           JObject settingsObject = JObject.Parse(jsonContent);
-          
-          if(settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
+
+          // Ensure the required structure exists
+          if (settingsObject["Overlays"] == null)
+          {
+               settingsObject["Overlays"] = new JObject();
+          }
+    
+          if (settingsObject["Overlays"][OverlayName] == null)
+          {
+               settingsObject["Overlays"][OverlayName] = new JObject();
+          }
+    
+          if (settingsObject["Overlays"][OverlayName]["Configs"] == null)
+          {
+               settingsObject["Overlays"][OverlayName]["Configs"] = new JObject();
+          }
+
+          if (settingsObject["Overlays"][OverlayName]["Configs"][key] != null)
           {
                return (bool)settingsObject["Overlays"][OverlayName]["Configs"][key];
           }
-          else
-          {
-               settingsObject["Overlays"][OverlayName]["Configs"][key] = false;
-               File.WriteAllText(settingsFilePath, settingsObject.ToString());
-               return false;
-          }
+    
+          settingsObject["Overlays"][OverlayName]["Configs"][key] = false;
+          File.WriteAllText(settingsFilePath, settingsObject.ToString());
+          return false;
      }
 
      protected void _setBoolConfig(string key, bool value)
