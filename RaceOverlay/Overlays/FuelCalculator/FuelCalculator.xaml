@@ -21,7 +21,9 @@
             </Grid.LayoutTransform>
             
             <Grid.RowDefinitions>
-                
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             
             <Grid.ColumnDefinitions>
@@ -31,6 +33,12 @@
             
             <TextBlock Text="Fuel Needed to Finish: " Grid.Column="0" Grid.Row="0"></TextBlock>
             <TextBlock Name="FuelNeededText" Grid.Row="0" Grid.Column="1"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Fuel in tank: "></TextBlock>
+            <TextBlock Name="FuelInTank" Grid.Column="1" Grid.Row="1"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Laps: "></TextBlock>
+            <TextBlock Name="LapsText" Grid.Column="1" Grid.Row="2"></TextBlock>
             
             
         </Grid>

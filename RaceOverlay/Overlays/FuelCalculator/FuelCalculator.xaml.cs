@@ -24,6 +24,7 @@ public partial class FuelCalculator : Overlay
     private float _fuelPerLap;
     private float _fuelToFinish;
     private float _lapsToFinish;
+    private float _avgLapTime;
     
     // Configs
     private float _marginLaps;
@@ -32,7 +33,7 @@ public partial class FuelCalculator : Overlay
     public FuelCalculator() : base("Fuel Calculator","This Overlay calculates the fuel needed to finish")
     {
         InitializeComponent();
-        _setWindowSize(300, 30);
+        _setWindowSize(160, 60);
         
         _getConfig();
         
@@ -73,6 +74,8 @@ public partial class FuelCalculator : Overlay
             FuelNeededText.Background = Brushes.Red;
             FuelNeededText.Text = _fuelToFinish.ToString("F2");
         }
+        FuelInTank.Text = _currentFuel.ToString("F2");
+        LapsText.Text = CalcFuelLaps().ToString("F1");
     }
 
     public override void _getData()
@@ -80,7 +83,7 @@ public partial class FuelCalculator : Overlay
         _data = MainWindow.IRacingData;
         
         _currentFuel = _data.LocalCarTelemetry.FuelLevel;
-        _lap = _data.LocalCarTelemetry.Lap;
+        Lap = _data.LocalCarTelemetry.Lap;
         
     }
 
@@ -167,6 +170,7 @@ public partial class FuelCalculator : Overlay
         _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
         _fuelOnLastLap = _currentFuel;
         _fuelToFinish = CalculateFuelToEnd() - _currentFuel;
+        _avgLapTime = _lastLapTimes.Average();
     }
 
     private float CalculateFuelToEnd()
@@ -178,8 +182,7 @@ public partial class FuelCalculator : Overlay
         }
         else
         {
-            var avgLapTime = _lastLapTimes.Average();
-            _lapsToFinish = (float)(_data.SessionData.TimeLeft / avgLapTime);
+            _lapsToFinish = (float)(_data.SessionData.TimeLeft / _avgLapTime);
         }
 
         var neededFuel = _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
@@ -188,6 +191,11 @@ public partial class FuelCalculator : Overlay
             return _data.LocalCarTelemetry.FuelCapacity;
         }
         return neededFuel;
+    }
+
+    private float CalcFuelLaps()
+    {
+        return _currentFuel / _fuelPerLap;
     }
 
     protected override void _getConfig()
