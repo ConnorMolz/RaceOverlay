@@ -37,13 +37,13 @@ public partial class FuelCalculator : Overlay
         
         _getConfig();
         
+        _lastLapFuel = new List<float>();
+        _lastLapTimes = new List<float>();
+        
         Thread updateThread = new Thread(UpdateThreadMethod);
     
         updateThread.IsBackground = true;
         updateThread.Start();
-        
-        _lastLapFuel = new List<float>();
-        _lastLapTimes = new List<float>();
     }
     public FuelCalculator(bool isTest) : base("","", isTest)
     {
@@ -127,6 +127,7 @@ public partial class FuelCalculator : Overlay
         {
             if (_lap != value)
             {
+                Console.WriteLine("Lap");
                 _lap = value;
                 OnPropertyChanged();
                 OnLapChanged();
@@ -166,16 +167,28 @@ public partial class FuelCalculator : Overlay
             _lastLapFuel = newList;
         }
         
-        _lastLapTimes.Add(_data.GetDriverByIdx(_data.PlayerIdx).LastLap);
-        _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
-        _fuelOnLastLap = _currentFuel;
-        _fuelToFinish = CalculateFuelToEnd() - _currentFuel;
-        _avgLapTime = _lastLapTimes.Average();
+        try
+        {
+            if (_fuelOnLastLap - _currentFuel > 0.1)
+            {
+                _lastLapTimes.Add(_data.GetDriverByIdx(_data.PlayerIdx).LastLap);
+                _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
+            }
+
+            _fuelOnLastLap = _currentFuel;
+            _avgLapTime = _avgLaptimeCalc();
+            _fuelToFinish = CalculateFuelToEnd() - _currentFuel;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+        
     }
 
     private float CalculateFuelToEnd()
     {
-        _fuelPerLap = _lastLapFuel.Average();
+        _fuelPerLap = _avgFuelCalc();
         if (_data.SessionData.LapsTotal != 32767)
         {
             _lapsToFinish = _data.SessionData.LapsTotal - _data.LocalCarTelemetry.Lap;
@@ -225,5 +238,25 @@ public partial class FuelCalculator : Overlay
 
         marginLapsInputElement.InputField.TextChanged += ParseMarignInput;
         return grid;
+    }
+
+    private float _avgFuelCalc()
+    {
+        float fuelCalcValue = 0;
+        for (int i = 0; i < _lastLapFuel.Count; i++)
+        {
+            fuelCalcValue += _lastLapFuel[i];
+        }
+        return fuelCalcValue / _lastLapFuel.Count;
+    }
+
+    private float _avgLaptimeCalc()
+    {
+        float lapCalcValue = 0;
+        for (int i = 0; i < _lastLapTimes.Count; i++)
+        {
+            lapCalcValue += _lastLapTimes[i];
+        }
+        return lapCalcValue / _lastLapTimes.Count;
     }
 }
