@@ -189,6 +189,10 @@ public partial class FuelCalculator : Overlay
     private float CalculateFuelToEnd()
     {
         _fuelPerLap = _avgFuelCalc();
+        if (_avgLapTime == 0)
+        {
+            _avgLapTime = _avgLaptimeCalc();
+        }
         if (_data.SessionData.LapsTotal != 32767)
         {
             _lapsToFinish = _data.SessionData.LapsTotal - _data.LocalCarTelemetry.Lap;
