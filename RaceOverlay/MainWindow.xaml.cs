@@ -40,6 +40,7 @@ public partial class MainWindow : Window
         _initIRacingData();
         _initOverlays();
         _loadLicenseAndQuickGuide();
+        App.StartApiService();
         
     }
 
