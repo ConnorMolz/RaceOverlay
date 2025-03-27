@@ -214,7 +214,7 @@ public partial class Electronics : Overlay
             Hide();
         }
 
-        if (size != 0 && _windowIsActive)
+        if (size != 0 && _windowIsActive && _inCar)
         {
             Show();
         }
