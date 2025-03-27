@@ -72,6 +72,12 @@ public abstract class Overlay: Window, INotifyPropertyChanged
                     File.WriteAllText(settingsFilePath, settingsObject.ToString());
                }
 
+               if (settingsObject["Overlays"][OverlayName]["active"] == null)
+               {
+                    settingsObject["Overlays"][OverlayName]["active"] = false;
+                    File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               }
+               
                _windowIsActive = (bool)settingsObject["Overlays"][OverlayName]["active"];
                if (settingsObject["Dev"] == null)
                {
@@ -86,7 +92,12 @@ public abstract class Overlay: Window, INotifyPropertyChanged
                {
                     Show();
                }
-
+               if(settingsObject["Overlays"][OverlayName]["Top"] == null || settingsObject["Overlays"][OverlayName]["Left"] == null)
+               {
+                    settingsObject["Overlays"][OverlayName]["Top"] = 0;
+                    settingsObject["Overlays"][OverlayName]["Left"] = 0;
+                    File.WriteAllText(settingsFilePath, settingsObject.ToString());
+               }
                Left = (int)settingsObject["Overlays"][OverlayName]["Left"];
                Top = (int)settingsObject["Overlays"][OverlayName]["Top"];
                _scale = _getDoubleConfig("_scale");
