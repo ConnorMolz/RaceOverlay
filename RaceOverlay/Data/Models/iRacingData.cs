@@ -26,4 +26,17 @@ public class iRacingData
         Pitstop = new Pitstop();
         Drivers = [];
     }
+    
+    public DriverModel GetDriverByIdx(int idx)
+    {
+        foreach (var driver in Drivers)
+        {
+            if (driver.Idx == idx)
+            {
+                return driver;
+            }
+        }
+        return null;
+    }
+    
 }

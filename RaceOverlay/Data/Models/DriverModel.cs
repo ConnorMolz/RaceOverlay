@@ -43,4 +43,9 @@ public class DriverModel
         ClassColorCode = carClassColorCode;
         
     }
+
+    public DriverModel()
+    {
+        
+    }
 }
