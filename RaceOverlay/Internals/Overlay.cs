@@ -17,6 +17,7 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      private int _windowHeight = 200;
      protected bool _devMode = false;
      protected double _scale = 1;
+     protected double _opacity = 1;
      protected bool _windowIsActive;
      protected bool _inCar = false;
      protected bool _isTest = false;
@@ -107,6 +108,14 @@ public abstract class Overlay: Window, INotifyPropertyChanged
 
                     _setDoubleConfig("_scale", 1);
                }
+               
+               _opacity = _getDoubleConfig("_opacity");
+               if (_opacity == 0 || _opacity == null)
+               {
+                    _opacity = 1;
+
+                    _setDoubleConfig("_opacity", 1);
+               }
 
                ScaleValueChanges(_scale);
           }
@@ -136,6 +145,22 @@ public abstract class Overlay: Window, INotifyPropertyChanged
 
      protected virtual void _loadConfig(){}
 
+     public void OpacityValueChanges(double newOpacity)
+     {
+          _setDoubleConfig("_opacity", newOpacity);
+          _setOpacity(newOpacity);
+          if (IsVisible)
+          {
+               _setOpacity(newOpacity);
+          }
+     }
+     
+     private void _setOpacity(double newOpacity)
+     {
+          _opacity = newOpacity;
+          Opacity = _opacity;
+     }
+     
      public void ScaleValueChanges(double newScale)
      {
           _setDoubleConfig("_scale", newScale);
