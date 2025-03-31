@@ -22,7 +22,16 @@ public partial class Relative : Overlay
 
     public override void _updateWindow()
     {
-        throw new NotImplementedException();
+        for (int i = 0; i < _driverModels.Count; i++)
+        {
+            Body.Children.Add(new RelativeRow(
+                _driverModels[i].Name,
+                _driverModels[i].Position,
+                Math.Abs(_data.GetGapToPlayerMs(_driverModels[i].Idx)),
+                _driverModels[i].CarNumber,
+                _driverModels[i].ClassColorCode
+            ));
+        }
     }
 
     public override void _getData()
