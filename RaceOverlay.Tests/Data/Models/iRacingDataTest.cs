@@ -13,7 +13,7 @@ namespace RaceOverlay.Tests.Data.Models;
             // Arrange
             var iRacingData = new iRacingData();
             
-            // Spieler auf der Strecke
+            // player
             var player = new DriverModel 
             { 
                 Idx = 0, 
@@ -22,7 +22,7 @@ namespace RaceOverlay.Tests.Data.Models;
                 EstCarClassNeededLapTime = 92.0f 
             };
             
-            // Gegner auf der Strecke
+            // opponent
             var opponent = new DriverModel 
             { 
                 Idx = 1,
@@ -37,7 +37,7 @@ namespace RaceOverlay.Tests.Data.Models;
             int gap = iRacingData.GetGapToPlayerMs(1);
             
             // Assert
-            // Erwartete Zeitdifferenz: (94.0f - 92.0f) * 1000 = 2000ms
+            // Expected time difference: (94.0f - 92.0f) * 1000 = 2000ms
             Assert.AreEqual(2000, gap);
         }
 
@@ -47,7 +47,7 @@ namespace RaceOverlay.Tests.Data.Models;
             // Arrange
             var iRacingData = new iRacingData();
             
-            // Spieler kurz vor Ziellinie
+            // player short time before crossing the start/finish line
             var player = new DriverModel 
             { 
                 Idx = 0, 
@@ -56,7 +56,7 @@ namespace RaceOverlay.Tests.Data.Models;
                 EstCarClassNeededLapTime = 92.0f 
             };
             
-            // Gegner kurz nach Ziellinie
+            // opponent short time after crossing the start/finish line
             var opponent = new DriverModel 
             { 
                 Idx = 1,
@@ -71,7 +71,7 @@ namespace RaceOverlay.Tests.Data.Models;
             int gap = iRacingData.GetGapToPlayerMs(1);
             
             // Assert
-            // Bei wrap und S <= C: (C - S) - bestForPlayer
+            // At wrap and S <= C: (C - S) - bestForPlayer
             // (94.0f - 92.0f) - 90.0f = 2.0f - 90.0f = -88.0f
             // -88.0f * 1000 = -88000ms
             Assert.AreEqual(-88000, gap);
@@ -83,11 +83,11 @@ namespace RaceOverlay.Tests.Data.Models;
             // Arrange
             var iRacingData = new iRacingData();
             
-            // Spieler ohne beste Rundenzeit
+            // Player without best lap time
             var player = new DriverModel 
             { 
                 Idx = 0, 
-                BestLap = 0.0f, // Keine beste Rundenzeit
+                BestLap = 0.0f, 
                 LapDistance = 0.3f,
                 EstCarClassNeededLapTime = 92.0f 
             };

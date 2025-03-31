@@ -33,6 +33,21 @@ public partial class Relative : Overlay
         updateThread.IsBackground = true;
         updateThread.Start();
     }
+    
+    public Relative(bool isTest) : base("Relative", "", isTest)
+    {
+        InitializeComponent();
+        _getConfig();
+        _setWindowSize(230, calcHeight());
+
+        if (!_isTest)
+        {
+            Thread updateThread = new Thread(UpdateThreadMethod);
+
+            updateThread.IsBackground = true;
+            updateThread.Start();
+        }
+    }
 
     public override void _updateWindow()
     {
