@@ -55,7 +55,8 @@ public class RelativeRow: Grid
         
         
         TextBlock distanceTextBlock = new TextBlock();
-        distanceTextBlock.Text = TimeSpan.FromSeconds(distance).ToString(@"ss\.fff");
+        distanceTextBlock.Text = TimeSpan.FromMilliseconds(distance).ToString(@"ss\.f");
+        distanceTextBlock.TextAlignment = TextAlignment.Right;
         
         distanceTextBlock.SetValue(Grid.ColumnProperty, 3);
         distanceTextBlock.SetValue(Grid.RowProperty, 0);

@@ -299,5 +299,10 @@ public partial class MainWindow : Window
             ScaleSlider.ValueChanged += ScaleSlider_ValueChanged;
         }
     }
+
+    public static IRacingSdk getRSDK()
+    {
+        return IrsdkSharper;
+    }
     
 }

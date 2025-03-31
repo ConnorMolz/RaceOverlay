@@ -21,8 +21,7 @@ public partial class Relative : Overlay
     private int _incidents;
     
     
-    //TODO: Add Description
-    public Relative() : base("Relative", "")
+    public Relative() : base("Relative", "Shows the Relative time to other cars inbound of 40 seconds.")
     {
         InitializeComponent();
         _getConfig();
@@ -85,7 +84,7 @@ public partial class Relative : Overlay
                 var row = new RelativeRow(
                     _driverModels[i].Name,
                     _driverModels[i].Position,
-                    Math.Abs(_data.GetGapToPlayerMs(_driverModels[i].Idx)),
+                    _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
                     _driverModels[i].ClassColorCode
                 );

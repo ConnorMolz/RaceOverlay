@@ -39,20 +39,19 @@ public class iRacingData
         return null;
     }
     
-    public int GetGapToPlayerMs(int index)
+    public int GetGapToPlayerMs(int index )
     {
-        DriverModel player = GetDriverByIdx(PlayerIdx);
-        DriverModel opponent = GetDriverByIdx(index);
-        
-        float bestForPlayer = player.BestLap;
+        var _iRacingSDK = MainWindow.getRSDK();
+        int playerCarIdx = PlayerIdx;
+        float bestForPlayer = _iRacingSDK.Data.GetFloat("CarIdxBestLapTime", playerCarIdx);
         if (bestForPlayer == 0)
-            bestForPlayer = player.EstCarClassNeededLapTime;
+            bestForPlayer = _iRacingSDK.Data.SessionInfo.DriverInfo.Drivers[playerCarIdx].CarClassEstLapTime;
 
-        float C = opponent.EstCarClassNeededLapTime;
-        float S = player.EstCarClassNeededLapTime;
+        float C = _iRacingSDK.Data.GetFloat("CarIdxEstTime", index);
+        float S = _iRacingSDK.Data.GetFloat("CarIdxEstTime", playerCarIdx);
 
         // Does the delta between us and the other car span across the start/finish line?
-        bool wrap = Math.Abs(player.LapDistance - opponent.LapDistance) > 0.5f;
+        bool wrap = Math.Abs(_iRacingSDK.Data.GetFloat("CarIdxLapDistPct", index) - _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", playerCarIdx)) > 0.5f;
         float delta;
         if (wrap)
         {
