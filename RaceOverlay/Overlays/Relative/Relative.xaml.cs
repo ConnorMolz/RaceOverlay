@@ -56,6 +56,9 @@ public partial class Relative : Overlay
         
         // Incident Formating
         IncidentsText.Text = $"X: {_incidents}/{_maxIncidents}";
+        
+        // SOF Formating
+        SOFText.Text = $"SOF: {_data.SessionData.SOF}";
 
         try
         {
@@ -141,6 +144,8 @@ public partial class Relative : Overlay
     {
         var relative = new List<DriverModel>();
         var drivers = _data.Drivers.ToList();
+        if (drivers == null || drivers.Count == 0)
+            return relative;
         
         // calculate live standings based on percentage of the current lap completed
         drivers.Sort((a, b) =>

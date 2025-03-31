@@ -290,6 +290,10 @@ public class Mapper
     {
         // N is the number of players
         double N = numberOfPlayers;
+        if (N == 0)
+        {
+            return 0;
+        }
     
         // Calculate the sum in the denominator: sum of 2^(-Ri/1600)
         double sum = 0;
