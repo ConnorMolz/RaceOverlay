@@ -25,7 +25,8 @@ public partial class Relative : Overlay
     public Relative() : base("Relative", "")
     {
         InitializeComponent();
-        _setWindowSize(480, 130);
+        _getConfig();
+        _setWindowSize(230, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -212,6 +213,8 @@ public partial class Relative : Overlay
             {
                 _additionalDrivers = maxValue;
                 _setIntConfig("_additionalRows", _additionalDrivers);
+                _setWindowSize(230, calcHeight());
+                _scaleWindow(_scale);
             }
         }
         
@@ -221,4 +224,13 @@ public partial class Relative : Overlay
         
         return grid;
     }
+
+    private int calcHeight()
+    {
+        int height = 55;
+        height += (30 * _additionalDrivers * 2);
+        return height;
+    }
+    
+    
 }

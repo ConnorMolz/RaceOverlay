@@ -15,6 +15,8 @@ public class RelativeRow: Grid
 
     public RelativeRow(string driverName, int position, float distance, int carNr, string classColorCode)
     {
+        Height = 30;
+        
         DriverName = driverName;
         Position = position;
         Distance = distance;
