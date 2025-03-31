@@ -15,6 +15,7 @@ using RaceOverlay.Overlays.FuelCalculator;
 using RaceOverlay.Overlays.LaptimeDelta;
 using RaceOverlay.Overlays.Leaderboard;
 using RaceOverlay.Overlays.PitstopInfo;
+using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
@@ -56,6 +57,7 @@ public partial class MainWindow : Window
         Overlays.Add(new LaptimeDelta());
         Overlays.Add(new Leaderboard());
         Overlays.Add(new PitstopInfo());
+        Overlays.Add(new Relative());
         //Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
 
