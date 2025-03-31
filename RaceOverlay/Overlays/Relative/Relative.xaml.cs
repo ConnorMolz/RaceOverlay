@@ -25,6 +25,12 @@ public partial class Relative : Overlay
     public Relative() : base("Relative", "")
     {
         InitializeComponent();
+        _setWindowSize(480, 130);
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
 
     public override void _updateWindow()
