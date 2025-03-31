@@ -26,7 +26,7 @@ public partial class Relative : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(230, calcHeight());
+        _setWindowSize(280, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -81,13 +81,17 @@ public partial class Relative : Overlay
             Body.Children.Clear();
             for (int i = 0; i < _driverModels.Count; i++)
             {
-                Body.Children.Add(new RelativeRow(
+                Body.RowDefinitions.Add(new RowDefinition());
+                var row = new RelativeRow(
                     _driverModels[i].Name,
                     _driverModels[i].Position,
                     Math.Abs(_data.GetGapToPlayerMs(_driverModels[i].Idx)),
                     _driverModels[i].CarNumber,
                     _driverModels[i].ClassColorCode
-                ));
+                );
+                Grid.SetRow(row, i);
+                
+                Body.Children.Add(row);
             }
         }
         catch (Exception e)
