@@ -10,5 +10,6 @@ public class SessionData
     public int MaxIncidents { get; set; }
     public int Incidents { get; set; }
     public int SOF { get; set; }
+    public string SessionType { get; set; }
     
 }

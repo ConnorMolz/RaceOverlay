@@ -32,6 +32,12 @@ public partial class Relative : Overlay
     private int _lapsLeftEstimated;
     private int _maxIncidents;
     private int _incidents;
+    private string _sessionType;
+    private double _airTemp;
+    private double _trackTemp;
+    private bool _isWet;
+    private int _sof;
+    private float _fuel;
     
     
     public Relative() : base("Relative", "Shows the Relative time to other cars inbound of 40 seconds.")
@@ -126,6 +132,12 @@ public partial class Relative : Overlay
         _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
         _maxIncidents = _data.SessionData.MaxIncidents;
         _incidents = _data.SessionData.Incidents;
+        _sessionType = _data.SessionData.SessionType;
+        _airTemp = _data.WeatherData.AirTemp;
+        _trackTemp = _data.WeatherData.TrackTemp;
+        _isWet = _data.WeatherData.WeatherDeclaredWet;
+        _sof = _data.SessionData.SOF;
+        _fuel = _data.LocalCarTelemetry.FuelLevel;
 
         if (!_devMode)
         {
