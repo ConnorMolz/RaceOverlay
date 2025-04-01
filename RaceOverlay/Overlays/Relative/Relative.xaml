@@ -32,20 +32,49 @@
             <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header" Background="#FF2E2E2E" Margin="0, 0, 0, 10">
                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Padding="5"
-                               Name="TimeOrLaps"></TextBlock>
-                
+                               Visibility="Collapsed"
+                               Name="SessionTypeHeaderText"></TextBlock>
+                    
+                    <TextBlock Padding="5"
+                               Visibility="Collapsed"
+                               Name="TimeOrLapsHeaderText"></TextBlock>
+                    
+                    <TextBlock Padding="5"
+                               Visibility="Collapsed"
+                               Name="AirTempHeaderText"></TextBlock>
+                    
+                    <TextBlock Padding="5"
+                               Visibility="Collapsed"
+                               Name="TrackTempHeaderText"></TextBlock>
+                    
                     <TextBlock
+                        Visibility="Collapsed"
                         Name="IncidentsText"
                         HorizontalAlignment="Right"
                         Padding="5">
                     </TextBlock>
                 
                     <TextBlock
-                        Name="SOFText"
+                        Visibility="Collapsed"
+                        Name="SOFHeaderText"
                         HorizontalAlignment="Right"
                         Padding="5">
                     </TextBlock>
                     
+                    <TextBlock
+                        Visibility="Collapsed"
+                        Name="FuelHeaderText"></TextBlock>
+                    
+                    <TextBlock
+                        Visibility="Collapsed"
+                        Name="IsWetHeaderText"
+                        Padding="5">
+                    </TextBlock>
+                    
+                    <TextBlock
+                        Visibility="Collapsed"
+                        Name="InSimTimeHeaderText"
+                        Padding="5"></TextBlock>
                 
                 </StackPanel>
             </Grid>
