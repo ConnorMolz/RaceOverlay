@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using IRSDKSharper;
 using RaceOverlay.Data.Models;
+using RaceOverlay.Overlays.SessionInfo;
 
 #pragma warning disable CS0168 // Variable is declared but never used
 
@@ -271,6 +272,8 @@ public class Mapper
                     )
                 );
             }
+
+            data.SessionData.SOF = CalcSOF(drivers, drivers.Count);
         }
         catch (Exception e)
         {
@@ -281,6 +284,28 @@ public class Mapper
         
         // Return Dataset
         return data;
+    }
+    
+    private static int CalcSOF(List<DriverModel> drivers, int numberOfPlayers)
+    {
+        // N is the number of players
+        double N = numberOfPlayers;
+        if (N == 0)
+        {
+            return 0;
+        }
+    
+        // Calculate the sum in the denominator: sum of 2^(-Ri/1600)
+        double sum = 0;
+        foreach (DriverModel driver in drivers)
+        {
+            sum += Math.Pow(2, -driver.iRating / 1600);
+        }
+    
+        // Calculate the complete formula: (1600/ln(2)) * ln(N/sum)
+        double result = (1600 / Math.Log(2)) * Math.Log(N / sum);
+    
+        return (int) result;
     }
     
 }

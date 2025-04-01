@@ -2,30 +2,28 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RaceOverlay.Overlays.Leaderboard;
+namespace RaceOverlay.Overlays.Relative;
 
-public class LeaderBoardRow: Grid
+public class RelativeRow: Grid
 {
-    
     public string DriverName { get; set; }
     public int Position { get; set; }
-    public float LastLap { get; set; }
-    public float BestLap { get; set; }
-    public int IRating { get; set;}
+    public float CarNr { get; set; }
+    public float Distance { get; set; }
     
-    TextBlock driverNameTextBlock { get; set; }
+    private TextBlock driverNameTextBlock { get; set; }
 
-    public LeaderBoardRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    public RelativeRow(string driverName, int position, float distance, int carNr, string classColorCode)
     {
+        Height = 30;
+        
         DriverName = driverName;
         Position = position;
-        LastLap = lastLap;
-        BestLap = bestLap;
-        IRating = rating;
+        Distance = distance;
+        CarNr = carNr;
         
         RowDefinitions.Add(new RowDefinition());
         
-        ColumnDefinitions.Add(new ColumnDefinition());
         ColumnDefinitions.Add(new ColumnDefinition());
         ColumnDefinitions.Add(new ColumnDefinition());
         ColumnDefinitions.Add(new ColumnDefinition());
@@ -39,36 +37,30 @@ public class LeaderBoardRow: Grid
         positionTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(positionTextBlock);
         
+        
+        TextBlock carNrTextBlock = new TextBlock();
+        carNrTextBlock.Text = CarNr.ToString();
+
+        carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
+        carNrTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(carNrTextBlock);
+        
+        
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
         
-        driverNameTextBlock.SetValue(Grid.ColumnProperty, 1);
+        driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(driverNameTextBlock);
         
-        TextBlock lastLapTextBlock = new TextBlock();
-        TimeSpan lastLapTimeSpan = TimeSpan.FromSeconds(LastLap);
-        lastLapTextBlock.Text = $"{lastLapTimeSpan:mm\\:ss\\:fff}";
         
-        lastLapTextBlock.SetValue(Grid.ColumnProperty, 2);
-        lastLapTextBlock.SetValue(Grid.RowProperty, 0);
-        Children.Add(lastLapTextBlock);
+        TextBlock distanceTextBlock = new TextBlock();
+        distanceTextBlock.Text = TimeSpan.FromMilliseconds(distance).ToString(@"ss\.f");
+        distanceTextBlock.TextAlignment = TextAlignment.Right;
         
-        TextBlock bestLapTextBlock = new TextBlock();
-        TimeSpan bestLapTimeSpan = TimeSpan.FromSeconds(bestLap);
-        lastLapTextBlock.Text = $"{bestLapTimeSpan:mm\\:ss\\:fff}";
-        
-        bestLapTextBlock.SetValue(Grid.ColumnProperty, 3);
-        bestLapTextBlock.SetValue(Grid.RowProperty, 0);
-        Children.Add(bestLapTextBlock);
-        
-        TextBlock iRatingTextBlock = new TextBlock();
-        string iRatingText = ((float)IRating / 1000).ToString("F1") + "k";
-        iRatingTextBlock.Text = iRatingText;
-        
-        iRatingTextBlock.SetValue(Grid.ColumnProperty, 4);
-        iRatingTextBlock.SetValue(Grid.RowProperty, 0);
-        Children.Add(iRatingTextBlock);
+        distanceTextBlock.SetValue(Grid.ColumnProperty, 3);
+        distanceTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(distanceTextBlock);
     }
     
     private SolidColorBrush _getClassColorBrush(string classColorCode)
@@ -94,5 +86,4 @@ public class LeaderBoardRow: Grid
         driverNameTextBlock.FontWeight = FontWeights.Bold;
         driverNameTextBlock.Foreground = Brushes.Gold;
     }
-    
 }

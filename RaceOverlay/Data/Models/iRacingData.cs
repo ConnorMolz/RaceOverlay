@@ -39,4 +39,30 @@ public class iRacingData
         return null;
     }
     
+    public int GetGapToPlayerMs(int index )
+    {
+        var _iRacingSDK = MainWindow.getRSDK();
+        int playerCarIdx = PlayerIdx;
+        float bestForPlayer = _iRacingSDK.Data.GetFloat("CarIdxBestLapTime", playerCarIdx);
+        if (bestForPlayer == 0)
+            bestForPlayer = _iRacingSDK.Data.SessionInfo.DriverInfo.Drivers[playerCarIdx].CarClassEstLapTime;
+
+        float C = _iRacingSDK.Data.GetFloat("CarIdxEstTime", index);
+        float S = _iRacingSDK.Data.GetFloat("CarIdxEstTime", playerCarIdx);
+
+        // Does the delta between us and the other car span across the start/finish line?
+        bool wrap = Math.Abs(_iRacingSDK.Data.GetFloat("CarIdxLapDistPct", index) - _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", playerCarIdx)) > 0.5f;
+        float delta;
+        if (wrap)
+        {
+            delta = S > C ? (C - S) + bestForPlayer : (C - S) - bestForPlayer;
+            // lapDelta += S > C ? -1 : 1;
+        }
+        else
+        {
+            delta = C - S;
+        }
+        return (int)(delta * 1000);
+    }
+    
 }
