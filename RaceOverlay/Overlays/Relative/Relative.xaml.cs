@@ -89,7 +89,7 @@ public partial class Relative : Overlay
         }
         
         // Incident Formating
-        IncidentsText.Text = $"X: {_incidents}/{_maxIncidents}";
+        IncidentsHeaderText.Text = $"X: {_incidents}/{_maxIncidents}";
         
         // SOF Formating
         SOFHeaderText.Text = $"SOF: {_data.SessionData.SOF}";
@@ -283,11 +283,13 @@ public partial class Relative : Overlay
         {
             _showSessionTypeHeader = true;
             _setBoolConfig("_showSessionTypeHeader", true);
+            _updateHeader();
         };
         showSessionTypeHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showSessionTypeHeader = false;
             _setBoolConfig("_showSessionTypeHeader", false);
+            _updateHeader();
         };
         
         showSessionTypeHeader.SetValue(Grid.RowProperty, 1);
@@ -300,11 +302,13 @@ public partial class Relative : Overlay
         {
             _showRaceDistanceHeader = true;
             _setBoolConfig("_showRaceDistanceHeader", true);
+            _updateHeader();
         };
         showRaceDistanceHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showRaceDistanceHeader = false;
             _setBoolConfig("_showRaceDistanceHeader", false);
+            _updateHeader();
         };
         
         showRaceDistanceHeader.SetValue(Grid.RowProperty, 1);
@@ -316,11 +320,13 @@ public partial class Relative : Overlay
         {
             _showAirTempHeader = true;
             _setBoolConfig("_showAirTempHeader", true);
+            _updateHeader();
         };
         showAirTempHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showAirTempHeader = false;
             _setBoolConfig("_showAirTempHeader", false);
+            _updateHeader();
         };
         
         showAirTempHeader.SetValue(Grid.RowProperty, 2);
@@ -332,11 +338,13 @@ public partial class Relative : Overlay
         {
             _showTrackTempHeader = true;
             _setBoolConfig("_showTrackTempHeader", true);
+            _updateHeader();
         };
         showTrackTempHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showTrackTempHeader = false;
             _setBoolConfig("_showTrackTempHeader", false);
+            _updateHeader();
         };
         
         showTrackTempHeader.SetValue(Grid.RowProperty, 2);
@@ -348,11 +356,13 @@ public partial class Relative : Overlay
         {
             _showIncidentsHeader = true;
             _setBoolConfig("_showIncidentsHeader", true);
+            _updateHeader();
         };
         showIncidentsHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showIncidentsHeader = false;
             _setBoolConfig("_showIncidentsHeader", false);
+            _updateHeader();
         };
         
         showIncidentsHeader.SetValue(Grid.RowProperty, 3);
@@ -364,11 +374,13 @@ public partial class Relative : Overlay
         {
             _showSOFHeader = true;
             _setBoolConfig("_showSOFHeader", true);
+            _updateHeader();
         };
         showSOFHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showSOFHeader = false;
             _setBoolConfig("_showSOFHeader", false);
+            _updateHeader();
         };
         
         showSOFHeader.SetValue(Grid.RowProperty, 3);
@@ -380,11 +392,13 @@ public partial class Relative : Overlay
         {
             _showFuelHeader = true;
             _setBoolConfig("_showFuelHeader", true);
+            _updateHeader();
         };
         showFuelHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showFuelHeader = false;
             _setBoolConfig("_showFuelHeader", false);
+            _updateHeader();
         };
         
         showFuelHeader.SetValue(Grid.RowProperty, 4);
@@ -396,11 +410,13 @@ public partial class Relative : Overlay
         {
             _showIsWetHeader = true;
             _setBoolConfig("_showIsWetHeader", true);
+            _updateHeader();
         };
         showIsWetHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showIsWetHeader = false;
             _setBoolConfig("_showIsWetHeader", false);
+            _updateHeader();
         };
         
         showIsWetHeader.SetValue(Grid.RowProperty, 4);
@@ -412,11 +428,13 @@ public partial class Relative : Overlay
         {
             _showSimTimeHeader = true;
             _setBoolConfig("_showSimTimeHeader", true);
+            _updateHeader();
         };
         showSimTimeHeader.CheckBox.Unchecked += (sender, args) =>
         {
             _showSimTimeHeader = false;
             _setBoolConfig("_showSimTimeHeader", false);
+            _updateHeader();
         };
         
         showSimTimeHeader.SetValue(Grid.RowProperty, 5);
@@ -431,6 +449,57 @@ public partial class Relative : Overlay
         int height = 55;
         height += (30 * _additionalDrivers * 2);
         return height;
+    }
+
+    private void _updateHeader()
+    {
+        SessionTypeHeaderText.Visibility = Visibility.Collapsed;
+        TimeOrLapsHeaderText.Visibility = Visibility.Collapsed;
+        AirTempHeaderText.Visibility = Visibility.Collapsed;
+        TrackTempHeaderText.Visibility = Visibility.Collapsed;
+        IncidentsHeaderText.Visibility = Visibility.Collapsed;
+        SOFHeaderText.Visibility = Visibility.Collapsed;
+        FuelHeaderText.Visibility = Visibility.Collapsed;
+        IsWetHeaderText.Visibility = Visibility.Collapsed;
+        InSimTimeHeaderText.Visibility = Visibility.Collapsed;
+
+        if (_showSessionTypeHeader)
+        {
+            SessionTypeHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showRaceDistanceHeader)
+        {
+            TimeOrLapsHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showAirTempHeader)
+        {
+            AirTempHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showTrackTempHeader)
+        {
+            TrackTempHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showIncidentsHeader)
+        {
+            IncidentsHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showSOFHeader)
+        {
+            SOFHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showFuelHeader)
+        {
+            FuelHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showIsWetHeader)
+        {
+            IsWetHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showSimTimeHeader)
+        {
+            InSimTimeHeaderText.Visibility = Visibility.Visible;
+        }
+        
     }
     
     

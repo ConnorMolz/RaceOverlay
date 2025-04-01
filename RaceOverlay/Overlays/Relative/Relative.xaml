@@ -49,7 +49,7 @@
                     
                     <TextBlock
                         Visibility="Collapsed"
-                        Name="IncidentsText"
+                        Name="IncidentsHeaderText"
                         HorizontalAlignment="Right"
                         Padding="5">
                     </TextBlock>
