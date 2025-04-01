@@ -11,9 +11,11 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.FuelCalculator;
 using RaceOverlay.Overlays.LaptimeDelta;
 using RaceOverlay.Overlays.Leaderboard;
 using RaceOverlay.Overlays.PitstopInfo;
+using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
@@ -50,10 +52,12 @@ public partial class MainWindow : Window
         // Add here every Overlay
         Overlays.Add(new Electronics());
         Overlays.Add(new EnergyInfo());
+        Overlays.Add(new FuelCalculator());
         Overlays.Add(new Inputs());
         Overlays.Add(new LaptimeDelta());
         Overlays.Add(new Leaderboard());
         Overlays.Add(new PitstopInfo());
+        Overlays.Add(new Relative());
         //Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
 
@@ -293,6 +297,56 @@ public partial class MainWindow : Window
             ScaleSlider.ValueChanged -= ScaleSlider_ValueChanged;
             ScaleSlider.Value = Math.Max(ScaleSlider.Minimum, Math.Min(scale, ScaleSlider.Maximum));
             ScaleSlider.ValueChanged += ScaleSlider_ValueChanged;
+        }
+    }
+
+    public static IRacingSdk getRSDK()
+    {
+        return IrsdkSharper;
+    }
+    
+    private void OpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        double opacity = OpacitySlider.Value;
+            
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+        if (selectedOverlay != null)
+        {
+            selectedOverlay.OpacityValueChanges(opacity);
+            
+        }
+            
+        // Update text box to match (without triggering its event)
+        OpacityInput.TextChanged -= OpacityInput_TextChanged;
+        OpacityInput.Text = opacity.ToString("F1");
+        OpacityInput.TextChanged += OpacityInput_TextChanged;
+    }
+    
+    private void OpacityInput_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (ConfigGrid.Visibility != Visibility.Visible)
+        {
+            return;
+        }
+
+        if (float.TryParse(OpacityInput.Text, out float opacity))
+        {
+            // Ensure _scale is within reasonable bounds
+            opacity = Math.Max(0.5f, Math.Min(opacity, 2.0f));
+                
+            Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+            if (selectedOverlay != null)
+            {
+                selectedOverlay.OpacityValueChanges(opacity);
+            
+            }
+                
+            // Update slider to match (without triggering its event)
+            OpacitySlider.ValueChanged -= OpacitySlider_ValueChanged;
+            OpacitySlider.Value = Math.Max(ScaleSlider.Minimum, Math.Min(opacity, ScaleSlider.Maximum));
+            OpacitySlider.ValueChanged += OpacitySlider_ValueChanged;
         }
     }
     

@@ -11,10 +11,12 @@ car and track information which is usable on most cars and tracks.
 - Current Weather Information
 - Pit Info
 - Leaderboard (last lap)
-
-## Planned overlays
 - Fuel Info
 - Relative Standings
+
+## Planned overlays
+- Setup Hider
+- Track Circle
 
 ## Installation
 The application is delivered via portable .exe, so no installation is required.

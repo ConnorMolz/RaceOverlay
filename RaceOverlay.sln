@@ -5,7 +5,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{769E4793-89EA-4151-96E4-B5FF39F1977C}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yaml = .github\workflows\build.yaml
+		.github\workflows\test.yaml = .github\workflows\test.yaml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceOverlay.Tests", "RaceOverlay.Tests\RaceOverlay.Tests.csproj", "{C7DE8363-B9F5-491F-B28A-293BE220ED60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,5 +20,9 @@ Global
 		{1031338B-DE0A-464A-9C05-A0245E881906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1031338B-DE0A-464A-9C05-A0245E881906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1031338B-DE0A-464A-9C05-A0245E881906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7DE8363-B9F5-491F-B28A-293BE220ED60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7DE8363-B9F5-491F-B28A-293BE220ED60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7DE8363-B9F5-491F-B28A-293BE220ED60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7DE8363-B9F5-491F-B28A-293BE220ED60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
