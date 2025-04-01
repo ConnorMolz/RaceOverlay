@@ -291,6 +291,15 @@ public class Mapper
         {
             Debug.WriteLine(e);
         }
+
+        try
+        {
+            data.SessionData.InSimTime = irsdkSharper.Data.GetFloat("SessionTimeOfDay");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
         
         // Return Dataset
         return data;

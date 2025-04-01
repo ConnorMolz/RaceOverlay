@@ -38,6 +38,7 @@ public partial class Relative : Overlay
     private bool _isWet;
     private int _sof;
     private float _fuel;
+    private float _inSimTime;
     
     
     public Relative() : base("Relative", "Shows the Relative time to other cars inbound of 40 seconds.")
@@ -70,6 +71,7 @@ public partial class Relative : Overlay
     public override void _updateWindow()
     {
         // Update the Header
+        SessionTypeHeaderText.Text = _sessionType;
         // 32767 is the default value for lapsTotal when the session is not using laps for the distance
         if (_lapsTotal == 32767)
         {
@@ -92,8 +94,24 @@ public partial class Relative : Overlay
         IncidentsHeaderText.Text = $"X: {_incidents}/{_maxIncidents}";
         
         // SOF Formating
-        SOFHeaderText.Text = $"SOF: {_data.SessionData.SOF}";
+        SOFHeaderText.Text = $"SOF: {_sof}";
+        
+        // Fuel Formating
+        FuelHeaderText.Text = $"Fuel: {_fuel:F1}L";
+        
+        // Is Wet Formating
+        IsWetHeaderText.Text = _isWet ? "IS WET: YES" : "IS WET: NO";
 
+        // Air Temp Formating
+        AirTempHeaderText.Text = $"Air Temp: {_airTemp:F1}C°";
+        
+        // Track Temp Formating
+        TrackTempHeaderText.Text = $"Track Temp: {_trackTemp:F1}C°";
+        
+        // Sim Time Formating
+        TimeSpan simTime = TimeSpan.FromSeconds(_inSimTime);
+        InSimTimeHeaderText.Text = $"{simTime:hh\\:mm}";
+        
         try
         {
             Body.Children.Clear();
