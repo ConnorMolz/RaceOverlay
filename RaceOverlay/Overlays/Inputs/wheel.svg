@@ -1,12 +1,12 @@
-<svg width="800px" height="800px" viewBox="0 0 512 512" id="svg2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg">
+<svg width="800px" height="800px" viewBox="0 0 512 512" id="svg2" version="1.1" xmlns="http://www.w3.org/2000/svg"  xmlns:svg="http://www.w3.org/2000/svg">
     <defs id="defs6">
         <marker id="DistanceX" orient="auto" refX="0.0" refY="0.0" style="overflow:visible">
             <path d="M 3,-3 L -3,3 M 0,-5 L  0,5" id="path4246" style="stroke:#000000; stroke-width:0.5"/>
         </marker>
         <pattern height="8" id="Hatch" patternUnits="userSpaceOnUse" width="8" x="0" y="0">
-            <path d="M8 4 l-4,4" id="path4249" linecap="square" stroke="#000000" stroke-width="0.25"/>
-            <path d="M6 2 l-4,4" id="path4251" linecap="square" stroke="#000000" stroke-width="0.25"/>
-            <path d="M4 0 l-4,4" id="path4253" linecap="square" stroke="#000000" stroke-width="0.25"/>
+            <path d="M8 4 l-4,4" id="path4249"  stroke="#000000" stroke-width="0.25"/>
+            <path d="M6 2 l-4,4" id="path4251"  stroke="#000000" stroke-width="0.25"/>
+            <path d="M4 0 l-4,4" id="path4253"  stroke="#000000" stroke-width="0.25"/>
         </pattern>
         <symbol id="*Model_Space"/>
         <symbol id="*Paper_Space"/>

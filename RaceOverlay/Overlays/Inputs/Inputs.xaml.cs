@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.Inputs;
 
@@ -14,13 +16,15 @@ public partial class Inputs : Overlay
     private int _gear;
     private double _speed;
 
+    private bool _showSteering;
+    
     private iRacingData _data;
     
     public Inputs():base("Inputs", "Displays the current inputs, current gear and current speed of the car.")
     {
         InitializeComponent();
-        
-        _setWindowSize(140, 55);
+        _getConfig();
+        _setWindowSize(_calcWitdh(), 55);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -44,7 +48,40 @@ public partial class Inputs : Overlay
         }
         
     }
-   
+
+    protected override void _getConfig()
+    {
+        _showSteering = _getBoolConfig("ShowSteering");
+    }
+
+    public override Grid GetConfigs()
+    {
+        Grid grid = new Grid();
+        
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        
+        grid.RowDefinitions.Add(new RowDefinition());
+        
+        CheckBoxElement showSteering = new CheckBoxElement("Show Steering: ", _showSteering);
+        showSteering.CheckBox.Checked += (sender, args) =>
+        {
+            _showSteering = true;
+            _setBoolConfig("ShowSteering", true);
+            _setWindowSize(_calcWitdh(), 55);
+        };
+        showSteering.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showSteering = false;
+            _setBoolConfig("ShowSteering", false);
+            _setWindowSize(_calcWitdh(), 55);
+        };
+        
+        Grid.SetRow(showSteering, 0);
+        Grid.SetColumn(showSteering, 0);
+        grid.Children.Add(showSteering);
+        
+        return grid;
+    }
 
     public override void _getData()
     {
@@ -120,5 +157,19 @@ public partial class Inputs : Overlay
             0 => "N",
             _ => value.ToString()
         };
+    }
+    
+    private int _calcWitdh()
+    {
+        if (_showSteering)
+        {
+            SteeringWheelGrid.Visibility = Visibility.Visible;
+            return 200;
+        }
+        else
+        {
+            SteeringWheelGrid.Visibility = Visibility.Collapsed;
+            return 140;
+        }
     }
 }
