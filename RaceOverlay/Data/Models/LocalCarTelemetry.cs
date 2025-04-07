@@ -27,6 +27,7 @@ public class LocalCarTelemetry
     public Damper RearLeftDamper { get; set; }
     public Damper RearRightDamper { get; set; }
     
+    public float SteeringWheelAngle { get; set; }
     
     public int CurrentRPM { get; set; }
     public int Gear { get; set; }
@@ -34,7 +35,7 @@ public class LocalCarTelemetry
     
     public float FuelLevel { get; set; }
     public float FuelPressure { get; set; }
-    public float FuelUsePerLap { get; set; }
+  
     public float FuelCapacity { get; set; }
     public float OilTemp { get; set; }
     public float OilPressure { get; set; }
