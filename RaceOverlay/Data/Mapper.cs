@@ -112,7 +112,6 @@ public class Mapper
         data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
         data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");
         data.LocalCarTelemetry.Speed = irsdkSharper.Data.GetFloat("Speed") * 3.6f;
-        data.LocalCarTelemetry.SteeringWheelAngle = irsdkSharper.Data.GetFloat("SteeringWheelAngle");
         
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
