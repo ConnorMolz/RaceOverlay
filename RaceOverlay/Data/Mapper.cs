@@ -39,8 +39,9 @@ public class Mapper
         data.Inputs.Clutch = irsdkSharper.Data.GetFloat("Clutch");
         data.Inputs.Throttle = irsdkSharper.Data.GetFloat("Throttle");
         data.Inputs.Brake = irsdkSharper.Data.GetFloat("Brake");
-        data.Inputs.Steering = irsdkSharper.Data.GetFloat("SteeringWheelAngle");
+        data.Inputs.Steering = Single.RadiansToDegrees(irsdkSharper.Data.GetFloat("SteeringWheelAngle")) * -1;
         data.Inputs.Handbrake = irsdkSharper.Data.GetFloat("HandbrakeRaw"); // Todo: Need to check this
+        
         
         // Map LocalCarTelemetry
         
@@ -108,7 +109,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRshockVel_ST")
         );
         
-        // Gear, RPM, Speed
+        // Gear, RPM, Speed and Steering
         data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
         data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");
         data.LocalCarTelemetry.Speed = irsdkSharper.Data.GetFloat("Speed") * 3.6f;
