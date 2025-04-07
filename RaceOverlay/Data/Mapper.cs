@@ -282,6 +282,25 @@ public class Mapper
         }
         
         data.Drivers = drivers.ToArray();
+
+        try
+        {
+            data.SessionData.SessionType = irsdkSharper.Data.SessionInfo.SessionInfo
+                .Sessions[irsdkSharper.Data.GetInt("SessionNum")].SessionType;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+
+        try
+        {
+            data.SessionData.InSimTime = irsdkSharper.Data.GetFloat("SessionTimeOfDay");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
         
         // Return Dataset
         return data;
