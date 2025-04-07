@@ -125,28 +125,7 @@ public partial class Leaderboard : Overlay
             InCar = true;
         }
     }
-
-    public override void UpdateThreadMethod()
-    {
-        {
-            while (true)
-            {
-                _getData();
-                if (IsVisible)
-                {
-                    
-                    // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
-                    {
-                        _updateWindow();
-                    });
-                }
-                
-                // Add a small delay to prevent high CPU usage
-                Thread.Sleep(16); // ~60 updates per second
-            }
-        }
-    }
+    
 
     protected override void _scaleWindow(double scale)
     {
