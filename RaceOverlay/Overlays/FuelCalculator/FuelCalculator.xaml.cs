@@ -89,23 +89,27 @@ public partial class FuelCalculator : Overlay
 
     public override void UpdateThreadMethod()
     {
-        while (true)
+        try
         {
-            _getData();
-            if (IsVisible)
+            while (true)
             {
-                    
-                // Use Dispatcher to update UI from background thread
-                Dispatcher.Invoke(() =>
+                _getData();
+                if (IsVisible)
                 {
-                    _updateWindow();
-                });
+
+                    // Use Dispatcher to update UI from background thread
+                    Dispatcher.Invoke(() => { _updateWindow(); });
+                }
+
+                // Add a small delay to prevent high CPU usage
+                Thread.Sleep(64); // ~15 updates per second
             }
-                
-            // Add a small delay to prevent high CPU usage
-            Thread.Sleep(64); // ~15 updates per second
         }
-    }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+}
 
     protected override void _scaleWindow(double scale)
     {

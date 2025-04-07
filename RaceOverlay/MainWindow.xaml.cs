@@ -124,7 +124,9 @@ public partial class MainWindow : Window
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
+        IRacingData = new iRacingData();
         IRacingData.InCar = false;
+        
     }
     
     
