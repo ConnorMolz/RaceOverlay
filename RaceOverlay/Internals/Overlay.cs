@@ -34,19 +34,23 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           
           while (true)
           {
-               _getData();
-               if (IsVisible)
+               try
                {
-               
-                    // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
+                    _getData();
+                    if (IsVisible)
                     {
-                         _updateWindow();
-                    });
+
+                         // Use Dispatcher to update UI from background thread
+                         Dispatcher.Invoke(() => { _updateWindow(); });
+                    }
+
+                    // Add a small delay to prevent high CPU usage
+                    Thread.Sleep(16); // ~60 updates per second
                }
-           
-               // Add a small delay to prevent high CPU usage
-               Thread.Sleep(16); // ~60 updates per second
+               catch (Exception e)
+               {
+                    Debug.WriteLine(e);
+               }
           }
           
      }
