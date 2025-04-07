@@ -15,6 +15,7 @@ public partial class Inputs : Overlay
     private double _clutch;
     private int _gear;
     private double _speed;
+    private double _steering;
 
     private bool _showSteering;
     
@@ -41,6 +42,8 @@ public partial class Inputs : Overlay
             ClutchBar.Height = _clutch * 50;
             GearText.Text = formatGear(_gear);
             SpeedText.Text = _speed.ToString("F0");
+            SteeringRotation.Angle = _steering;
+
         }
         catch (Exception e)
         {
@@ -100,6 +103,11 @@ public partial class Inputs : Overlay
             else
             {
                 InCar = true;
+            }
+
+            if (_showSteering)
+            {
+                _steering = _data.Inputs.Steering;
             }
         }
         catch (TargetInvocationException e)
