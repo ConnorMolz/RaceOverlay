@@ -45,7 +45,8 @@ public partial class Relative : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(280, calcHeight());
+        _updateHeader();
+        _setWindowSize(200, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -120,13 +121,12 @@ public partial class Relative : Overlay
                 Body.RowDefinitions.Add(new RowDefinition());
                 var row = new RelativeRow(
                     _driverModels[i].Name,
-                    _driverModels[i].Position,
+                    _driverModels[i].ClassPosition,
                     _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
                     _driverModels[i].ClassColorCode
                 );
                 Grid.SetRow(row, i);
-                
                 Body.Children.Add(row);
             }
         }
@@ -134,12 +134,20 @@ public partial class Relative : Overlay
         {
             Debug.WriteLine(e);
         }
-       
     }
 
     public override void _getData()
     {
+        
         _data = MainWindow.IRacingData;
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
         if (_data == null)
             return;
         _driverModels = GetRelative();
@@ -157,14 +165,7 @@ public partial class Relative : Overlay
         _sof = _data.SessionData.SOF;
         _fuel = _data.LocalCarTelemetry.FuelLevel;
 
-        if (!_devMode)
-        {
-            InCar = _data.InCar;
-        }
-        else
-        {
-            InCar = true;
-        }
+        
     }
 
     protected override void _scaleWindow(double scale)
@@ -186,7 +187,7 @@ public partial class Relative : Overlay
         var drivers = _data.Drivers.ToList();
         if (drivers == null || drivers.Count == 0)
             return relative;
-        
+
         // calculate live standings based on percentage of the current lap completed
         drivers.Sort((a, b) =>
         {
@@ -213,12 +214,12 @@ public partial class Relative : Overlay
             }
             sortedListIndex++;
         }
-        
-        
+
+
         // Collect "additionalDrivers" in front of player and after. Limit to max 40secs difference.
         int startIndex = (playerEntryListIndex - _additionalDrivers + drivers.Count) % drivers.Count;
         int endIndex = (playerEntryListIndex + _additionalDrivers + 1 + drivers.Count) % drivers.Count;
-        
+
         for (int index = startIndex; index < endIndex; index++)
         {
 
@@ -227,10 +228,10 @@ public partial class Relative : Overlay
             if (Math.Abs(_data.GetGapToPlayerMs(carToAdd.Idx)) > 40000) continue;
             relative.Insert(0, carToAdd);
         }
-        
+
         return relative;
     }
-    
+
 
     protected override void _getConfig()
     {
@@ -249,21 +250,21 @@ public partial class Relative : Overlay
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
-        
+
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        
+
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-        
+
         InputElement additionalDrivers = new InputElement("AdditionalRows",  _additionalDrivers.ToString());
         additionalDrivers.Margin = new Thickness(0, 0, 0, 10);
         additionalDrivers.SetValue(Grid.RowProperty, 0);
-        
+
         void ParseAdditionalDriversInput(object sender, TextChangedEventArgs e)
         {
             if (int.TryParse(additionalDrivers.InputField.Text, out int maxValue))
@@ -274,15 +275,15 @@ public partial class Relative : Overlay
                 _scaleWindow(_scale);
             }
         }
-        
+
         additionalDrivers.InputField.TextChanged += ParseAdditionalDriversInput;
 
         Grid.SetRow(additionalDrivers, 0);
         Grid.SetColumn(additionalDrivers, 0);
         Grid.SetColumnSpan(additionalDrivers, 2);
         grid.Children.Add(additionalDrivers);
-        
-        
+
+
         CheckBoxElement showSessionTypeHeader = new CheckBoxElement("ShowSessionTypeHeader", _showSessionTypeHeader);
         showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -296,12 +297,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSessionTypeHeader", false);
             _updateHeader();
         };
-        
+
         showSessionTypeHeader.SetValue(Grid.RowProperty, 1);
         showSessionTypeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSessionTypeHeader);
-        
-        
+
+
         CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("ShowRaceDistanceHeader", _showRaceDistanceHeader);
         showRaceDistanceHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -315,11 +316,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showRaceDistanceHeader", false);
             _updateHeader();
         };
-        
+
         showRaceDistanceHeader.SetValue(Grid.RowProperty, 1);
         showRaceDistanceHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showRaceDistanceHeader);
-        
+
         CheckBoxElement showAirTempHeader = new CheckBoxElement("ShowAirTempHeader", _showAirTempHeader);
         showAirTempHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -333,11 +334,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showAirTempHeader", false);
             _updateHeader();
         };
-        
+
         showAirTempHeader.SetValue(Grid.RowProperty, 2);
         showAirTempHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showAirTempHeader);
-        
+
         CheckBoxElement showTrackTempHeader = new CheckBoxElement("ShowTrackTempHeader", _showTrackTempHeader);
         showTrackTempHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -351,11 +352,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showTrackTempHeader", false);
             _updateHeader();
         };
-        
+
         showTrackTempHeader.SetValue(Grid.RowProperty, 2);
         showTrackTempHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showTrackTempHeader);
-        
+
         CheckBoxElement showIncidentsHeader = new CheckBoxElement("ShowIncidentsHeader", _showIncidentsHeader);
         showIncidentsHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -369,11 +370,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIncidentsHeader", false);
             _updateHeader();
         };
-        
+
         showIncidentsHeader.SetValue(Grid.RowProperty, 3);
         showIncidentsHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showIncidentsHeader);
-        
+
         CheckBoxElement showSOFHeader = new CheckBoxElement("ShowSOFHeader", _showSOFHeader);
         showSOFHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -387,7 +388,7 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSOFHeader", false);
             _updateHeader();
         };
-        
+
         showSOFHeader.SetValue(Grid.RowProperty, 3);
         showSOFHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showSOFHeader);
@@ -405,11 +406,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showFuelHeader", false);
             _updateHeader();
         };
-        
+
         showFuelHeader.SetValue(Grid.RowProperty, 4);
         showFuelHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showFuelHeader);
-        
+
         CheckBoxElement showIsWetHeader = new CheckBoxElement("ShowIsWetHeader", _showIsWetHeader);
         showIsWetHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -423,7 +424,7 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIsWetHeader", false);
             _updateHeader();
         };
-        
+
         showIsWetHeader.SetValue(Grid.RowProperty, 4);
         showIsWetHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showIsWetHeader);
@@ -441,11 +442,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSimTimeHeader", false);
             _updateHeader();
         };
-        
+
         showSimTimeHeader.SetValue(Grid.RowProperty, 5);
         showSimTimeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSimTimeHeader);
-        
+
         return grid;
     }
 
@@ -504,8 +505,8 @@ public partial class Relative : Overlay
         {
             InSimTimeHeaderText.Visibility = Visibility.Visible;
         }
-        
+
     }
-    
-    
+
+
 }
