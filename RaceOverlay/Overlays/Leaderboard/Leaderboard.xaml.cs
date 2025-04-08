@@ -44,6 +44,7 @@ public partial class Leaderboard : Overlay
     {
         InitializeComponent();
         _setWindowSize(480, 130);
+        _getConfig();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -189,7 +190,15 @@ public partial class Leaderboard : Overlay
     
     protected override void _getConfig()
     {
-        
+        _showSessionTypeHeader = _getBoolConfig("_showSessionTypeHeader");
+        _showRaceDistanceHeader = _getBoolConfig("_showRaceDistanceHeader");
+        _showAirTempHeader = _getBoolConfig("_showAirTempHeader");
+        _showTrackTempHeader = _getBoolConfig("_showTrackTempHeader");
+        _showIncidentsHeader = _getBoolConfig("_showIncidentsHeader");
+        _showSOFHeader = _getBoolConfig("_showSOFHeader");
+        _showFuelHeader = _getBoolConfig("_showFuelHeader");
+        _showIsWetHeader = _getBoolConfig("_showIsWetHeader");
+        _showSimTimeHeader = _getBoolConfig("_showSimTimeHeader");
     }
 
     public override Grid GetConfigs()
