@@ -17,6 +17,8 @@ public class StandingsRow: Grid
 
     public StandingsRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
     {
+        Height = 30;
+        
         DriverName = driverName;
         Position = position;
         LastLap = lastLap;
@@ -25,46 +27,81 @@ public class StandingsRow: Grid
         
         RowDefinitions.Add(new RowDefinition());
         
-        ColumnDefinitions.Add(new ColumnDefinition());
-        ColumnDefinitions.Add(new ColumnDefinition());
-        ColumnDefinitions.Add(new ColumnDefinition());
-        ColumnDefinitions.Add(new ColumnDefinition());
-        ColumnDefinitions.Add(new ColumnDefinition());
+        ColumnDefinition positionColumnDefinition = new ColumnDefinition();
+        positionColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition driverNameColumnDefinition = new ColumnDefinition();
+        driverNameColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition lastLapColumnDefinition = new ColumnDefinition();
+        lastLapColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition bestLapColumnDefinition = new ColumnDefinition();
+        bestLapColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition ratingColumnDefinition = new ColumnDefinition();
+        ratingColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinitions.Add(positionColumnDefinition);
+        ColumnDefinitions.Add(driverNameColumnDefinition);
+        ColumnDefinitions.Add(lastLapColumnDefinition);
+        ColumnDefinitions.Add(bestLapColumnDefinition);
+        ColumnDefinitions.Add(ratingColumnDefinition);
         
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position.ToString();
         positionTextBlock.Background = _getClassColorBrush(classColorCode.Replace("0x", "#"));
+        positionTextBlock.TextAlignment = TextAlignment.Center;
+        positionTextBlock.Width = 15;
         
         positionTextBlock.SetValue(Grid.ColumnProperty, 0);
         positionTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(positionTextBlock);
         
+        
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
+        driverNameTextBlock.TextAlignment = TextAlignment.Center;
+        driverNameTextBlock.Width = 15 + DriverName.Length * 9;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 1);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(driverNameTextBlock);
         
+        
         TextBlock lastLapTextBlock = new TextBlock();
+        
         TimeSpan lastLapTimeSpan = TimeSpan.FromSeconds(LastLap);
-        lastLapTextBlock.Text = $"{lastLapTimeSpan:mm\\:ss\\:fff}";
+        string lastLapText = $"{lastLapTimeSpan:mm\\:ss\\:fff}";
+        
+        lastLapTextBlock.Text = lastLapText;
+        lastLapTextBlock.TextAlignment = TextAlignment.Center;
+        lastLapTextBlock.Width = 15 + lastLapText.Length * 9;
         
         lastLapTextBlock.SetValue(Grid.ColumnProperty, 2);
         lastLapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(lastLapTextBlock);
         
+        
         TextBlock bestLapTextBlock = new TextBlock();
+
         TimeSpan bestLapTimeSpan = TimeSpan.FromSeconds(bestLap);
-        lastLapTextBlock.Text = $"{bestLapTimeSpan:mm\\:ss\\:fff}";
+        string bestLapTimeText = $"{bestLapTimeSpan:mm\\:ss\\:fff}";
+        
+        bestLapTextBlock.Text = bestLapTimeText;
+        bestLapTextBlock.TextAlignment = TextAlignment.Center;
+        bestLapTextBlock.Width = 15 + lastLapText.Length * 9;
         
         bestLapTextBlock.SetValue(Grid.ColumnProperty, 3);
         bestLapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(bestLapTextBlock);
         
+        
         TextBlock iRatingTextBlock = new TextBlock();
         string iRatingText = ((float)IRating / 1000).ToString("F1") + "k";
         iRatingTextBlock.Text = iRatingText;
+        iRatingTextBlock.TextAlignment = TextAlignment.Center;
+        iRatingTextBlock.Width = 15 + iRatingText.Length * 9;
         
         iRatingTextBlock.SetValue(Grid.ColumnProperty, 4);
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);
