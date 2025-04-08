@@ -24,22 +24,22 @@ public class RelativeRow: Grid
         
         RowDefinitions.Add(new RowDefinition());
         
-        ColumnDefinition col1 = new ColumnDefinition();
-        col1.Width = GridLength.Auto;
+        ColumnDefinition positionColumn = new ColumnDefinition();
+        positionColumn.Width = GridLength.Auto;
         
-        ColumnDefinition col2 = new ColumnDefinition();
-        col2.Width = GridLength.Auto;
+        ColumnDefinition carNrColumn = new ColumnDefinition();
+        carNrColumn.Width = GridLength.Auto;
         
-        ColumnDefinition col3 = new ColumnDefinition();
-        col3.Width = GridLength.Auto;
+        ColumnDefinition driverNameColumn = new ColumnDefinition();
+        driverNameColumn.Width = GridLength.Auto;
         
-        ColumnDefinition col4 = new ColumnDefinition();
-        col4.Width = GridLength.Auto;
+        ColumnDefinition distanceColumn = new ColumnDefinition();
+        distanceColumn.Width = GridLength.Auto;
         
-        ColumnDefinitions.Add(col1);
-        ColumnDefinitions.Add(col2);
-        ColumnDefinitions.Add(col3);
-        ColumnDefinitions.Add(col4);
+        ColumnDefinitions.Add(positionColumn);
+        ColumnDefinitions.Add(carNrColumn);
+        ColumnDefinitions.Add(driverNameColumn);
+        ColumnDefinitions.Add(distanceColumn);
         
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position + ".";
