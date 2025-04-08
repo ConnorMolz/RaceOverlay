@@ -14,6 +14,11 @@ car and track information which is usable on most cars and tracks.
 - Fuel Info
 - Relative Standings
 
+![Inputs Overlay](/.github/images/Inputs.png)
+![Weather Overlay](/.github/images/Wheater.png)
+![Fuel Calculator Overlay](/.github/images/Fuel.png)
+![Lap time delta Overlay](/.github/images/Delta.png)
+
 ## Planned overlays
 - Setup Hider
 - Track Circle
