@@ -28,7 +28,7 @@
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
-        <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header" Background="#FF2E2E2E" Margin="0, 0, 0, 10">
+        <Grid Grid.Row="0" Grid.Column="0" Height="25" Name="Header" Background="#FF2E2E2E" Margin="0, 0, 0, 0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Padding="5"
                                Visibility="Collapsed"
