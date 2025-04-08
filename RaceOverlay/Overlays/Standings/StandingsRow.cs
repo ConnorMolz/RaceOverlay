@@ -66,7 +66,7 @@ public class StandingsRow: Grid
         TextBlock carNrTextBlock = new TextBlock();
         carNrTextBlock.Text = "#" + carNr;
         carNrTextBlock.TextAlignment = TextAlignment.Center;
-        carNrTextBlock.Width = 15 + carNr.ToString().Length * 9;
+        carNrTextBlock.Width = 26;
         
         carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
         carNrTextBlock.SetValue(Grid.RowProperty, 0);
@@ -76,7 +76,7 @@ public class StandingsRow: Grid
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
         driverNameTextBlock.TextAlignment = TextAlignment.Center;
-        driverNameTextBlock.Width = 15 + DriverName.Length * 9;
+        driverNameTextBlock.Width = 200;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
@@ -90,7 +90,7 @@ public class StandingsRow: Grid
         
         lastLapTextBlock.Text = lastLapText;
         lastLapTextBlock.TextAlignment = TextAlignment.Center;
-        lastLapTextBlock.Width = 15 + lastLapText.Length * 9;
+        lastLapTextBlock.Width = 80;
         
         lastLapTextBlock.SetValue(Grid.ColumnProperty, 3);
         lastLapTextBlock.SetValue(Grid.RowProperty, 0);
@@ -104,7 +104,7 @@ public class StandingsRow: Grid
         
         bestLapTextBlock.Text = bestLapTimeText;
         bestLapTextBlock.TextAlignment = TextAlignment.Center;
-        bestLapTextBlock.Width = 15 + lastLapText.Length * 9;
+        bestLapTextBlock.Width = 80;
         
         bestLapTextBlock.SetValue(Grid.ColumnProperty, 4);
         bestLapTextBlock.SetValue(Grid.RowProperty, 0);
@@ -115,7 +115,7 @@ public class StandingsRow: Grid
         string iRatingText = ((float)IRating / 1000).ToString("F1") + "k";
         iRatingTextBlock.Text = iRatingText;
         iRatingTextBlock.TextAlignment = TextAlignment.Center;
-        iRatingTextBlock.Width = 15 + iRatingText.Length * 9;
+        iRatingTextBlock.Width = 30;
         
         iRatingTextBlock.SetValue(Grid.ColumnProperty, 5);
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);

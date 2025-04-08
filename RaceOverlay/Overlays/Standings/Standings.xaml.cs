@@ -44,8 +44,9 @@ public partial class Standings : Overlay
     public Standings(): base("Standings", "This overlay displays the current standings (from the last Lap which is completed)")
     {
         InitializeComponent();
-        _setWindowSize(480, 130);
+        _setWindowSize(440, 175);
         _getConfig();
+        _updateHeader();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
