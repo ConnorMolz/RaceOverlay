@@ -63,7 +63,8 @@
                     
                     <TextBlock
                         Visibility="Collapsed"
-                        Name="FuelHeaderText"></TextBlock>
+                        Name="FuelHeaderText"
+                        Padding="5"></TextBlock>
                     
                     <TextBlock
                         Visibility="Collapsed"
