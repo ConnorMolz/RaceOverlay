@@ -235,6 +235,15 @@ public partial class Relative : Overlay
     protected override void _getConfig()
     {
         _additionalDrivers = _getIntConfig("_additionalRows");
+        _showSessionTypeHeader = _getBoolConfig("_showSessionTypeHeader");
+        _showRaceDistanceHeader = _getBoolConfig("_showRaceDistanceHeader");
+        _showAirTempHeader = _getBoolConfig("_showAirTempHeader");
+        _showTrackTempHeader = _getBoolConfig("_showTrackTempHeader");
+        _showIncidentsHeader = _getBoolConfig("_showIncidentsHeader");
+        _showSOFHeader = _getBoolConfig("_showSOFHeader");
+        _showFuelHeader = _getBoolConfig("_showFuelHeader");
+        _showIsWetHeader = _getBoolConfig("_showIsWetHeader");
+        _showSimTimeHeader = _getBoolConfig("_showSimTimeHeader");
     }
 
     public override Grid GetConfigs()
