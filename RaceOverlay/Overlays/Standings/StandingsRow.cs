@@ -15,7 +15,7 @@ public class StandingsRow: Grid
     
     TextBlock driverNameTextBlock { get; set; }
 
-    public StandingsRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode)
     {
         Height = 30;
         
@@ -30,6 +30,9 @@ public class StandingsRow: Grid
         ColumnDefinition positionColumnDefinition = new ColumnDefinition();
         positionColumnDefinition.Width = GridLength.Auto;
         
+        ColumnDefinition carNrColumnDefinition = new ColumnDefinition();
+        carNrColumnDefinition.Width = GridLength.Auto;
+        
         ColumnDefinition driverNameColumnDefinition = new ColumnDefinition();
         driverNameColumnDefinition.Width = GridLength.Auto;
         
@@ -43,6 +46,7 @@ public class StandingsRow: Grid
         ratingColumnDefinition.Width = GridLength.Auto;
         
         ColumnDefinitions.Add(positionColumnDefinition);
+        ColumnDefinitions.Add(carNrColumnDefinition);
         ColumnDefinitions.Add(driverNameColumnDefinition);
         ColumnDefinitions.Add(lastLapColumnDefinition);
         ColumnDefinitions.Add(bestLapColumnDefinition);
@@ -59,12 +63,22 @@ public class StandingsRow: Grid
         Children.Add(positionTextBlock);
         
         
+        TextBlock carNrTextBlock = new TextBlock();
+        carNrTextBlock.Text = "#" + carNr;
+        carNrTextBlock.TextAlignment = TextAlignment.Center;
+        carNrTextBlock.Width = 15 + carNr.ToString().Length * 9;
+        
+        carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
+        carNrTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(carNrTextBlock);
+        
+        
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
         driverNameTextBlock.TextAlignment = TextAlignment.Center;
         driverNameTextBlock.Width = 15 + DriverName.Length * 9;
         
-        driverNameTextBlock.SetValue(Grid.ColumnProperty, 1);
+        driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(driverNameTextBlock);
         
@@ -78,7 +92,7 @@ public class StandingsRow: Grid
         lastLapTextBlock.TextAlignment = TextAlignment.Center;
         lastLapTextBlock.Width = 15 + lastLapText.Length * 9;
         
-        lastLapTextBlock.SetValue(Grid.ColumnProperty, 2);
+        lastLapTextBlock.SetValue(Grid.ColumnProperty, 3);
         lastLapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(lastLapTextBlock);
         
@@ -92,7 +106,7 @@ public class StandingsRow: Grid
         bestLapTextBlock.TextAlignment = TextAlignment.Center;
         bestLapTextBlock.Width = 15 + lastLapText.Length * 9;
         
-        bestLapTextBlock.SetValue(Grid.ColumnProperty, 3);
+        bestLapTextBlock.SetValue(Grid.ColumnProperty, 4);
         bestLapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(bestLapTextBlock);
         
@@ -103,7 +117,7 @@ public class StandingsRow: Grid
         iRatingTextBlock.TextAlignment = TextAlignment.Center;
         iRatingTextBlock.Width = 15 + iRatingText.Length * 9;
         
-        iRatingTextBlock.SetValue(Grid.ColumnProperty, 4);
+        iRatingTextBlock.SetValue(Grid.ColumnProperty, 5);
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(iRatingTextBlock);
     }

@@ -112,16 +112,25 @@ public partial class Standings : Overlay
                 DriverModel driver = _getDriverOnClassPosition(i, player.CarClass);
                 if (driver.Idx == _playerCarIdx)
                 {
-                    StandingsRow playerRow = new StandingsRow(driver.Name, driver.ClassPosition, driver.LastLap,
+                    StandingsRow playerRow = new StandingsRow(
+                        driver.Name,
+                        driver.CarNumber,
+                        driver.ClassPosition,
+                        driver.LastLap,
                         driver.BestLap,
-                        driver.iRating, driver.ClassColorCode);
+                        driver.iRating, 
+                        driver.ClassColorCode);
                     playerRow.SetToPlayerRow();
                     Grid.SetRow(playerRow, row);
                     Body.Children.Add(playerRow);
                 }
                 else
                 {
-                    StandingsRow driverRow = new StandingsRow(driver.Name, driver.ClassPosition, driver.LastLap,
+                    StandingsRow driverRow = new StandingsRow(
+                        driver.Name,
+                        driver.CarNumber,
+                        driver.ClassPosition, 
+                        driver.LastLap,
                         driver.BestLap,
                         driver.iRating, driver.ClassColorCode);
                     Grid.SetRow(driverRow, row);
