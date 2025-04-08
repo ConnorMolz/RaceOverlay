@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
+using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.Leaderboard;
 
@@ -12,6 +13,8 @@ public partial class Leaderboard : Overlay
 
     private List<DriverModel> _drivers;
     private int _playerCarIdx;
+    
+    // Header Data
     private double _timeLeft;
     private double _timeTotal;
     private int _lapsLeft;
@@ -21,6 +24,21 @@ public partial class Leaderboard : Overlay
     private float _airTemp;
     private int _maxIncidents;
     private int _incidents;
+    private float _fuel;
+    private int _sof;
+    private bool _isWet;
+    private string _sessionType;
+    
+    // Control variables for header config
+    private bool _showSessionTypeHeader;
+    private bool _showRaceDistanceHeader;
+    private bool _showAirTempHeader;
+    private bool _showTrackTempHeader;
+    private bool _showIncidentsHeader;
+    private bool _showSOFHeader;
+    private bool _showFuelHeader;
+    private bool _showIsWetHeader;
+    private bool _showSimTimeHeader;
     
     public Leaderboard(): base("Leaderboard", "This overlay displays the current leaderboard (from the last Lap which is completed)")
     {
@@ -43,7 +61,7 @@ public partial class Leaderboard : Overlay
             // 00:00:00 / 00:00:00 ~ 0/0 Laps
             TimeSpan timeLeft = TimeSpan.FromSeconds(_timeLeft);
             TimeSpan timeTotal = TimeSpan.FromSeconds(_timeTotal);
-            TimeOrLaps.Text = $"{timeLeft:hh\\:mm\\:ss} / {timeTotal:hh\\:mm\\:ss}";
+            TimeOrLapsHeaderText.Text = $"{timeLeft:hh\\:mm\\:ss} / {timeTotal:hh\\:mm\\:ss}";
         }
         
         
@@ -51,14 +69,14 @@ public partial class Leaderboard : Overlay
         {
             // Lap Formatting
             // 0/0 Laps
-            TimeOrLaps.Text = $"{_lapsTotal - _lapsLeft}/{_lapsTotal} Laps";
+            TimeOrLapsHeaderText.Text = $"{_lapsTotal - _lapsLeft}/{_lapsTotal} Laps";
         }
         
         // Incident Formating
-        IncidentsText.Text = $"X: {_incidents}/{_maxIncidents}";
+        IncidentsHeaderText.Text = $"X: {_incidents}/{_maxIncidents}";
         
-        AirTempText.Text = "Air: " + _airTemp.ToString("F1") + "C°";
-        TrackTempText.Text = "Track: " +  _trackTemp.ToString("F1") + "C°";
+        AirTempHeaderText.Text = "Air: " + _airTemp.ToString("F1") + "C°";
+        TrackTempHeaderText.Text = "Track: " +  _trackTemp.ToString("F1") + "C°";
 
         try
         {
@@ -114,8 +132,12 @@ public partial class Leaderboard : Overlay
         _lapsLeftEstimated = _data.SessionData.LapsLeftEstimated;
         _maxIncidents = _data.SessionData.MaxIncidents;
         _incidents = _data.SessionData.Incidents;
+        _sessionType = _data.SessionData.SessionType;
         _airTemp = _data.WeatherData.AirTemp;
         _trackTemp = _data.WeatherData.TrackTemp;
+        _isWet = _data.WeatherData.WeatherDeclaredWet;
+        _sof = _data.SessionData.SOF;
+        _fuel = _data.LocalCarTelemetry.FuelLevel;
         if (!_devMode)
         {
             InCar = _data.InCar;
@@ -163,6 +185,243 @@ public partial class Leaderboard : Overlay
             2 => 1,
             _ => 0
         };
+    }
+    
+    protected override void _getConfig()
+    {
+        
+    }
+
+    public override Grid GetConfigs()
+    {
+        Grid grid = new Grid();
+        
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        grid.RowDefinitions.Add(new RowDefinition());
+        
+        
+        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("ShowSessionTypeHeader", _showSessionTypeHeader);
+        showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showSessionTypeHeader = true;
+            _setBoolConfig("_showSessionTypeHeader", true);
+            _updateHeader();
+        };
+        showSessionTypeHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showSessionTypeHeader = false;
+            _setBoolConfig("_showSessionTypeHeader", false);
+            _updateHeader();
+        };
+        
+        showSessionTypeHeader.SetValue(Grid.RowProperty, 1);
+        showSessionTypeHeader.SetValue(Grid.ColumnProperty, 0);
+        grid.Children.Add(showSessionTypeHeader);
+        
+        
+        CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("ShowRaceDistanceHeader", _showRaceDistanceHeader);
+        showRaceDistanceHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showRaceDistanceHeader = true;
+            _setBoolConfig("_showRaceDistanceHeader", true);
+            _updateHeader();
+        };
+        showRaceDistanceHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showRaceDistanceHeader = false;
+            _setBoolConfig("_showRaceDistanceHeader", false);
+            _updateHeader();
+        };
+        
+        showRaceDistanceHeader.SetValue(Grid.RowProperty, 1);
+        showRaceDistanceHeader.SetValue(Grid.ColumnProperty, 1);
+        grid.Children.Add(showRaceDistanceHeader);
+        
+        CheckBoxElement showAirTempHeader = new CheckBoxElement("ShowAirTempHeader", _showAirTempHeader);
+        showAirTempHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showAirTempHeader = true;
+            _setBoolConfig("_showAirTempHeader", true);
+            _updateHeader();
+        };
+        showAirTempHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showAirTempHeader = false;
+            _setBoolConfig("_showAirTempHeader", false);
+            _updateHeader();
+        };
+        
+        showAirTempHeader.SetValue(Grid.RowProperty, 2);
+        showAirTempHeader.SetValue(Grid.ColumnProperty, 0);
+        grid.Children.Add(showAirTempHeader);
+        
+        CheckBoxElement showTrackTempHeader = new CheckBoxElement("ShowTrackTempHeader", _showTrackTempHeader);
+        showTrackTempHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showTrackTempHeader = true;
+            _setBoolConfig("_showTrackTempHeader", true);
+            _updateHeader();
+        };
+        showTrackTempHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showTrackTempHeader = false;
+            _setBoolConfig("_showTrackTempHeader", false);
+            _updateHeader();
+        };
+        
+        showTrackTempHeader.SetValue(Grid.RowProperty, 2);
+        showTrackTempHeader.SetValue(Grid.ColumnProperty, 1);
+        grid.Children.Add(showTrackTempHeader);
+        
+        CheckBoxElement showIncidentsHeader = new CheckBoxElement("ShowIncidentsHeader", _showIncidentsHeader);
+        showIncidentsHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showIncidentsHeader = true;
+            _setBoolConfig("_showIncidentsHeader", true);
+            _updateHeader();
+        };
+        showIncidentsHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showIncidentsHeader = false;
+            _setBoolConfig("_showIncidentsHeader", false);
+            _updateHeader();
+        };
+        
+        showIncidentsHeader.SetValue(Grid.RowProperty, 3);
+        showIncidentsHeader.SetValue(Grid.ColumnProperty, 0);
+        grid.Children.Add(showIncidentsHeader);
+        
+        CheckBoxElement showSOFHeader = new CheckBoxElement("ShowSOFHeader", _showSOFHeader);
+        showSOFHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showSOFHeader = true;
+            _setBoolConfig("_showSOFHeader", true);
+            _updateHeader();
+        };
+        showSOFHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showSOFHeader = false;
+            _setBoolConfig("_showSOFHeader", false);
+            _updateHeader();
+        };
+        
+        showSOFHeader.SetValue(Grid.RowProperty, 3);
+        showSOFHeader.SetValue(Grid.ColumnProperty, 1);
+        grid.Children.Add(showSOFHeader);
+
+        CheckBoxElement showFuelHeader = new CheckBoxElement("ShowFuelHeader", _showFuelHeader);
+        showFuelHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showFuelHeader = true;
+            _setBoolConfig("_showFuelHeader", true);
+            _updateHeader();
+        };
+        showFuelHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showFuelHeader = false;
+            _setBoolConfig("_showFuelHeader", false);
+            _updateHeader();
+        };
+        
+        showFuelHeader.SetValue(Grid.RowProperty, 4);
+        showFuelHeader.SetValue(Grid.ColumnProperty, 0);
+        grid.Children.Add(showFuelHeader);
+        
+        CheckBoxElement showIsWetHeader = new CheckBoxElement("ShowIsWetHeader", _showIsWetHeader);
+        showIsWetHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showIsWetHeader = true;
+            _setBoolConfig("_showIsWetHeader", true);
+            _updateHeader();
+        };
+        showIsWetHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showIsWetHeader = false;
+            _setBoolConfig("_showIsWetHeader", false);
+            _updateHeader();
+        };
+        
+        showIsWetHeader.SetValue(Grid.RowProperty, 4);
+        showIsWetHeader.SetValue(Grid.ColumnProperty, 1);
+        grid.Children.Add(showIsWetHeader);
+
+        CheckBoxElement showSimTimeHeader = new CheckBoxElement("ShowSimTimeHeader", _showSimTimeHeader);
+        showSimTimeHeader.CheckBox.Checked += (sender, args) =>
+        {
+            _showSimTimeHeader = true;
+            _setBoolConfig("_showSimTimeHeader", true);
+            _updateHeader();
+        };
+        showSimTimeHeader.CheckBox.Unchecked += (sender, args) =>
+        {
+            _showSimTimeHeader = false;
+            _setBoolConfig("_showSimTimeHeader", false);
+            _updateHeader();
+        };
+        
+        showSimTimeHeader.SetValue(Grid.RowProperty, 5);
+        showSimTimeHeader.SetValue(Grid.ColumnProperty, 0);
+        grid.Children.Add(showSimTimeHeader);
+        
+        return grid;
+    }
+
+    private void _updateHeader()
+    {
+        SessionTypeHeaderText.Visibility = Visibility.Collapsed;
+        TimeOrLapsHeaderText.Visibility = Visibility.Collapsed;
+        AirTempHeaderText.Visibility = Visibility.Collapsed;
+        TrackTempHeaderText.Visibility = Visibility.Collapsed;
+        IncidentsHeaderText.Visibility = Visibility.Collapsed;
+        SOFHeaderText.Visibility = Visibility.Collapsed;
+        FuelHeaderText.Visibility = Visibility.Collapsed;
+        IsWetHeaderText.Visibility = Visibility.Collapsed;
+        InSimTimeHeaderText.Visibility = Visibility.Collapsed;
+
+        if (_showSessionTypeHeader)
+        {
+            SessionTypeHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showRaceDistanceHeader)
+        {
+            TimeOrLapsHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showAirTempHeader)
+        {
+            AirTempHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showTrackTempHeader)
+        {
+            TrackTempHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showIncidentsHeader)
+        {
+            IncidentsHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showSOFHeader)
+        {
+            SOFHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showFuelHeader)
+        {
+            FuelHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showIsWetHeader)
+        {
+            IsWetHeaderText.Visibility = Visibility.Visible;
+        }
+        if (_showSimTimeHeader)
+        {
+            InSimTimeHeaderText.Visibility = Visibility.Visible;
+        }
+        
     }
     
 }
