@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace RaceOverlay.Overlays.Leaderboard;
 
-public class LeaderBoardRow: Grid
+public class StandingsRow: Grid
 {
     
     public string DriverName { get; set; }
@@ -15,7 +15,7 @@ public class LeaderBoardRow: Grid
     
     TextBlock driverNameTextBlock { get; set; }
 
-    public LeaderBoardRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    public StandingsRow(string driverName, int position, float lastLap, float bestLap, int rating, string classColorCode)
     {
         DriverName = driverName;
         Position = position;

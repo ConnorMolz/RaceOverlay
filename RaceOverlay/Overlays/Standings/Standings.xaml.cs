@@ -7,7 +7,7 @@ using RaceOverlay.Internals.Configs;
 
 namespace RaceOverlay.Overlays.Leaderboard;
 
-public partial class Leaderboard : Overlay
+public partial class Standings : Overlay
 {
     private iRacingData _data;
 
@@ -41,7 +41,7 @@ public partial class Leaderboard : Overlay
     private bool _showIsWetHeader;
     private bool _showSimTimeHeader;
     
-    public Leaderboard(): base("Leaderboard", "This overlay displays the current leaderboard (from the last Lap which is completed)")
+    public Standings(): base("Standings", "This overlay displays the current standings (from the last Lap which is completed)")
     {
         InitializeComponent();
         _setWindowSize(480, 130);
@@ -112,7 +112,7 @@ public partial class Leaderboard : Overlay
                 DriverModel driver = _getDriverOnClassPosition(i, player.CarClass);
                 if (driver.Idx == _playerCarIdx)
                 {
-                    LeaderBoardRow playerRow = new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap,
+                    StandingsRow playerRow = new StandingsRow(driver.Name, driver.ClassPosition, driver.LastLap,
                         driver.BestLap,
                         driver.iRating, driver.ClassColorCode);
                     playerRow.SetToPlayerRow();
@@ -121,7 +121,7 @@ public partial class Leaderboard : Overlay
                 }
                 else
                 {
-                    LeaderBoardRow driverRow = new LeaderBoardRow(driver.Name, driver.ClassPosition, driver.LastLap,
+                    StandingsRow driverRow = new StandingsRow(driver.Name, driver.ClassPosition, driver.LastLap,
                         driver.BestLap,
                         driver.iRating, driver.ClassColorCode);
                     Grid.SetRow(driverRow, row);

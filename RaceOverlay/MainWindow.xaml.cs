@@ -55,7 +55,7 @@ public partial class MainWindow : Window
         Overlays.Add(new FuelCalculator());
         Overlays.Add(new Inputs());
         Overlays.Add(new LaptimeDelta());
-        Overlays.Add(new Leaderboard());
+        Overlays.Add(new Standings());
         Overlays.Add(new PitstopInfo());
         Overlays.Add(new Relative());
         //Overlays.Add(new SessionInfo());
