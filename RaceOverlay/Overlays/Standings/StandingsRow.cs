@@ -1,0 +1,149 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+namespace RaceOverlay.Overlays.Leaderboard;
+
+public class StandingsRow: Grid
+{
+    
+    public string DriverName { get; set; }
+    public int Position { get; set; }
+    public float LastLap { get; set; }
+    public float BestLap { get; set; }
+    public int IRating { get; set;}
+    
+    TextBlock driverNameTextBlock { get; set; }
+
+    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    {
+        Height = 30;
+        
+        DriverName = driverName;
+        Position = position;
+        LastLap = lastLap;
+        BestLap = bestLap;
+        IRating = rating;
+        
+        RowDefinitions.Add(new RowDefinition());
+        
+        ColumnDefinition positionColumnDefinition = new ColumnDefinition();
+        positionColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition carNrColumnDefinition = new ColumnDefinition();
+        carNrColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition driverNameColumnDefinition = new ColumnDefinition();
+        driverNameColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition lastLapColumnDefinition = new ColumnDefinition();
+        lastLapColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition bestLapColumnDefinition = new ColumnDefinition();
+        bestLapColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition ratingColumnDefinition = new ColumnDefinition();
+        ratingColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinitions.Add(positionColumnDefinition);
+        ColumnDefinitions.Add(carNrColumnDefinition);
+        ColumnDefinitions.Add(driverNameColumnDefinition);
+        ColumnDefinitions.Add(lastLapColumnDefinition);
+        ColumnDefinitions.Add(bestLapColumnDefinition);
+        ColumnDefinitions.Add(ratingColumnDefinition);
+        
+        TextBlock positionTextBlock = new TextBlock();
+        positionTextBlock.Text = Position.ToString();
+        positionTextBlock.Background = _getClassColorBrush(classColorCode.Replace("0x", "#"));
+        positionTextBlock.TextAlignment = TextAlignment.Center;
+        positionTextBlock.Width = 15;
+        
+        positionTextBlock.SetValue(Grid.ColumnProperty, 0);
+        positionTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(positionTextBlock);
+        
+        
+        TextBlock carNrTextBlock = new TextBlock();
+        carNrTextBlock.Text = "#" + carNr;
+        carNrTextBlock.TextAlignment = TextAlignment.Center;
+        carNrTextBlock.Width = 26;
+        
+        carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
+        carNrTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(carNrTextBlock);
+        
+        
+        driverNameTextBlock = new TextBlock();
+        driverNameTextBlock.Text = DriverName;
+        driverNameTextBlock.TextAlignment = TextAlignment.Center;
+        driverNameTextBlock.Width = 200;
+        
+        driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
+        driverNameTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(driverNameTextBlock);
+        
+        
+        TextBlock lastLapTextBlock = new TextBlock();
+        
+        TimeSpan lastLapTimeSpan = TimeSpan.FromSeconds(LastLap);
+        string lastLapText = $"{lastLapTimeSpan:mm\\:ss\\:fff}";
+        
+        lastLapTextBlock.Text = lastLapText;
+        lastLapTextBlock.TextAlignment = TextAlignment.Center;
+        lastLapTextBlock.Width = 80;
+        
+        lastLapTextBlock.SetValue(Grid.ColumnProperty, 3);
+        lastLapTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(lastLapTextBlock);
+        
+        
+        TextBlock bestLapTextBlock = new TextBlock();
+
+        TimeSpan bestLapTimeSpan = TimeSpan.FromSeconds(bestLap);
+        string bestLapTimeText = $"{bestLapTimeSpan:mm\\:ss\\:fff}";
+        
+        bestLapTextBlock.Text = bestLapTimeText;
+        bestLapTextBlock.TextAlignment = TextAlignment.Center;
+        bestLapTextBlock.Width = 80;
+        
+        bestLapTextBlock.SetValue(Grid.ColumnProperty, 4);
+        bestLapTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(bestLapTextBlock);
+        
+        
+        TextBlock iRatingTextBlock = new TextBlock();
+        string iRatingText = ((float)IRating / 1000).ToString("F1") + "k";
+        iRatingTextBlock.Text = iRatingText;
+        iRatingTextBlock.TextAlignment = TextAlignment.Center;
+        iRatingTextBlock.Width = 30;
+        
+        iRatingTextBlock.SetValue(Grid.ColumnProperty, 5);
+        iRatingTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(iRatingTextBlock);
+    }
+    
+    private SolidColorBrush _getClassColorBrush(string classColorCode)
+    {
+        if (classColorCode == "#ffffff" || classColorCode == "#000000" || classColorCode == "#undefined")
+        {
+            var brush = new SolidColorBrush();
+            brush.Color = Colors.Navy;
+            return brush;
+        }
+        if (!(new BrushConverter().ConvertFromString(classColorCode) is SolidColorBrush))
+        {
+            var brush = new SolidColorBrush();
+            brush.Color = Colors.Navy;
+            return brush;
+        }
+
+        return new BrushConverter().ConvertFromString(classColorCode) as SolidColorBrush;
+    }
+    
+    public void SetToPlayerRow()
+    {
+        driverNameTextBlock.FontWeight = FontWeights.Bold;
+        driverNameTextBlock.Foreground = Brushes.Gold;
+    }
+    
+}

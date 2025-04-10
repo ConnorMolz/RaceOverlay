@@ -29,7 +29,31 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      public abstract void _getData();
      protected virtual void _getConfig(){}
 
-     public abstract void UpdateThreadMethod();
+     public virtual void UpdateThreadMethod()
+     {
+          
+          while (true)
+          {
+               try
+               {
+                    _getData();
+                    if (IsVisible)
+                    {
+
+                         // Use Dispatcher to update UI from background thread
+                         Dispatcher.Invoke(() => { _updateWindow(); });
+                    }
+
+                    // Add a small delay to prevent high CPU usage
+                    Thread.Sleep(16); // ~60 updates per second
+               }
+               catch (Exception e)
+               {
+                    Debug.WriteLine(e);
+               }
+          }
+          
+     }
      public Grid DragGrid { get; set; }
      private MouseButtonEventHandler _dragMoveHandler;
      

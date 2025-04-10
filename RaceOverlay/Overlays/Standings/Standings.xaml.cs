@@ -5,13 +5,30 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Internals.Configs;
 
-namespace RaceOverlay.Overlays.Relative;
+namespace RaceOverlay.Overlays.Leaderboard;
 
-public partial class Relative : Overlay
+public partial class Standings : Overlay
 {
     private iRacingData _data;
-    private List<DriverModel> _driverModels;
-    private int _additionalDrivers;
+
+    private List<DriverModel> _drivers;
+    private int _playerCarIdx;
+    
+    // Header Data
+    private double _timeLeft;
+    private double _timeTotal;
+    private int _lapsLeft;
+    private int _lapsTotal;
+    private int _lapsLeftEstimated;
+    private float _trackTemp;
+    private float _airTemp;
+    private int _maxIncidents;
+    private int _incidents;
+    private float _fuel;
+    private int _sof;
+    private bool _isWet;
+    private string _sessionType;
+    private float _inSimTime;
     
     // Control variables for header config
     private bool _showSessionTypeHeader;
@@ -24,49 +41,17 @@ public partial class Relative : Overlay
     private bool _showIsWetHeader;
     private bool _showSimTimeHeader;
     
-    // Values for Header
-    private double _timeLeft;
-    private double _timeTotal;
-    private int _lapsLeft;
-    private int _lapsTotal;
-    private int _lapsLeftEstimated;
-    private int _maxIncidents;
-    private int _incidents;
-    private string _sessionType;
-    private double _airTemp;
-    private double _trackTemp;
-    private bool _isWet;
-    private int _sof;
-    private float _fuel;
-    private float _inSimTime;
-    
-    
-    public Relative() : base("Relative", "Shows the Relative time to other cars inbound of 40 seconds.")
+    public Standings(): base("Standings", "This overlay displays the current standings (from the last Lap which is completed)")
     {
         InitializeComponent();
+        _setWindowSize(440, 175);
         _getConfig();
         _updateHeader();
-        _setWindowSize(200, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
         updateThread.IsBackground = true;
         updateThread.Start();
-    }
-    
-    public Relative(bool isTest) : base("Relative", "", isTest)
-    {
-        InitializeComponent();
-        _getConfig();
-        _setWindowSize(230, calcHeight());
-
-        if (!_isTest)
-        {
-            Thread updateThread = new Thread(UpdateThreadMethod);
-
-            updateThread.IsBackground = true;
-            updateThread.Start();
-        }
     }
 
     public override void _updateWindow()
@@ -112,45 +97,63 @@ public partial class Relative : Overlay
         // Sim Time Formating
         TimeSpan simTime = TimeSpan.FromSeconds(_inSimTime);
         InSimTimeHeaderText.Text = $"{simTime:hh\\:mm}";
-        
+
         try
         {
             Body.Children.Clear();
-            for (int i = 0; i < _driverModels.Count; i++)
+            DriverModel player = _drivers.FirstOrDefault(driver => driver.Idx == _playerCarIdx);
+            int playerPosition = player.ClassPosition;
+            int driverCount = _drivers.Count;
+            int offset = getDriverOffset(playerPosition, driverCount);
+            int row = 0;
+
+            for (int i = playerPosition - 2 + offset; i < playerPosition + 2 + offset; i++)
             {
                 Body.RowDefinitions.Add(new RowDefinition());
-                var row = new RelativeRow(
-                    _driverModels[i].Name,
-                    _driverModels[i].ClassPosition,
-                    _data.GetGapToPlayerMs(_driverModels[i].Idx),
-                    _driverModels[i].CarNumber,
-                    _driverModels[i].ClassColorCode
-                );
-                Grid.SetRow(row, i);
-                Body.Children.Add(row);
+                DriverModel driver = _getDriverOnClassPosition(i, player.CarClass);
+                if (driver.Idx == _playerCarIdx)
+                {
+                    StandingsRow playerRow = new StandingsRow(
+                        driver.Name,
+                        driver.CarNumber,
+                        driver.ClassPosition,
+                        driver.LastLap,
+                        driver.BestLap,
+                        driver.iRating, 
+                        driver.ClassColorCode);
+                    playerRow.SetToPlayerRow();
+                    Grid.SetRow(playerRow, row);
+                    Body.Children.Add(playerRow);
+                }
+                else
+                {
+                    StandingsRow driverRow = new StandingsRow(
+                        driver.Name,
+                        driver.CarNumber,
+                        driver.ClassPosition, 
+                        driver.LastLap,
+                        driver.BestLap,
+                        driver.iRating, driver.ClassColorCode);
+                    Grid.SetRow(driverRow, row);
+                    Body.Children.Add(driverRow);
+                }
+
+                row++;
             }
+            
         }
         catch (Exception e)
         {
-            Debug.WriteLine(e);
+            //ignore
         }
+
     }
 
     public override void _getData()
     {
-        
         _data = MainWindow.IRacingData;
-        if (!_devMode)
-        {
-            InCar = _data.InCar;
-        }
-        else
-        {
-            InCar = true;
-        }
-        if (_data == null)
-            return;
-        _driverModels = GetRelative();
+        _drivers = _data.Drivers.ToList();
+        _playerCarIdx = _data.PlayerIdx;
         _timeLeft = _data.SessionData.TimeLeft;
         _timeTotal = _data.SessionData.TimeTotal;
         _lapsLeft = _data.SessionData.LapsLeft;
@@ -164,9 +167,16 @@ public partial class Relative : Overlay
         _isWet = _data.WeatherData.WeatherDeclaredWet;
         _sof = _data.SessionData.SOF;
         _fuel = _data.LocalCarTelemetry.FuelLevel;
-
-        
+        if (!_devMode)
+        {
+            InCar = _data.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
     }
+    
 
     protected override void _scaleWindow(double scale)
     {
@@ -180,62 +190,34 @@ public partial class Relative : Overlay
             Debug.WriteLine(e);
         }
     }
-
-    private List<DriverModel> GetRelative()
+    
+    private DriverModel _getDriverOnClassPosition(int position, string carClass)
     {
-        var relative = new List<DriverModel>();
-        var drivers = _data.Drivers.ToList();
-        if (drivers == null || drivers.Count == 0)
-            return relative;
-
-        // calculate live standings based on percentage of the current lap completed
-        drivers.Sort((a, b) =>
-        {
-
-            if (a == null) return -1;
-            if (b == null) return 1;
-
-            var aSpline = a.LapDistance;
-            var bSpline = b.LapDistance;
-
-            float aPosition = aSpline / 10;
-            float bPosition = bSpline / 10;
-            return aPosition.CompareTo(bPosition);
-        });
-
-        int playerEntryListIndex = -1;
-        int sortedListIndex = 0;
-        foreach (DriverModel car in drivers)
-        {
-            if (_data.PlayerIdx == car.Idx)
-            {
-                playerEntryListIndex = sortedListIndex;
-                break;
-            }
-            sortedListIndex++;
-        }
-
-
-        // Collect "additionalDrivers" in front of player and after. Limit to max 40secs difference.
-        int startIndex = (playerEntryListIndex - _additionalDrivers + drivers.Count) % drivers.Count;
-        int endIndex = (playerEntryListIndex + _additionalDrivers + 1 + drivers.Count) % drivers.Count;
-
-        for (int index = startIndex; index < endIndex; index++)
-        {
-
-            DriverModel carToAdd = drivers[index];
-
-            if (Math.Abs(_data.GetGapToPlayerMs(carToAdd.Idx)) > 40000) continue;
-            relative.Insert(0, carToAdd);
-        }
-
-        return relative;
+        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && driver.CarClass == carClass);
     }
+    
+    private int getDriverOffset(int position, int driverCount)
+    {
+        if (position == driverCount)
+        {
+            return -2;
+        }
 
+        if (position == driverCount - 1)
+        {
+            return -1;
+        }
 
+        return position switch
+        {
+            1 => 2,
+            2 => 1,
+            _ => 0
+        };
+    }
+    
     protected override void _getConfig()
     {
-        _additionalDrivers = _getIntConfig("_additionalRows");
         _showSessionTypeHeader = _getBoolConfig("_showSessionTypeHeader");
         _showRaceDistanceHeader = _getBoolConfig("_showRaceDistanceHeader");
         _showAirTempHeader = _getBoolConfig("_showAirTempHeader");
@@ -250,40 +232,18 @@ public partial class Relative : Overlay
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
-
+        
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-
+        
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-
-        InputElement additionalDrivers = new InputElement("AdditionalRows",  _additionalDrivers.ToString());
-        additionalDrivers.Margin = new Thickness(0, 0, 0, 10);
-        additionalDrivers.SetValue(Grid.RowProperty, 0);
-
-        void ParseAdditionalDriversInput(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(additionalDrivers.InputField.Text, out int maxValue))
-            {
-                _additionalDrivers = maxValue;
-                _setIntConfig("_additionalRows", _additionalDrivers);
-                _setWindowSize(230, calcHeight());
-                _scaleWindow(_scale);
-            }
-        }
-
-        additionalDrivers.InputField.TextChanged += ParseAdditionalDriversInput;
-
-        Grid.SetRow(additionalDrivers, 0);
-        Grid.SetColumn(additionalDrivers, 0);
-        Grid.SetColumnSpan(additionalDrivers, 2);
-        grid.Children.Add(additionalDrivers);
-
-
+        
+        
         CheckBoxElement showSessionTypeHeader = new CheckBoxElement("ShowSessionTypeHeader", _showSessionTypeHeader);
         showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -297,12 +257,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSessionTypeHeader", false);
             _updateHeader();
         };
-
+        
         showSessionTypeHeader.SetValue(Grid.RowProperty, 1);
         showSessionTypeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSessionTypeHeader);
-
-
+        
+        
         CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("ShowRaceDistanceHeader", _showRaceDistanceHeader);
         showRaceDistanceHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -316,11 +276,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showRaceDistanceHeader", false);
             _updateHeader();
         };
-
+        
         showRaceDistanceHeader.SetValue(Grid.RowProperty, 1);
         showRaceDistanceHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showRaceDistanceHeader);
-
+        
         CheckBoxElement showAirTempHeader = new CheckBoxElement("ShowAirTempHeader", _showAirTempHeader);
         showAirTempHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -334,11 +294,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showAirTempHeader", false);
             _updateHeader();
         };
-
+        
         showAirTempHeader.SetValue(Grid.RowProperty, 2);
         showAirTempHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showAirTempHeader);
-
+        
         CheckBoxElement showTrackTempHeader = new CheckBoxElement("ShowTrackTempHeader", _showTrackTempHeader);
         showTrackTempHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -352,11 +312,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showTrackTempHeader", false);
             _updateHeader();
         };
-
+        
         showTrackTempHeader.SetValue(Grid.RowProperty, 2);
         showTrackTempHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showTrackTempHeader);
-
+        
         CheckBoxElement showIncidentsHeader = new CheckBoxElement("ShowIncidentsHeader", _showIncidentsHeader);
         showIncidentsHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -370,11 +330,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIncidentsHeader", false);
             _updateHeader();
         };
-
+        
         showIncidentsHeader.SetValue(Grid.RowProperty, 3);
         showIncidentsHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showIncidentsHeader);
-
+        
         CheckBoxElement showSOFHeader = new CheckBoxElement("ShowSOFHeader", _showSOFHeader);
         showSOFHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -388,7 +348,7 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSOFHeader", false);
             _updateHeader();
         };
-
+        
         showSOFHeader.SetValue(Grid.RowProperty, 3);
         showSOFHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showSOFHeader);
@@ -406,11 +366,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showFuelHeader", false);
             _updateHeader();
         };
-
+        
         showFuelHeader.SetValue(Grid.RowProperty, 4);
         showFuelHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showFuelHeader);
-
+        
         CheckBoxElement showIsWetHeader = new CheckBoxElement("ShowIsWetHeader", _showIsWetHeader);
         showIsWetHeader.CheckBox.Checked += (sender, args) =>
         {
@@ -424,7 +384,7 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIsWetHeader", false);
             _updateHeader();
         };
-
+        
         showIsWetHeader.SetValue(Grid.RowProperty, 4);
         showIsWetHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showIsWetHeader);
@@ -442,19 +402,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSimTimeHeader", false);
             _updateHeader();
         };
-
+        
         showSimTimeHeader.SetValue(Grid.RowProperty, 5);
         showSimTimeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSimTimeHeader);
-
+        
         return grid;
-    }
-
-    private int calcHeight()
-    {
-        int height = 55;
-        height += (30 * _additionalDrivers * 2);
-        return height;
     }
 
     private void _updateHeader()
@@ -505,8 +458,7 @@ public partial class Relative : Overlay
         {
             InSimTimeHeaderText.Visibility = Visibility.Visible;
         }
-
+        
     }
-
-
+    
 }
