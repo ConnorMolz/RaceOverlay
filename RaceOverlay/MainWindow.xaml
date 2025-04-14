@@ -63,10 +63,26 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <TextBlock Text="Overlays:"></TextBlock>
+                    <Rectangle 
+                               Height="1" 
+                               Margin="0,0" 
+                               Fill="White" 
+                               HorizontalAlignment="Stretch"/>
+                </StackPanel>
                 <ListView x:Name="OverlayList" 
                           Background="#FF1E1E1E"
                           Foreground="White" 
-                          Grid.Column="0" 
+                          Grid.Row="1" 
                           SelectionChanged="OverlaySelectionChanged"
                           Width="180"
                           HorizontalAlignment="Left"
@@ -77,6 +93,33 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                
+                
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <TextBlock Text="Stream Overlays:"></TextBlock>
+                    <Rectangle 
+                        Height="1" 
+                        Margin="0,0" 
+                        Fill="White" 
+                        HorizontalAlignment="Stretch"/>
+                </StackPanel>
+                <ListView x:Name="StreamOverlayList" 
+                          Background="#FF1E1E1E"
+                          Foreground="White" 
+                          Grid.Row="3" 
+                          SelectionChanged="StreamOverlayList_OnSelectionChangedOverlaySelectionChanged"
+                          Width="180"
+                          HorizontalAlignment="Left"
+                          BorderThickness="0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}" Padding="5" FontSize="16" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </Grid>
+               
                 
             <Rectangle Grid.Column="1" 
                        Width="1" 
@@ -133,7 +176,27 @@
                         <StackPanel Grid.Row="2" Name="CustomConfigContainer" Margin="10" CanVerticallyScroll="True">
                             
                         </StackPanel>
+                        
                     </Grid>
+                    
+                    <StackPanel Grid.Row="3" Name="LinkStackPanel" Orientation="Horizontal" Margin="10" Visibility="Collapsed">
+                        <TextBlock Text="Link:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox 
+                            Name="LinkTextBox" 
+                            BorderThickness="1"
+                            Foreground="White"
+                            Background="#FF3E3E3E"
+                            IsReadOnly="True"
+                            Height="20"></TextBox>
+                        <Button 
+                            Content="Copy" 
+                            Foreground="White" 
+                            Click="CopyLinkButtonMethod"
+                            Background="#FF3E3E3E"
+                            Height="20"
+                            ></Button>
+                    </StackPanel>
+                    
                     <Button Grid.Column="0"
                             Background="#FF3E3E3E"
                             Foreground="White" 
