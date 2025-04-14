@@ -186,6 +186,7 @@
                             BorderThickness="1"
                             Foreground="White"
                             Background="#FF3E3E3E"
+                            IsReadOnly="True"
                             Height="20"></TextBox>
                         <Button 
                             Content="Copy" 

@@ -396,5 +396,6 @@ public partial class MainWindow : Window
     private void CopyLinkButtonMethod(object sender, RoutedEventArgs e)
     {
         Console.WriteLine("Hello");
+        Clipboard.SetText(LinkTextBox.Text);
     }
 }
