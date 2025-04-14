@@ -16,6 +16,9 @@
 
     <ItemGroup>
       <PackageReference Include="IRSDKSharper" Version="1.1.3" />
+      <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+      <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     </ItemGroup>
@@ -25,6 +28,12 @@
         <EmbeddedResource Include="Resources\LICENSE" />
         <None Remove="Resources\Manual" />
         <EmbeddedResource Include="Resources\Manual" />
+        <None Remove="API\Overlays\Inputs\Inputs.html" />
+        <EmbeddedResource Include="API\Overlays\Inputs\Inputs.html" />
+        <None Remove="Resources\SetupHider.jpg" />
+        <EmbeddedResource Include="Resources\SetupHider.jpg" />
+        <None Remove="API\Overlays\SetupHider\SetupHider.html" />
+        <EmbeddedResource Include="API\Overlays\SetupHider\SetupHider.html" />
     </ItemGroup>
 
     <ItemGroup>
