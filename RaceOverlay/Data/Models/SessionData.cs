@@ -9,5 +9,8 @@ public class SessionData
     public int LapsLeftEstimated { get; set; }
     public int MaxIncidents { get; set; }
     public int Incidents { get; set; }
-    
+    public int SOF { get; set; }
+    public string SessionType { get; set; }
+    public float InSimTime { get; set; }
+
 }

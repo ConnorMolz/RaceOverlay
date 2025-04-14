@@ -25,16 +25,16 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="300" 
+                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Width="300" RadiusX="10" RadiusY="10"
                            Height="30" 
                            Fill="#FF2A2A2A"/>  
-                <Rectangle Grid.Column="0" x:Name="DeltaBarPositive"
+                <Rectangle Grid.Column="0" x:Name="DeltaBarPositive" RadiusX="10" RadiusY="10"
                            Width="0" 
                            Height="30" 
                            Fill="#FFFF0000"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Right"/>
-                <Rectangle Grid.Column="1" x:Name="DeltaBarNegative"
+                <Rectangle Grid.Column="1" x:Name="DeltaBarNegative" RadiusX="10" RadiusY="10"
                            Width="75" 
                            Height="30" 
                            Fill="#FF009900"

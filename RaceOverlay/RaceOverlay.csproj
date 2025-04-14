@@ -11,7 +11,7 @@
         <PublishReadyToRun>true</PublishReadyToRun>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <Version>0.4.1</Version>
+        <Version>0.6.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +20,7 @@
       <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -33,6 +34,11 @@
         <EmbeddedResource Include="Resources\SetupHider.jpg" />
         <None Remove="API\Overlays\SetupHider\SetupHider.html" />
         <EmbeddedResource Include="API\Overlays\SetupHider\SetupHider.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Overlays\Inputs\wheel.svg" />
+      <Resource Include="Overlays\Inputs\wheel.svg" />
     </ItemGroup>
     
 </Project>

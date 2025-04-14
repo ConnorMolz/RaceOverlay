@@ -11,9 +11,11 @@ using RaceOverlay.Data.Models;
 using RaceOverlay.Internals;
 using RaceOverlay.Overlays.EnergyInfo;
 using RaceOverlay.Overlays.Electronics;
+using RaceOverlay.Overlays.FuelCalculator;
 using RaceOverlay.Overlays.LaptimeDelta;
 using RaceOverlay.Overlays.Leaderboard;
 using RaceOverlay.Overlays.PitstopInfo;
+using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
@@ -31,6 +33,7 @@ public partial class MainWindow : Window
     private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     public static List<Overlay> Overlays;
+    public static List<Internals.StreamOverlay> StreamOverlays;
     public static bool ShutdownIsTriggerd = false;
     
     
@@ -46,15 +49,18 @@ public partial class MainWindow : Window
 
     private void _initOverlays()
     {
+        // Overlay
         MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
         Overlays.Add(new Electronics());
         Overlays.Add(new EnergyInfo());
+        Overlays.Add(new FuelCalculator());
         Overlays.Add(new Inputs());
         Overlays.Add(new LaptimeDelta());
-        Overlays.Add(new Leaderboard());
+        Overlays.Add(new Standings());
         Overlays.Add(new PitstopInfo());
+        Overlays.Add(new Relative());
         //Overlays.Add(new SessionInfo());
         Overlays.Add(new WeatherInfo());
 
@@ -62,6 +68,17 @@ public partial class MainWindow : Window
         Overlays = Overlays.OrderBy(o => o.OverlayName).ToList();
         
         OverlayList.ItemsSource = MainWindow.Overlays;
+        
+        
+        // Stream Overlay
+        MainWindow.StreamOverlays = new List<Internals.StreamOverlay>();
+        
+        // Add here every Stream Overlay
+        //StreamOverlays.Add(new Test());
+        
+        StreamOverlays = StreamOverlays.OrderBy(o => o.Title).ToList();
+        StreamOverlayList.ItemsSource = MainWindow.StreamOverlays;
+        
         
     }
 
@@ -121,7 +138,9 @@ public partial class MainWindow : Window
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
+        IRacingData = new iRacingData();
         IRacingData.InCar = false;
+        
     }
     
     
@@ -149,6 +168,7 @@ public partial class MainWindow : Window
     private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+        StreamOverlayList.UnselectAll();
             
         if (selectedOverlay != null)
         {
@@ -164,6 +184,9 @@ public partial class MainWindow : Window
             CustomConfigContainer.Children.Clear();
             Grid overlayConfigs = selectedOverlay.GetConfigs();
             CustomConfigContainer.Children.Add( overlayConfigs );
+
+            LinkStackPanel.Visibility = Visibility.Collapsed;
+            LinkTextBox.Text = string.Empty;
 
         }
     }
@@ -296,5 +319,83 @@ public partial class MainWindow : Window
             ScaleSlider.ValueChanged += ScaleSlider_ValueChanged;
         }
     }
+
+    public static IRacingSdk getRSDK()
+    {
+        return IrsdkSharper;
+    }
     
+    private void OpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        double opacity = OpacitySlider.Value;
+            
+        Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+        if (selectedOverlay != null)
+        {
+            selectedOverlay.OpacityValueChanges(opacity);
+            
+        }
+            
+        // Update text box to match (without triggering its event)
+        OpacityInput.TextChanged -= OpacityInput_TextChanged;
+        OpacityInput.Text = opacity.ToString("F1");
+        OpacityInput.TextChanged += OpacityInput_TextChanged;
+    }
+    
+    private void OpacityInput_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (ConfigGrid.Visibility != Visibility.Visible)
+        {
+            return;
+        }
+
+        if (float.TryParse(OpacityInput.Text, out float opacity))
+        {
+            // Ensure _scale is within reasonable bounds
+            opacity = Math.Max(0.5f, Math.Min(opacity, 2.0f));
+                
+            Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+            
+            if (selectedOverlay != null)
+            {
+                selectedOverlay.OpacityValueChanges(opacity);
+            
+            }
+                
+            // Update slider to match (without triggering its event)
+            OpacitySlider.ValueChanged -= OpacitySlider_ValueChanged;
+            OpacitySlider.Value = Math.Max(ScaleSlider.Minimum, Math.Min(opacity, ScaleSlider.Maximum));
+            OpacitySlider.ValueChanged += OpacitySlider_ValueChanged;
+        }
+    }
+
+    private void StreamOverlayList_OnSelectionChangedOverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Internals.StreamOverlay? selectedOverlay = StreamOverlayList.SelectedItem as Internals.StreamOverlay;
+        OverlayList.UnselectAll();
+            
+        if (selectedOverlay != null)
+        {
+            // Get Data from Overlay
+            Debug.WriteLine(selectedOverlay.Title);
+            OverlayNameText.Text = selectedOverlay.Title;
+            OverlayDescriptionText.Text = selectedOverlay.Description;
+            ToggleOverlayButton.Visibility = Visibility.Collapsed;
+            ConfigGrid.Visibility = Visibility.Collapsed;
+            
+            LinkStackPanel.Visibility = Visibility.Visible;
+            LinkTextBox.Visibility = Visibility.Visible;
+            LinkTextBox.Text = selectedOverlay.Link;
+            
+            CustomConfigContainer.Children.Clear();
+
+        }
+    }
+
+    private void CopyLinkButtonMethod(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Hello");
+        Clipboard.SetText(LinkTextBox.Text);
+    }
 }

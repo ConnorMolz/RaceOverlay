@@ -94,28 +94,6 @@ public partial class Electronics : Overlay
             ARBRValue.Text = _ARBRear.ToString("F0");
         }
     }
-    
-    public override void UpdateThreadMethod()
-    {
-        {
-            while (true)
-            {
-                _getData();
-                if (IsVisible)
-                {
-                    
-                    // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
-                    {
-                        _updateWindow();
-                    });
-                }
-                
-                // Add a small delay to prevent high CPU usage
-                Thread.Sleep(16); // ~60 updates per second
-            }
-        }
-    }
 
     protected override void _scaleWindow(double scale)
     {
@@ -214,7 +192,7 @@ public partial class Electronics : Overlay
             Hide();
         }
 
-        if (size != 0 && _windowIsActive)
+        if (size != 0 && _windowIsActive && _inCar)
         {
             Show();
         }
@@ -236,14 +214,13 @@ public partial class Electronics : Overlay
     {
         Grid grid = new Grid();
         
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
 
         CheckBoxElement absElement = new CheckBoxElement("Show ABS: ", _showAbs);
         
@@ -259,7 +236,8 @@ public partial class Electronics : Overlay
             _setBoolConfig("_showAbs", _showAbs);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetRow(absElement, 0);
+        Grid.SetRow(absElement, 1);
+        Grid.SetColumn(absElement, 0);
         grid.Children.Add(absElement);
         
         CheckBoxElement tc1Element = new CheckBoxElement("Show TC1: ", _showTc1);
@@ -276,7 +254,8 @@ public partial class Electronics : Overlay
             _setBoolConfig("_showTc1", _showTc1);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetRow(tc1Element, 1);
+        Grid.SetRow(tc1Element, 0);
+        Grid.SetColumn(tc1Element, 0);
         grid.Children.Add(tc1Element);
         
         CheckBoxElement tc2Element = new CheckBoxElement("Show TC2: ", _showTc2);
@@ -293,7 +272,8 @@ public partial class Electronics : Overlay
             _setBoolConfig("_showTc2", _showTc2);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetRow(tc2Element, 2);
+        Grid.SetRow(tc2Element, 0);
+        Grid.SetColumn(tc2Element, 1);
         grid.Children.Add(tc2Element);
         
         CheckBoxElement bbElement = new CheckBoxElement("Show Brake Bias: ", _showBB);
@@ -309,7 +289,8 @@ public partial class Electronics : Overlay
             _setBoolConfig("_showBB", _showBB);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetRow(bbElement, 3);
+        Grid.SetRow(bbElement, 1);
+        Grid.SetColumn(bbElement, 1);
         grid.Children.Add(bbElement);
         
         CheckBoxElement ARBFrontElement = new CheckBoxElement("Show ARB Front: ", _showARBFront);
@@ -326,7 +307,8 @@ public partial class Electronics : Overlay
             _setBoolConfig("_showARBFront", _showARBFront);
             WindowWidth = calcWindowWidth();
         };
-        Grid.SetRow(ARBFrontElement, 4);
+        Grid.SetRow(ARBFrontElement, 2);
+        Grid.SetColumn(ARBFrontElement, 0);
         grid.Children.Add(ARBFrontElement);
         
         CheckBoxElement ARBRearElement = new CheckBoxElement("Show ARB Rear: ", _showARBRear);
@@ -344,7 +326,8 @@ public partial class Electronics : Overlay
             WindowWidth = calcWindowWidth();
         };
         
-        Grid.SetRow(ARBRearElement, 5);
+        Grid.SetRow(ARBRearElement, 2);
+        Grid.SetColumn(ARBRearElement, 1);
         grid.Children.Add(ARBRearElement);
 
         return grid;

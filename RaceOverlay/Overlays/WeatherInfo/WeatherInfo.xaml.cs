@@ -87,23 +87,25 @@ public partial class WeatherInfo : Overlay
 
     public override void UpdateThreadMethod()
     {
+        try
         {
             while (true)
             {
                 _getData();
                 if (IsVisible)
                 {
-                    
+
                     // Use Dispatcher to update UI from background thread
-                    Dispatcher.Invoke(() =>
-                    {
-                        _updateWindow();
-                    });
+                    Dispatcher.Invoke(() => { _updateWindow(); });
                 }
-                
+
                 // Add a small delay to prevent high CPU usage
                 Thread.Sleep(2000); // 1 update per 2 seconds
             }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
         }
     }
 
