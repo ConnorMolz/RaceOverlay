@@ -54,7 +54,7 @@ public class RelativeRow: Grid
         
         TextBlock carNrTextBlock = new TextBlock();
         carNrTextBlock.Text = "#" + CarNr;
-        carNrTextBlock.Width = 15 + CarNr.ToString().Length * 9;
+        carNrTextBlock.Width = 26;
         carNrTextBlock.Margin = new Thickness(0, 0, 5, 0);
 
         carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
@@ -64,7 +64,7 @@ public class RelativeRow: Grid
         
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
-        driverNameTextBlock.Width = 15 + DriverName.ToString().Length * 9;
+        driverNameTextBlock.Width = 200;
         driverNameTextBlock.Margin = new Thickness(0, 0, 5, 0);
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
@@ -76,6 +76,7 @@ public class RelativeRow: Grid
         distanceTextBlock.Text = TimeSpan.FromMilliseconds(distance).ToString(@"ss\.f");
         distanceTextBlock.TextAlignment = TextAlignment.Right;
         distanceTextBlock.Margin = new Thickness(0, 0, 5, 0);
+        distanceTextBlock.Width = 50;
         
         distanceTextBlock.SetValue(Grid.ColumnProperty, 3);
         distanceTextBlock.SetValue(Grid.RowProperty, 0);
