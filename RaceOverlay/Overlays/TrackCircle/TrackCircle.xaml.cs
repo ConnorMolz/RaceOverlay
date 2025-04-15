@@ -14,6 +14,13 @@ public partial class TrackCircle : Overlay
     public TrackCircle() : base("Track Circle", "This Overlay shows the track as a circle with car markers on the track")
     {
         InitializeComponent();
+        
+        _setWindowSize(400, 400);
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
 
     public override void _updateWindow()
