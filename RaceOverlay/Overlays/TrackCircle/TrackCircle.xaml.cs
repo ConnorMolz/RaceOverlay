@@ -15,7 +15,7 @@ public partial class TrackCircle : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(400, 400);
+        _setWindowSize(200, 200);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -29,8 +29,8 @@ public partial class TrackCircle : Overlay
     
         // Add Ellipse for the track
         Ellipse trackEllipse = new Ellipse();
-        trackEllipse.Width = 400;
-        trackEllipse.Height = 400;
+        trackEllipse.Width = 200;
+        trackEllipse.Height = 200;
         trackEllipse.StrokeThickness = 10;
         trackEllipse.Stroke = Brushes.White;
         CircleCanvas.Children.Add(trackEllipse);
@@ -42,8 +42,8 @@ public partial class TrackCircle : Overlay
             // Position based on LapDistance
             double angle = drivers[i].LapDistance * 2 * Math.PI;
             double radius = 185; 
-            double centerX = 200; 
-            double centerY = 200;
+            double centerX = trackEllipse.Width / 2; 
+            double centerY = trackEllipse.Height / 2;
         
             double posX = centerX + radius * Math.Sin(angle) - 7.5; 
             double posY = centerY - radius * Math.Cos(angle) - 7.5; 

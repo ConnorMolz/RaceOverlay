@@ -19,8 +19,8 @@
             <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
         </Grid.LayoutTransform>
         
-        <Canvas Width="400" Height="400" Name="CircleCanvas">
-            <Ellipse Width="400" Height="400" StrokeThickness="10" Stroke="White">
+        <Canvas Width="200" Height="200" Name="CircleCanvas">
+            <Ellipse Width="200" Height="200" StrokeThickness="10" Stroke="White">
                 
             </Ellipse>
         </Canvas>
