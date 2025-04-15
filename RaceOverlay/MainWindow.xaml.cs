@@ -18,6 +18,7 @@ using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
+using RaceOverlay.Overlays.TrackCircle;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -62,6 +63,7 @@ public partial class MainWindow : Window
         Overlays.Add(new PitstopInfo());
         Overlays.Add(new Relative());
         //Overlays.Add(new SessionInfo());
+        Overlays.Add(new TrackCircle());
         Overlays.Add(new WeatherInfo());
 
         
