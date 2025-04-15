@@ -18,6 +18,7 @@ using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
+using RaceOverlay.StreamOverlay.SetupHider;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -75,6 +76,7 @@ public partial class MainWindow : Window
         
         // Add here every Stream Overlay
         //StreamOverlays.Add(new Test());
+        StreamOverlays.Add(new SetupHider());
         
         StreamOverlays = StreamOverlays.OrderBy(o => o.Title).ToList();
         StreamOverlayList.ItemsSource = MainWindow.StreamOverlays;
