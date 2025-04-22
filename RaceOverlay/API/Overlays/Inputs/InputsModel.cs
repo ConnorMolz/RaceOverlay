@@ -16,7 +16,7 @@ public class InputsModel
         iRacingData IRacingData = MainWindow.IRacingData;
         Throttle = IRacingData.Inputs.Throttle;
         Brake = IRacingData.Inputs.Brake;
-        Clutch = IRacingData.Inputs.Clutch;
+        Clutch = 1 - IRacingData.Inputs.Clutch;
         Gear = IRacingData.LocalCarTelemetry.Gear;
         Speed = IRacingData.LocalCarTelemetry.Speed;
     }
