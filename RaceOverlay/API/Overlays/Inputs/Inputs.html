@@ -6,7 +6,7 @@
     <title>Inputs</title>
     <style>
         body{
-            width: 80px;
+            width: 102px;
         }
         .overlay-container {
             background-color: #1E1E1E;
@@ -24,13 +24,16 @@
         .speed-value {
             color: white;
             font-size: 20px;
+            width: 35px;
             margin: 0 2px 0 3px;
+            font-family: Arial;
         }
 
         .speed-unit {
             color: white;
             font-size: 8px;
             margin: 0 2px 0 3px;
+            font-family: Arial;
         }
 
         .input-bars {
@@ -78,7 +81,9 @@
         .gear-value {
             color: white;
             font-size: 24px;
+            width: 15px;
             margin: 0 0 3px 5px;
+            font-family: Arial;
         }
     </style>
 </head>
@@ -129,7 +134,20 @@
             document.getElementById('clutchBar').style.height = `${data.clutch * 35}px`;
 
             // Update gear
-            document.getElementById('gearText').textContent = data.gear;
+            let gearText = data.gear;
+            
+            switch (gearText) {
+                case 0:
+                    gearText = "N";
+                    break;
+                case -1:
+                    gearText = "R";
+                    break;
+                default:
+                    break;
+            }
+
+            document.getElementById('gearText').textContent = gearText
         } catch (error) {
             console.error('Failed to update inputs:', error);
         }
