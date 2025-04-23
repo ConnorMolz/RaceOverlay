@@ -283,6 +283,7 @@ public class Mapper
         
         data.Drivers = drivers.ToArray();
 
+
         try
         {
             data.SessionData.SessionType = irsdkSharper.Data.SessionInfo.SessionInfo
@@ -301,6 +302,9 @@ public class Mapper
         {
             Debug.WriteLine(e);
         }
+
+        data.InGarage = irsdkSharper.Data.GetBool("IsInGarage");
+
         
         // Return Dataset
         return data;

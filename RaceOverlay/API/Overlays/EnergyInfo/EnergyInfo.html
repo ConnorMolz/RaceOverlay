@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Info</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .overlay-container {
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .energy-bar-container {
+            height: 35px;
+            position: relative;
+            width: 200px;
+        }
+
+        .energy-bar-background {
+            width: 200px;
+            height: 35px;
+            background-color: #2A2A2A;
+            border-radius: 10px;
+        }
+
+        .energy-bar {
+            width: 150px;
+            height: 35px;
+            background-color: #00FF00;
+            border-radius: 10px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        .lightning-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .energy-text {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: black;
+            font-family: Arial;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay-container">
+    <div class="energy-bar-container">
+        <div class="energy-bar-background"></div>
+        <div class="energy-bar" id="energy-bar"></div>
+        <svg class="lightning-icon" width="16" height="16" viewBox="0 0 16 16" fill="white" stroke="white" stroke-width="0.5">
+            <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
+        </svg>
+        <div class="energy-text" id="energy-text">75%</div>
+    </div>
+</div>
+<script>
+    async function updateInputs() {
+        try {
+            const response = await fetch('/overlay/energy_info/data');
+            const data = await response.json();
+
+            // Update pedal bars
+            document.getElementById('energy-bar').style.width = `${data.energyLevelPct * 2}px`;
+
+            // Update gear
+            document.getElementById('energy-text').textContent = data.energyLevelPct.toFixed(1) + "%";
+        } catch (error) {
+            console.error('Failed to update EnergyInfo:', error);
+        }
+    }
+
+    // Update every 16ms (approximately 60fps)
+    setInterval(updateInputs, 16);
+</script>
+</body>
+</html>

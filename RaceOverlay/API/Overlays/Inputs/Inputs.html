@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inputs</title>
+    <style>
+        body{
+            width: 102px;
+        }
+        .overlay-container {
+            background-color: #1E1E1E;
+            border-radius: 5px;
+            padding: 5px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .speed-section {
+            margin-right: 2px;
+            text-align: left;
+        }
+
+        .speed-value {
+            color: white;
+            font-size: 20px;
+            width: 35px;
+            margin: 0 2px 0 3px;
+            font-family: Arial;
+        }
+
+        .speed-unit {
+            color: white;
+            font-size: 8px;
+            margin: 0 2px 0 3px;
+            font-family: Arial;
+        }
+
+        .input-bars {
+            display: flex;
+            margin: 0 2px;
+            align-items: flex-end;
+        }
+
+        .bar-container {
+            width: 5px;
+            height: 35px;
+            background-color: #2A2A2A;
+            position: relative;
+        }
+
+        .bar-container + .bar-container {
+            margin-left: 3px;
+        }
+
+        .bar {
+            width: 6px;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .clutch-bar {
+            background-color: #0000FF;
+            height: 28px;
+        }
+
+        .brake-bar {
+            background-color: #FF0000;
+            height: 14px;
+        }
+
+        .throttle-bar {
+            background-color: #00FF00;
+            height: 35px;
+        }
+
+        .gear-section {
+            margin-left: 2px;
+        }
+
+        .gear-value {
+            color: white;
+            font-size: 24px;
+            width: 15px;
+            margin: 0 0 3px 5px;
+            font-family: Arial;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay-container">
+    <!-- Speed section -->
+    <div class="speed-section">
+        <p class="speed-value" id="speedText">278</p>
+        <p class="speed-unit">Km/h</p>
+    </div>
+
+    <!-- Input bars section -->
+    <div class="input-bars">
+        <!-- Clutch bar -->
+        <div class="bar-container">
+            <div class="bar clutch-bar" id="clutchBar"></div>
+        </div>
+
+        <!-- Brake bar -->
+        <div class="bar-container">
+            <div class="bar brake-bar" id="brakeBar"></div>
+        </div>
+
+        <!-- Throttle bar -->
+        <div class="bar-container">
+            <div class="bar throttle-bar" id="throttleBar"></div>
+        </div>
+    </div>
+
+    <!-- Gear section -->
+    <div class="gear-section">
+        <p class="gear-value" id="gearText">2</p>
+    </div>
+</div>
+
+<script>
+    async function updateInputs() {
+        try {
+            const response = await fetch('/overlay/inputs/data');
+            const data = await response.json();
+
+            // Update speed
+            document.getElementById('speedText').textContent = Math.round(data.speed);
+
+            // Update pedal bars
+            document.getElementById('throttleBar').style.height = `${data.throttle * 35}px`;
+            document.getElementById('brakeBar').style.height = `${data.brake * 35}px`;
+            document.getElementById('clutchBar').style.height = `${data.clutch * 35}px`;
+
+            // Update gear
+            let gearText = data.gear;
+            
+            switch (gearText) {
+                case 0:
+                    gearText = "N";
+                    break;
+                case -1:
+                    gearText = "R";
+                    break;
+                default:
+                    break;
+            }
+
+            document.getElementById('gearText').textContent = gearText
+        } catch (error) {
+            console.error('Failed to update inputs:', error);
+        }
+    }
+
+    // Update every 16ms (approximately 60fps)
+    setInterval(updateInputs, 16);
+</script>
+</body>
+</html>

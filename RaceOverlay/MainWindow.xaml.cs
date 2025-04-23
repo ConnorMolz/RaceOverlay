@@ -18,6 +18,7 @@ using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
+using RaceOverlay.StreamOverlay.SetupHider;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
 namespace RaceOverlay;
@@ -33,6 +34,7 @@ public partial class MainWindow : Window
     private static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     public static List<Overlay> Overlays;
+    public static List<Internals.StreamOverlay> StreamOverlays;
     public static bool ShutdownIsTriggerd = false;
     
     
@@ -42,11 +44,13 @@ public partial class MainWindow : Window
         _initIRacingData();
         _initOverlays();
         _loadLicenseAndQuickGuide();
+        App.StartApiService();
         
     }
 
     private void _initOverlays()
     {
+        // Overlay
         MainWindow.Overlays = new List<Overlay>();
         
         // Add here every Overlay
@@ -65,6 +69,20 @@ public partial class MainWindow : Window
         Overlays = Overlays.OrderBy(o => o.OverlayName).ToList();
         
         OverlayList.ItemsSource = MainWindow.Overlays;
+        
+        
+        // Stream Overlay
+        MainWindow.StreamOverlays = new List<Internals.StreamOverlay>();
+        
+        // Add here every Stream Overlay
+        //StreamOverlays.Add(new Test());
+        StreamOverlays.Add(new SetupHider());
+        StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
+        StreamOverlays.Add(new StreamOverlay.EnergyInfo.EnergyInfo());
+        
+        StreamOverlays = StreamOverlays.OrderBy(o => o.Title).ToList();
+        StreamOverlayList.ItemsSource = MainWindow.StreamOverlays;
+        
         
     }
 
@@ -154,6 +172,7 @@ public partial class MainWindow : Window
     private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
+        StreamOverlayList.UnselectAll();
             
         if (selectedOverlay != null)
         {
@@ -169,6 +188,9 @@ public partial class MainWindow : Window
             CustomConfigContainer.Children.Clear();
             Grid overlayConfigs = selectedOverlay.GetConfigs();
             CustomConfigContainer.Children.Add( overlayConfigs );
+
+            LinkStackPanel.Visibility = Visibility.Collapsed;
+            LinkTextBox.Text = string.Empty;
 
         }
     }
@@ -351,5 +373,33 @@ public partial class MainWindow : Window
             OpacitySlider.ValueChanged += OpacitySlider_ValueChanged;
         }
     }
-    
+
+    private void StreamOverlayList_OnSelectionChangedOverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Internals.StreamOverlay? selectedOverlay = StreamOverlayList.SelectedItem as Internals.StreamOverlay;
+        OverlayList.UnselectAll();
+            
+        if (selectedOverlay != null)
+        {
+            // Get Data from Overlay
+            Debug.WriteLine(selectedOverlay.Title);
+            OverlayNameText.Text = selectedOverlay.Title;
+            OverlayDescriptionText.Text = selectedOverlay.Description;
+            ToggleOverlayButton.Visibility = Visibility.Collapsed;
+            ConfigGrid.Visibility = Visibility.Collapsed;
+            
+            LinkStackPanel.Visibility = Visibility.Visible;
+            LinkTextBox.Visibility = Visibility.Visible;
+            LinkTextBox.Text = selectedOverlay.Link;
+            
+            CustomConfigContainer.Children.Clear();
+
+        }
+    }
+
+    private void CopyLinkButtonMethod(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Hello");
+        Clipboard.SetText(LinkTextBox.Text);
+    }
 }
