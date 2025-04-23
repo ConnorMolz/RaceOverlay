@@ -69,12 +69,31 @@
 <div class="overlay-container">
     <div class="energy-bar-container">
         <div class="energy-bar-background"></div>
-        <div class="energy-bar"></div>
+        <div class="energy-bar" id="energy-bar"></div>
         <svg class="lightning-icon" width="16" height="16" viewBox="0 0 16 16" fill="white" stroke="white" stroke-width="0.5">
             <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
         </svg>
-        <div class="energy-text">75%</div>
+        <div class="energy-text" id="energy-text">75%</div>
     </div>
 </div>
+<script>
+    async function updateInputs() {
+        try {
+            const response = await fetch('/overlay/energy_info/data');
+            const data = await response.json();
+
+            // Update pedal bars
+            document.getElementById('energy-bar').style.width = `${data.energyLevelPct * 2}px`;
+
+            // Update gear
+            document.getElementById('energy-text').textContent = data.energyLevelPct.toFixed(1) + "%";
+        } catch (error) {
+            console.error('Failed to update EnergyInfo:', error);
+        }
+    }
+
+    // Update every 16ms (approximately 60fps)
+    setInterval(updateInputs, 16);
+</script>
 </body>
 </html>
