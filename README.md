@@ -4,15 +4,20 @@ Race Overlay is an Open Source alternative of Race Labs for iRacing Overlays. Th
 car and track information which is usable on most cars and tracks.
 
 ## Currently available overlays
-- Input Telemetry
 - Electronic Infos (TC, ABS, BB)
-- Battery Status (Only for GTP)
-- Lap Time Delta (to best lap or to last lap)
-- Current Weather Information
-- Pit Info
-- Leaderboard (last lap)
+- Energy Info (Only for GTP)
 - Fuel Info
+- Input Telemetry
+- Lap Time Delta (to best lap or to last lap)
+- Pitstop Info
 - Relative Standings
+- Standings (last lap)
+- Weather Information
+
+## Currently available overlays with streaming support
+- Energy Info (Only for GTP)
+- Input Telemetry
+- Setup Hider
 
 ![Inputs Overlay](/.github/images/Inputs.png)
 ![Weather Overlay](/.github/images/Wheater.png)
@@ -20,7 +25,6 @@ car and track information which is usable on most cars and tracks.
 ![Lap time delta Overlay](/.github/images/Delta.png)
 
 ## Planned overlays
-- Setup Hider
 - Track Circle
 
 ## Installation
