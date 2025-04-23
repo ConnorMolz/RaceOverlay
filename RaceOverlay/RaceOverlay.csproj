@@ -34,6 +34,8 @@
         <EmbeddedResource Include="Resources\SetupHider.jpg" />
         <None Remove="API\Overlays\SetupHider\SetupHider.html" />
         <EmbeddedResource Include="API\Overlays\SetupHider\SetupHider.html" />
+        <None Remove="API\Overlays\EnergyInfo\EnergyInfo.html" />
+        <EmbeddedResource Include="API\Overlays\EnergyInfo\EnergyInfo.html" />
     </ItemGroup>
 
     <ItemGroup>

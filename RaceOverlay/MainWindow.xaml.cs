@@ -78,6 +78,7 @@ public partial class MainWindow : Window
         //StreamOverlays.Add(new Test());
         StreamOverlays.Add(new SetupHider());
         StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
+        StreamOverlays.Add(new StreamOverlay.EnergyInfo.EnergyInfo());
         
         StreamOverlays = StreamOverlays.OrderBy(o => o.Title).ToList();
         StreamOverlayList.ItemsSource = MainWindow.StreamOverlays;

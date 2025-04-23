@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RaceOverlay.API.Overlays.EnergyInfo;
 using RaceOverlay.API.Overlays.SetupHider;
 
 namespace RaceOverlay.API;
@@ -32,6 +33,9 @@ public class StartAPI
 
                         app.UseEndpoints(endpoints =>
                         {
+                            //
+                            // Test endpoint
+                            //
                             endpoints.MapGet("/", async context =>
                             {
                                 await context.Response.WriteAsync("WPF REST API Running!");
@@ -41,6 +45,11 @@ public class StartAPI
                             {
                                 await context.Response.WriteAsync("{\"message\": \"Hello from WPF API\"}");
                             });
+                            
+                            
+                            //
+                            // Inputs
+                            //
                             
                             endpoints.MapGet("/overlay/inputs", () =>
                                 {
@@ -65,43 +74,77 @@ public class StartAPI
                                     InputsModel data = new InputsModel();
                                     return Results.Ok(data);
                                 })
-                                .WithName("GetInputsOverlayData");
-                        
-                        endpoints.MapGet("/overlay/setup_hider", () =>
-                            {
-                                var assembly = typeof(StartAPI).Assembly;
-                                var resourceName = "RaceOverlay.API.Overlays.SetupHider.SetupHider.html";
-
-                                using var stream = assembly.GetManifestResourceStream(resourceName);
-                                if (stream == null)
-                                {
-                                    return Results.NotFound("Overlay file not found");
-                                }
-
-                                using var reader = new StreamReader(stream);
-                                var htmlContent = reader.ReadToEnd();
-                                return Results.Content(htmlContent, "text/html");
-                            })
-                            .WithName("GetSetupHiderOverlay");
-
-                        endpoints.MapGet("/overlay/setup_hider/data", () =>
-                            {
-                                Debug.WriteLine("GetSetupHiderOverlayData");
-                                SetupHiderModel data = new SetupHiderModel();
-                                return Results.Ok(data);
-                            })
-                            .WithName("GetSetupHiderOverlayData");
-                        
-                        endpoints.MapGet("/overlay/setup_hider/image", () =>
-                        {
-                            Debug.WriteLine("GetSetupHiderImage");
+                                .WithName("GetInputsOverlayData"); 
                             
-                            var imagePath = Path.Combine(App.AppDataPath, "SetupHider.jpg");
-                            ImageClass data = new ImageClass(ConvertImageToBase64(imagePath));
-                            return Results.Ok(data);
-                        }).WithName("GetSetupHiderImage");
-                    });
-                        
+                            
+                            //
+                            // Setuphider
+                            //
+                            
+                            endpoints.MapGet("/overlay/setup_hider", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.SetupHider.SetupHider.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetSetupHiderOverlay");
+
+                            endpoints.MapGet("/overlay/setup_hider/data", () =>
+                                {
+                                    Debug.WriteLine("GetSetupHiderOverlayData");
+                                    SetupHiderModel data = new SetupHiderModel();
+                                    return Results.Ok(data);
+                                })
+                                .WithName("GetSetupHiderOverlayData");
+                            
+                            endpoints.MapGet("/overlay/setup_hider/image", () =>
+                            {
+                                Debug.WriteLine("GetSetupHiderImage");
+                                
+                                var imagePath = Path.Combine(App.AppDataPath, "SetupHider.jpg");
+                                ImageClass data = new ImageClass(ConvertImageToBase64(imagePath));
+                                return Results.Ok(data);
+                            }).WithName("GetSetupHiderImage");
+                            
+                            
+                            //
+                            // Energy Info
+                            //
+                            
+                            endpoints.MapGet("/overlay/energy_info", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.EnergyInfo.EnergyInfo.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetEnergyInfoOverlay");
+
+                            endpoints.MapGet("/overlay/energy_info/data", () =>
+                            {
+                                Debug.WriteLine("GetEnergyInfoOverlayData");
+                                EnergyInfoModel data = new EnergyInfoModel();
+                                return Results.Ok(data);
+                            });
+                            
+                        });
                     })
                     .UseUrls("http://localhost:5480");
             })
