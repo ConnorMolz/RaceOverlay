@@ -68,7 +68,7 @@ public class RelativeRow: Grid
         
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
-        driverNameTextBlock.Width = 200;
+        driverNameTextBlock.Width = 190;
         driverNameTextBlock.Margin = new Thickness(0, 0, 5, 0);
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
@@ -79,7 +79,8 @@ public class RelativeRow: Grid
         safetyTextBlock.Text = safety;
         safetyTextBlock.Margin = new Thickness(0, 0, 5, 0);
         safetyTextBlock.TextAlignment = TextAlignment.Left;
-        safetyTextBlock.Width = 20;
+        safetyTextBlock.Width = 30;
+        safetyTextBlock.Background = _getLicenseColorBrush(safety);
         
         safetyTextBlock.SetValue(Grid.ColumnProperty, 3);
         safetyTextBlock.SetValue(Grid.RowProperty, 0);
@@ -118,5 +119,24 @@ public class RelativeRow: Grid
     {
         driverNameTextBlock.FontWeight = FontWeights.Bold;
         driverNameTextBlock.Foreground = Brushes.Gold;
+    }
+
+    private SolidColorBrush _getLicenseColorBrush(string safetyRating)
+    {
+        switch (safetyRating[0])
+        {
+            case 'D':
+                return new SolidColorBrush(Colors.Orange);
+            case 'C':
+                return new SolidColorBrush(Colors.Yellow);
+            case 'B':
+                return new SolidColorBrush(Colors.Green);
+            case 'A':
+                return new SolidColorBrush(Colors.Blue);
+            case 'P':
+                return new SolidColorBrush(Colors.Purple);
+            default:
+                return new SolidColorBrush(Colors.Red);
+        }
     }
 }
