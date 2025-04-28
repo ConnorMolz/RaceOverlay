@@ -47,7 +47,6 @@ public class Mapper
         
         // Map Tyres
         data.LocalCarTelemetry.FrontLeftTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("LFcoldPressure"),
             irsdkSharper.Data.GetFloat("LFtempCL"),
             irsdkSharper.Data.GetFloat("LFtempCM"),
             irsdkSharper.Data.GetFloat("LFtempCR"),
@@ -56,7 +55,6 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFwearR") * 100
             );
         data.LocalCarTelemetry.FrontRightTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("RFcoldPressure"),
             irsdkSharper.Data.GetFloat("RFtempCL"),
             irsdkSharper.Data.GetFloat("RFtempCM"),
             irsdkSharper.Data.GetFloat("RFtempCR"),
@@ -65,7 +63,6 @@ public class Mapper
         irsdkSharper.Data.GetFloat("RFwearR") * 100
         );
         data.LocalCarTelemetry.RearLeftTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("LRcoldPressure"),
             irsdkSharper.Data.GetFloat("LRtempCL"),
             irsdkSharper.Data.GetFloat("LRtempCM"),
             irsdkSharper.Data.GetFloat("LRtempCR"),
@@ -74,7 +71,6 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LRwearR") * 100
         );
         data.LocalCarTelemetry.RearRightTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("RRcoldPressure"),
             irsdkSharper.Data.GetFloat("RRtempCL"),
             irsdkSharper.Data.GetFloat("RRtempCM"),
             irsdkSharper.Data.GetFloat("RRtempCR"),
@@ -83,8 +79,8 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRwearR") * 100
         );
         
-        // Map Dampers
-        data.LocalCarTelemetry.FrontLeftDamper = new Damper(
+        // Map Dampers *Removed for performance resone because currently not needed
+        /*data.LocalCarTelemetry.FrontLeftDamper = new Damper(
             irsdkSharper.Data.GetFloat("LFshockDefl"),
             irsdkSharper.Data.GetFloat("LFshockDefl_ST"),
             irsdkSharper.Data.GetFloat("LFshockVel"),
@@ -107,7 +103,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRshockDefl_ST"),
             irsdkSharper.Data.GetFloat("RRshockVel"),
             irsdkSharper.Data.GetFloat("RRshockVel_ST")
-        );
+        );*/
         
         // Gear, RPM, Speed and Steering
         data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
@@ -116,7 +112,6 @@ public class Mapper
         
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
-        data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
         try
         {
             data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
@@ -127,14 +122,11 @@ public class Mapper
         }
        
         
-        // Oil Temp, Press and level
+        // Oil Temp
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
-        data.LocalCarTelemetry.OilPressure = irsdkSharper.Data.GetFloat("OilPress");
-        data.LocalCarTelemetry.OilLevel = irsdkSharper.Data.GetFloat("OilLevel");
         
-        // Water Temp and level
+        // Water Temp
         data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
-        data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
         
         // Energy Level (GPT Only)
         try
