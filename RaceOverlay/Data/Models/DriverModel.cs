@@ -12,6 +12,7 @@ public class DriverModel
     public int Lap { get; set; }
     public bool OnPitRoad { get; set; }
     public string ClassColorCode { get; set; }
+    public double RatingChange { get; set; }
 
     public DriverModel(string name, int iRating, string license, int carNumber, int idx, int position, int classPosition, int lap, bool onPitRoad, string classColor)
     {

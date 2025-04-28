@@ -9,6 +9,7 @@ namespace RaceOverlay.Data;
 
 public class Mapper
 {
+    public static double LogNumber { get; } = 1600 / Math.Log(2);
     public static iRacingData MapData(IRacingSdk irsdkSharper)
     {
         iRacingData data = new();
@@ -264,7 +265,7 @@ public class Mapper
                 );
             }
 
-            data.SessionData.SOF = CalcSOF(drivers, drivers.Count);
+            data.SessionData.SOF = CalcSOF(drivers);
         }
         catch (Exception e)
         {
@@ -300,26 +301,26 @@ public class Mapper
         return data;
     }
     
-    private static int CalcSOF(List<DriverModel> drivers, int numberOfPlayers)
+    private static int CalcSOF(List<DriverModel> drivers)
     {
-        // N is the number of players
-        double N = numberOfPlayers;
-        if (N == 0)
+        double starters = drivers.Count();
+
+        double sof = LogNumber * Math.Log(starters / drivers.Sum(r => Math.Exp(-r.iRating / LogNumber)));
+        
+        // Calculate the rating change for each driver Implement later
+        /*foreach (var result in drivers)
         {
-            return 0;
-        }
-    
-        // Calculate the sum in the denominator: sum of 2^(-Ri/1600)
-        double sum = 0;
-        foreach (DriverModel driver in drivers)
-        {
-            sum += Math.Pow(2, -driver.iRating / 1600);
-        }
-    
-        // Calculate the complete formula: (1600/ln(2)) * ln(N/sum)
-        double result = (1600 / Math.Log(2)) * Math.Log(N / sum);
-    
-        return (int) result;
+            var expectedScore = drivers.Sum(r => (1 - Math.Exp(-result.iRating / LogNumber))
+                                                 * Math.Exp(-r.iRating / LogNumber)
+                                                 / ((1 - Math.Exp(-r.iRating / LogNumber)) * Math.Exp(-result.iRating / LogNumber) + (1 - Math.Exp(-result.iRating / LogNumber))
+                                                     * Math.Exp(-r.iRating / LogNumber))) - 0.5;
+
+            var fudgeFactor = (starters / 2 - result.ClassPosition) / 100;
+
+            result.RatingChange = (starters - result.ClassPosition - expectedScore - fudgeFactor) * 200 / starters;
+        }*/
+        
+        return (int) sof;
     }
     
 }
