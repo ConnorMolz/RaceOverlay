@@ -296,7 +296,7 @@ public class Mapper
 
         try
         {
-            data.SessionData.InSimTime = irsdkSharper.Data.GetFloat("SessionTimeOfDay");
+            data.SessionData.InSimTime = irsdkSharper.Data.GetFloat("SessionTime");
         }
         catch (Exception e)
         {
