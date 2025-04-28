@@ -13,7 +13,7 @@ public class RelativeRow: Grid
     
     private TextBlock driverNameTextBlock { get; set; }
 
-    public RelativeRow(string driverName, int position, float distance, int carNr, string classColorCode)
+    public RelativeRow(string driverName, int position, float distance, int carNr, string classColorCode, string? safety="")
     {
         Height = 30;
         
@@ -36,9 +36,13 @@ public class RelativeRow: Grid
         ColumnDefinition distanceColumn = new ColumnDefinition();
         distanceColumn.Width = GridLength.Auto;
         
+        ColumnDefinition safetyColumn = new ColumnDefinition();
+        safetyColumn.Width = GridLength.Auto;
+        
         ColumnDefinitions.Add(positionColumn);
         ColumnDefinitions.Add(carNrColumn);
         ColumnDefinitions.Add(driverNameColumn);
+        ColumnDefinitions.Add(safetyColumn);
         ColumnDefinitions.Add(distanceColumn);
         
         TextBlock positionTextBlock = new TextBlock();
@@ -71,6 +75,15 @@ public class RelativeRow: Grid
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(driverNameTextBlock);
         
+        TextBlock safetyTextBlock = new TextBlock();
+        safetyTextBlock.Text = safety;
+        safetyTextBlock.Margin = new Thickness(0, 0, 5, 0);
+        safetyTextBlock.TextAlignment = TextAlignment.Left;
+        safetyTextBlock.Width = 20;
+        
+        safetyTextBlock.SetValue(Grid.ColumnProperty, 3);
+        safetyTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(safetyTextBlock);
         
         TextBlock distanceTextBlock = new TextBlock();
         distanceTextBlock.Text = TimeSpan.FromMilliseconds(distance).ToString(@"ss\.f");
@@ -78,7 +91,7 @@ public class RelativeRow: Grid
         distanceTextBlock.Margin = new Thickness(0, 0, 5, 0);
         distanceTextBlock.Width = 50;
         
-        distanceTextBlock.SetValue(Grid.ColumnProperty, 3);
+        distanceTextBlock.SetValue(Grid.ColumnProperty, 4);
         distanceTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(distanceTextBlock);
     }

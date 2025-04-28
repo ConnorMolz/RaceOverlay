@@ -46,7 +46,7 @@ public partial class Relative : Overlay
         InitializeComponent();
         _getConfig();
         _updateHeader();
-        _setWindowSize(200, calcHeight());
+        _setWindowSize(311, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -58,7 +58,7 @@ public partial class Relative : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(230, calcHeight());
+        _setWindowSize(311, calcHeight());
 
         if (!_isTest)
         {
@@ -271,7 +271,7 @@ public partial class Relative : Overlay
             {
                 _additionalDrivers = maxValue;
                 _setIntConfig("_additionalRows", _additionalDrivers);
-                _setWindowSize(230, calcHeight());
+                _setWindowSize(311, calcHeight());
                 _scaleWindow(_scale);
             }
         }
