@@ -124,7 +124,7 @@ public partial class Relative : Overlay
                     _driverModels[i].ClassPosition,
                     _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
-                    _driverModels[i].ClassColorCode,
+                    MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor
                     _driverModels[i].License);
                 Grid.SetRow(row, i);
                 Body.Children.Add(row);
@@ -196,8 +196,8 @@ public partial class Relative : Overlay
             if (a == null) return -1;
             if (b == null) return 1;
 
-            var aSpline = a.LapDistance;
-            var bSpline = b.LapDistance;
+            var aSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", a.Idx) *100;
+            var bSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", b.Idx) *100;
 
             float aPosition = aSpline / 10;
             float bPosition = bSpline / 10;

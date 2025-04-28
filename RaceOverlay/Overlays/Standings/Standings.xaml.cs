@@ -102,23 +102,25 @@ public partial class Standings : Overlay
         {
             Body.Children.Clear();
             DriverModel player = _drivers.FirstOrDefault(driver => driver.Idx == _playerCarIdx);
+            
             int playerPosition = player.ClassPosition;
             int driverCount = _drivers.Count;
+            string playerCarClass = MainWindow.IrsdkSharper.Data.GetValue("PlayerCarClass").ToString();
             int offset = getDriverOffset(playerPosition, driverCount);
             int row = 0;
 
             for (int i = playerPosition - 2 + offset; i < playerPosition + 2 + offset; i++)
             {
                 Body.RowDefinitions.Add(new RowDefinition());
-                DriverModel driver = _getDriverOnClassPosition(i, player.CarClass);
+                DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
                 if (driver.Idx == _playerCarIdx)
                 {
                     StandingsRow playerRow = new StandingsRow(
                         driver.Name,
                         driver.CarNumber,
                         driver.ClassPosition,
-                        driver.LastLap,
-                        driver.BestLap,
+                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
+                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
                         driver.iRating, 
                         driver.ClassColorCode);
                     playerRow.SetToPlayerRow();
@@ -131,8 +133,8 @@ public partial class Standings : Overlay
                         driver.Name,
                         driver.CarNumber,
                         driver.ClassPosition, 
-                        driver.LastLap,
-                        driver.BestLap,
+                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
+                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
                         driver.iRating, driver.ClassColorCode);
                     Grid.SetRow(driverRow, row);
                     Body.Children.Add(driverRow);
@@ -194,7 +196,7 @@ public partial class Standings : Overlay
     
     private DriverModel _getDriverOnClassPosition(int position, string carClass)
     {
-        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && driver.CarClass == carClass);
+        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && MainWindow.IrsdkSharper.Data.GetValue("CarIdxClass", driver.Idx) == carClass);
     }
     
     private int getDriverOffset(int position, int driverCount)

@@ -2,7 +2,6 @@ namespace RaceOverlay.Data.Models;
 
 public class Tyre
 {
-    public float ColdPressure { get; set; }
     public float TemperatureLeft { get; set; }
     public float TemperatureCenter { get; set; }
     public float TemperatureRight { get; set; }
@@ -11,7 +10,6 @@ public class Tyre
     public float WearRight { get; set; }
     
     public Tyre(
-        float coldPressure, 
         float temperatureLeft, 
         float temperatureCenter, 
         float temperatureRight,
@@ -20,7 +18,6 @@ public class Tyre
         float wearRight
         )
     {
-        ColdPressure = coldPressure;
         TemperatureLeft = temperatureLeft;
         TemperatureCenter = temperatureCenter;
         TemperatureRight = temperatureRight;

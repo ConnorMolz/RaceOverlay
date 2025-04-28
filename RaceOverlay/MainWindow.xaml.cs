@@ -31,7 +31,7 @@ namespace RaceOverlay;
 public partial class MainWindow : Window
 {
     // iRacingData Getter
-    private static IRacingSdk IrsdkSharper = null!;
+    public static IRacingSdk IrsdkSharper = null!;
     public static iRacingData IRacingData = new ();
     public static List<Overlay> Overlays;
     public static List<Internals.StreamOverlay> StreamOverlays;
@@ -100,7 +100,7 @@ public partial class MainWindow : Window
         IrsdkSharper.OnTelemetryData += OnTelemetryData;
         IrsdkSharper.OnStopped += OnStopped;
         
-        IrsdkSharper.UpdateInterval = 0; 
+        IrsdkSharper.UpdateInterval = 1; 
 
         // let's go!
         IrsdkSharper.Start();
