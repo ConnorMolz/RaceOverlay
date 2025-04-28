@@ -169,6 +169,7 @@ public partial class Standings : Overlay
         _isWet = _data.WeatherData.WeatherDeclaredWet;
         _sof = _data.SessionData.SOF;
         _fuel = _data.LocalCarTelemetry.FuelLevel;
+        _inSimTime = _data.SessionData.InSimTime;
         if (!_devMode)
         {
             InCar = _data.InCar;
