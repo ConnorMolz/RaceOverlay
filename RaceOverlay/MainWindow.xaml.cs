@@ -100,7 +100,7 @@ public partial class MainWindow : Window
         IrsdkSharper.OnTelemetryData += OnTelemetryData;
         IrsdkSharper.OnStopped += OnStopped;
         
-        IrsdkSharper.UpdateInterval = 0; 
+        IrsdkSharper.UpdateInterval = 1; 
 
         // let's go!
         IrsdkSharper.Start();
