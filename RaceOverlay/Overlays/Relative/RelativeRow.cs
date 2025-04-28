@@ -15,7 +15,7 @@ public class RelativeRow: Grid
 
     public RelativeRow(string driverName, int position, float distance, int carNr, string classColorCode, string? safety="")
     {
-        Height = 30;
+        Height = 20;
         
         DriverName = driverName;
         Position = position;
@@ -48,8 +48,10 @@ public class RelativeRow: Grid
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position + ".";
         positionTextBlock.Background = _getClassColorBrush(classColorCode.Replace("0x", "#"));
+        positionTextBlock.Height = 20;
         positionTextBlock.Width = 15;
         positionTextBlock.Margin = new Thickness(0, 0, 5, 0);
+        positionTextBlock.VerticalAlignment = VerticalAlignment.Center;
         
         positionTextBlock.SetValue(Grid.ColumnProperty, 0);
         positionTextBlock.SetValue(Grid.RowProperty, 0);
@@ -59,7 +61,9 @@ public class RelativeRow: Grid
         TextBlock carNrTextBlock = new TextBlock();
         carNrTextBlock.Text = "#" + CarNr;
         carNrTextBlock.Width = 26;
+        carNrTextBlock.Height = 20;
         carNrTextBlock.Margin = new Thickness(0, 0, 5, 0);
+        carNrTextBlock.VerticalAlignment = VerticalAlignment.Center;
 
         carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
         carNrTextBlock.SetValue(Grid.RowProperty, 0);
@@ -69,7 +73,9 @@ public class RelativeRow: Grid
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
         driverNameTextBlock.Width = 190;
+        driverNameTextBlock.Height = 20;
         driverNameTextBlock.Margin = new Thickness(0, 0, 5, 0);
+        driverNameTextBlock.VerticalAlignment = VerticalAlignment.Center;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
@@ -80,7 +86,9 @@ public class RelativeRow: Grid
         safetyTextBlock.Margin = new Thickness(0, 0, 5, 0);
         safetyTextBlock.TextAlignment = TextAlignment.Left;
         safetyTextBlock.Width = 30;
+        safetyTextBlock.Height = 20;
         safetyTextBlock.Background = _getLicenseColorBrush(safety);
+        safetyTextBlock.VerticalAlignment = VerticalAlignment.Center;
         
         safetyTextBlock.SetValue(Grid.ColumnProperty, 3);
         safetyTextBlock.SetValue(Grid.RowProperty, 0);
@@ -89,8 +97,10 @@ public class RelativeRow: Grid
         TextBlock distanceTextBlock = new TextBlock();
         distanceTextBlock.Text = TimeSpan.FromMilliseconds(distance).ToString(@"ss\.f");
         distanceTextBlock.TextAlignment = TextAlignment.Right;
+        distanceTextBlock.VerticalAlignment = VerticalAlignment.Center;
         distanceTextBlock.Margin = new Thickness(0, 0, 5, 0);
         distanceTextBlock.Width = 50;
+        distanceTextBlock.Height = 20;
         
         distanceTextBlock.SetValue(Grid.ColumnProperty, 4);
         distanceTextBlock.SetValue(Grid.RowProperty, 0);
