@@ -88,6 +88,7 @@ public class RelativeRow: Grid
         safetyTextBlock.Width = 35;
         safetyTextBlock.Height = 20;
         safetyTextBlock.Background = _getLicenseColorBrush(safety);
+        safetyTextBlock.Foreground = _getLicenseTextColor(safety);
         safetyTextBlock.VerticalAlignment = VerticalAlignment.Center;
         
         safetyTextBlock.SetValue(Grid.ColumnProperty, 3);
@@ -144,9 +145,28 @@ public class RelativeRow: Grid
             case 'A':
                 return new SolidColorBrush(Colors.Blue);
             case 'P':
-                return new SolidColorBrush(Colors.Purple);
+                return new SolidColorBrush(Colors.Black);
             default:
                 return new SolidColorBrush(Colors.Red);
+        }
+    }
+    
+    private SolidColorBrush _getLicenseTextColor(string safetyRating)
+    {
+        switch (safetyRating[0])
+        {
+            case 'D':
+                return new SolidColorBrush(Colors.Black);
+            case 'C':
+                return new SolidColorBrush(Colors.Black);
+            case 'B':
+                return new SolidColorBrush(Colors.Black);
+            case 'A':
+                return new SolidColorBrush(Colors.White);
+            case 'P':
+                return new SolidColorBrush(Colors.White);
+            default:
+                return new SolidColorBrush(Colors.White);
         }
     }
 }

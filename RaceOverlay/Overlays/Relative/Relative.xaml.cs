@@ -124,7 +124,7 @@ public partial class Relative : Overlay
                     _driverModels[i].ClassPosition,
                     _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
-                    MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor
+                    MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor,
                     _driverModels[i].License);
                 Grid.SetRow(row, i);
                 Body.Children.Add(row);
