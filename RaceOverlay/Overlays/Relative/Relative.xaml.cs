@@ -46,7 +46,7 @@ public partial class Relative : Overlay
         InitializeComponent();
         _getConfig();
         _updateHeader();
-        _setWindowSize(200, calcHeight());
+        _setWindowSize(336, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -58,7 +58,7 @@ public partial class Relative : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(230, calcHeight());
+        _setWindowSize(336, calcHeight());
 
         if (!_isTest)
         {
@@ -124,8 +124,8 @@ public partial class Relative : Overlay
                     _driverModels[i].ClassPosition,
                     _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
-                    _driverModels[i].ClassColorCode
-                );
+                    _driverModels[i].ClassColorCode,
+                    _driverModels[i].License);
                 Grid.SetRow(row, i);
                 Body.Children.Add(row);
             }
@@ -271,7 +271,7 @@ public partial class Relative : Overlay
             {
                 _additionalDrivers = maxValue;
                 _setIntConfig("_additionalRows", _additionalDrivers);
-                _setWindowSize(230, calcHeight());
+                _setWindowSize(336, calcHeight());
                 _scaleWindow(_scale);
             }
         }
@@ -452,8 +452,8 @@ public partial class Relative : Overlay
 
     private int calcHeight()
     {
-        int height = 55;
-        height += (30 * _additionalDrivers * 2);
+        int height = 45;
+        height += (20 * _additionalDrivers * 2);
         return height;
     }
 
