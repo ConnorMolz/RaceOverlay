@@ -21,6 +21,7 @@ public class DriverModel
     public bool OnPitRoad { get; set; }
     public float GapToLeader { get; set; }
     public string ClassColorCode { get; set; }
+    public double RatingChange { get; set; }
 
     public DriverModel(string name, int iRating, string license, int carNumber, string carClass, string carName, int idx, float lapDistance, float estCarClassNeededLapTime, int position, int classPosition, int lap, float lastLap, float bestLap, bool onPitRoad, float gapToLeader, string carClassColorCode)
     {

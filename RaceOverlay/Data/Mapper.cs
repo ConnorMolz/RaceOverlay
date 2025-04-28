@@ -313,8 +313,23 @@ public class Mapper
     
     private static int CalcSOF(List<DriverModel> drivers)
     {
-        double sof = LogNumber * Math.Log(drivers.Count / drivers.Sum(r => Math.Exp(-r.iRating / LogNumber)));
-    
+        double starters = drivers.Count();
+
+        double sof = LogNumber * Math.Log(starters / drivers.Sum(r => Math.Exp(-r.iRating / LogNumber)));
+        
+        // Calculate the rating change for each driver Implement later
+        /*foreach (var result in drivers)
+        {
+            var expectedScore = drivers.Sum(r => (1 - Math.Exp(-result.iRating / LogNumber))
+                                                 * Math.Exp(-r.iRating / LogNumber)
+                                                 / ((1 - Math.Exp(-r.iRating / LogNumber)) * Math.Exp(-result.iRating / LogNumber) + (1 - Math.Exp(-result.iRating / LogNumber))
+                                                     * Math.Exp(-r.iRating / LogNumber))) - 0.5;
+
+            var fudgeFactor = (starters / 2 - result.ClassPosition) / 100;
+
+            result.RatingChange = (starters - result.ClassPosition - expectedScore - fudgeFactor) * 200 / starters;
+        }*/
+        
         return (int) sof;
     }
     
