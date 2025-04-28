@@ -164,6 +164,7 @@ public partial class Relative : Overlay
         _isWet = _data.WeatherData.WeatherDeclaredWet;
         _sof = _data.SessionData.SOF;
         _fuel = _data.LocalCarTelemetry.FuelLevel;
+        _inSimTime = _data.SessionData.InSimTime;
 
         
     }
