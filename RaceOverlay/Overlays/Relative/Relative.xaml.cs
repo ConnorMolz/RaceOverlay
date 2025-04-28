@@ -116,16 +116,16 @@ public partial class Relative : Overlay
         try
         {
             Body.Children.Clear();
-            for (int i = 0; i < 5; i++)//_driverModels.Count; i++)
+            for (int i = 0; i < _driverModels.Count; i++)
             {
                 Body.RowDefinitions.Add(new RowDefinition());
                 var row = new RelativeRow(
-                    "Max Musterman",
-                    2,
-                    -4635f,
-                    55,
-                    "0xFF0000",
-                    "A 4.9");
+                    _driverModels[i].Name,
+                    _driverModels[i].ClassPosition,
+                    _data.GetGapToPlayerMs(_driverModels[i].Idx),
+                    _driverModels[i].CarNumber,
+                    _driverModels[i].ClassColorCode,
+                    _driverModels[i].License);
                 Grid.SetRow(row, i);
                 Body.Children.Add(row);
             }

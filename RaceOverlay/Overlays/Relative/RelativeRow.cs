@@ -85,7 +85,7 @@ public class RelativeRow: Grid
         safetyTextBlock.Text = safety;
         safetyTextBlock.Margin = new Thickness(0, 0, 5, 0);
         safetyTextBlock.TextAlignment = TextAlignment.Left;
-        safetyTextBlock.Width = 30;
+        safetyTextBlock.Width = 35;
         safetyTextBlock.Height = 20;
         safetyTextBlock.Background = _getLicenseColorBrush(safety);
         safetyTextBlock.VerticalAlignment = VerticalAlignment.Center;
@@ -99,7 +99,7 @@ public class RelativeRow: Grid
         distanceTextBlock.TextAlignment = TextAlignment.Right;
         distanceTextBlock.VerticalAlignment = VerticalAlignment.Center;
         distanceTextBlock.Margin = new Thickness(0, 0, 5, 0);
-        distanceTextBlock.Width = 50;
+        distanceTextBlock.Width = 45;
         distanceTextBlock.Height = 20;
         
         distanceTextBlock.SetValue(Grid.ColumnProperty, 4);
