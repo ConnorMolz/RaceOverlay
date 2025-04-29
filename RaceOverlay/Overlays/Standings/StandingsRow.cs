@@ -15,7 +15,7 @@ public class StandingsRow: Grid
     
     TextBlock driverNameTextBlock { get; set; }
 
-    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode, string safetyRating)
     {
         Height = 30;
         
@@ -42,6 +42,9 @@ public class StandingsRow: Grid
         ColumnDefinition bestLapColumnDefinition = new ColumnDefinition();
         bestLapColumnDefinition.Width = GridLength.Auto;
         
+        ColumnDefinition safetyColumnDefinition = new ColumnDefinition();
+        safetyColumnDefinition.Width = GridLength.Auto;
+        
         ColumnDefinition ratingColumnDefinition = new ColumnDefinition();
         ratingColumnDefinition.Width = GridLength.Auto;
         
@@ -50,13 +53,16 @@ public class StandingsRow: Grid
         ColumnDefinitions.Add(driverNameColumnDefinition);
         ColumnDefinitions.Add(lastLapColumnDefinition);
         ColumnDefinitions.Add(bestLapColumnDefinition);
+        ColumnDefinitions.Add(safetyColumnDefinition);
         ColumnDefinitions.Add(ratingColumnDefinition);
+        
         
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position.ToString();
         positionTextBlock.Background = _getClassColorBrush(classColorCode.Replace("0x", "#"));
         positionTextBlock.TextAlignment = TextAlignment.Center;
         positionTextBlock.Width = 15;
+        positionTextBlock.Height = 30;
         
         positionTextBlock.SetValue(Grid.ColumnProperty, 0);
         positionTextBlock.SetValue(Grid.RowProperty, 0);
@@ -67,6 +73,7 @@ public class StandingsRow: Grid
         carNrTextBlock.Text = "#" + carNr;
         carNrTextBlock.TextAlignment = TextAlignment.Center;
         carNrTextBlock.Width = 26;
+        carNrTextBlock.Height = 30;
         
         carNrTextBlock.SetValue(Grid.ColumnProperty, 1);
         carNrTextBlock.SetValue(Grid.RowProperty, 0);
@@ -77,6 +84,7 @@ public class StandingsRow: Grid
         driverNameTextBlock.Text = DriverName;
         driverNameTextBlock.TextAlignment = TextAlignment.Center;
         driverNameTextBlock.Width = 200;
+        driverNameTextBlock.Height = 30;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
@@ -91,6 +99,7 @@ public class StandingsRow: Grid
         lastLapTextBlock.Text = lastLapText;
         lastLapTextBlock.TextAlignment = TextAlignment.Center;
         lastLapTextBlock.Width = 80;
+        lastLapTextBlock.Height = 30;
         
         lastLapTextBlock.SetValue(Grid.ColumnProperty, 3);
         lastLapTextBlock.SetValue(Grid.RowProperty, 0);
@@ -105,10 +114,24 @@ public class StandingsRow: Grid
         bestLapTextBlock.Text = bestLapTimeText;
         bestLapTextBlock.TextAlignment = TextAlignment.Center;
         bestLapTextBlock.Width = 80;
+        bestLapTextBlock.Height = 30;
         
         bestLapTextBlock.SetValue(Grid.ColumnProperty, 4);
         bestLapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(bestLapTextBlock);
+        
+        
+        TextBlock safetyTextBlock = new TextBlock();
+        safetyTextBlock.Text = safetyRating;
+        safetyTextBlock.TextAlignment = TextAlignment.Center;
+        safetyTextBlock.Width = 35;
+        safetyTextBlock.Height = 30;
+        safetyTextBlock.Background = _getLicenseColorBrush(safetyRating);
+        safetyTextBlock.Foreground = _getLicenseTextColor(safetyRating);
+        
+        safetyTextBlock.SetValue(Grid.ColumnProperty, 5);
+        safetyTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(safetyTextBlock);
         
         
         TextBlock iRatingTextBlock = new TextBlock();
@@ -116,8 +139,9 @@ public class StandingsRow: Grid
         iRatingTextBlock.Text = iRatingText;
         iRatingTextBlock.TextAlignment = TextAlignment.Center;
         iRatingTextBlock.Width = 30;
+        iRatingTextBlock.Height = 30;
         
-        iRatingTextBlock.SetValue(Grid.ColumnProperty, 5);
+        iRatingTextBlock.SetValue(Grid.ColumnProperty, 6);
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(iRatingTextBlock);
     }
@@ -144,6 +168,44 @@ public class StandingsRow: Grid
     {
         driverNameTextBlock.FontWeight = FontWeights.Bold;
         driverNameTextBlock.Foreground = Brushes.Gold;
+    }
+    
+    private SolidColorBrush _getLicenseColorBrush(string safetyRating)
+    {
+        switch (safetyRating[0])
+        {
+            case 'D':
+                return new SolidColorBrush(Colors.Orange);
+            case 'C':
+                return new SolidColorBrush(Colors.Yellow);
+            case 'B':
+                return new SolidColorBrush(Colors.Green);
+            case 'A':
+                return new SolidColorBrush(Colors.Blue);
+            case 'P':
+                return new SolidColorBrush(Colors.Black);
+            default:
+                return new SolidColorBrush(Colors.Red);
+        }
+    }
+    
+    private SolidColorBrush _getLicenseTextColor(string safetyRating)
+    {
+        switch (safetyRating[0])
+        {
+            case 'D':
+                return new SolidColorBrush(Colors.Black);
+            case 'C':
+                return new SolidColorBrush(Colors.Black);
+            case 'B':
+                return new SolidColorBrush(Colors.Black);
+            case 'A':
+                return new SolidColorBrush(Colors.White);
+            case 'P':
+                return new SolidColorBrush(Colors.White);
+            default:
+                return new SolidColorBrush(Colors.White);
+        }
     }
     
 }
