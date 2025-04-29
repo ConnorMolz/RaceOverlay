@@ -36,6 +36,10 @@
         <EmbeddedResource Include="API\Overlays\SetupHider\SetupHider.html" />
         <None Remove="API\Overlays\EnergyInfo\EnergyInfo.html" />
         <EmbeddedResource Include="API\Overlays\EnergyInfo\EnergyInfo.html" />
+        <None Remove="API\Overlays\LaptimeDelta\BestLaptimeDelta.html" />
+        <EmbeddedResource Include="API\Overlays\LaptimeDelta\BestLaptimeDelta.html" />
+        <None Remove="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
+        <EmbeddedResource Include="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
     </ItemGroup>
 
     <ItemGroup>
