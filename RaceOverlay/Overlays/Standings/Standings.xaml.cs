@@ -127,6 +127,13 @@ public partial class Standings : Overlay
                     interval = "Leader";
                 }
                 
+                DriverModel? driver = _getDriverOnClassPosition(i, playerCarClass);
+                if (driver == null)
+                {
+                    
+                    continue;
+                }
+
                 if (driver.Idx == _playerCarIdx)
                 {
                     StandingsRow playerRow = new StandingsRow(
@@ -165,7 +172,7 @@ public partial class Standings : Overlay
         }
         catch (Exception e)
         {
-            //ignore
+            Console.WriteLine(e);
         }
 
     }
@@ -215,7 +222,7 @@ public partial class Standings : Overlay
     
     private DriverModel _getDriverOnClassPosition(int position, string carClass)
     {
-        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && MainWindow.IrsdkSharper.Data.GetValue("CarIdxClass", driver.Idx) == carClass);
+        return _drivers.FirstOrDefault(driver => driver.ClassPosition == position && MainWindow.IrsdkSharper.Data.GetValue("CarIdxClass", driver.Idx).ToString() == carClass);
     }
     
     private int getDriverOffset(int position, int driverCount)

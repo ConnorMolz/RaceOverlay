@@ -17,7 +17,7 @@ public class StandingsRow: Grid
 
     public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode, int gapToLeader, string interval)
     {
-        Height = 30;
+        Height = 20;
         
         DriverName = driverName;
         Position = position;
