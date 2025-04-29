@@ -175,7 +175,7 @@ public partial class FuelCalculator : Overlay
         {
             if (_fuelOnLastLap - _currentFuel > 0.1)
             {
-                _lastLapTimes.Add(_data.GetDriverByIdx(_data.PlayerIdx).LastLap);
+                _lastLapTimes.Add(MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", _data.PlayerIdx));
                 _lastLapFuel.Add(_fuelOnLastLap - _currentFuel);
             }
 

@@ -25,7 +25,7 @@ public partial class Inputs : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(_calcWitdh(), 55);
+        _setWindowSize(_calcWitdh(), 60);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -70,13 +70,13 @@ public partial class Inputs : Overlay
         {
             _showSteering = true;
             _setBoolConfig("ShowSteering", true);
-            _setWindowSize(_calcWitdh(), 55);
+            _setWindowSize(_calcWitdh(), 60);
         };
         showSteering.CheckBox.Unchecked += (sender, args) =>
         {
             _showSteering = false;
             _setBoolConfig("ShowSteering", false);
-            _setWindowSize(_calcWitdh(), 55);
+            _setWindowSize(_calcWitdh(), 60);
         };
         
         Grid.SetRow(showSteering, 0);

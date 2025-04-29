@@ -46,7 +46,7 @@ public partial class Relative : Overlay
         InitializeComponent();
         _getConfig();
         _updateHeader();
-        _setWindowSize(200, calcHeight());
+        _setWindowSize(336, calcHeight());
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         
@@ -58,7 +58,7 @@ public partial class Relative : Overlay
     {
         InitializeComponent();
         _getConfig();
-        _setWindowSize(230, calcHeight());
+        _setWindowSize(336, calcHeight());
 
         if (!_isTest)
         {
@@ -124,8 +124,8 @@ public partial class Relative : Overlay
                     _driverModels[i].ClassPosition,
                     _data.GetGapToPlayerMs(_driverModels[i].Idx),
                     _driverModels[i].CarNumber,
-                    _driverModels[i].ClassColorCode
-                );
+                    MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor,
+                    _driverModels[i].License);
                 Grid.SetRow(row, i);
                 Body.Children.Add(row);
             }
@@ -164,6 +164,7 @@ public partial class Relative : Overlay
         _isWet = _data.WeatherData.WeatherDeclaredWet;
         _sof = _data.SessionData.SOF;
         _fuel = _data.LocalCarTelemetry.FuelLevel;
+        _inSimTime = _data.SessionData.InSimTime;
 
         
     }
@@ -195,8 +196,8 @@ public partial class Relative : Overlay
             if (a == null) return -1;
             if (b == null) return 1;
 
-            var aSpline = a.LapDistance;
-            var bSpline = b.LapDistance;
+            var aSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", a.Idx) *100;
+            var bSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", b.Idx) *100;
 
             float aPosition = aSpline / 10;
             float bPosition = bSpline / 10;
@@ -271,7 +272,7 @@ public partial class Relative : Overlay
             {
                 _additionalDrivers = maxValue;
                 _setIntConfig("_additionalRows", _additionalDrivers);
-                _setWindowSize(230, calcHeight());
+                _setWindowSize(336, calcHeight());
                 _scaleWindow(_scale);
             }
         }
@@ -452,8 +453,8 @@ public partial class Relative : Overlay
 
     private int calcHeight()
     {
-        int height = 55;
-        height += (30 * _additionalDrivers * 2);
+        int height = 45;
+        height += (20 * _additionalDrivers * 2);
         return height;
     }
 

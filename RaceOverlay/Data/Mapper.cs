@@ -9,6 +9,7 @@ namespace RaceOverlay.Data;
 
 public class Mapper
 {
+    public static double LogNumber { get; } = 1600 / Math.Log(2);
     public static iRacingData MapData(IRacingSdk irsdkSharper)
     {
         iRacingData data = new();
@@ -47,7 +48,6 @@ public class Mapper
         
         // Map Tyres
         data.LocalCarTelemetry.FrontLeftTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("LFcoldPressure"),
             irsdkSharper.Data.GetFloat("LFtempCL"),
             irsdkSharper.Data.GetFloat("LFtempCM"),
             irsdkSharper.Data.GetFloat("LFtempCR"),
@@ -56,7 +56,6 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LFwearR") * 100
             );
         data.LocalCarTelemetry.FrontRightTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("RFcoldPressure"),
             irsdkSharper.Data.GetFloat("RFtempCL"),
             irsdkSharper.Data.GetFloat("RFtempCM"),
             irsdkSharper.Data.GetFloat("RFtempCR"),
@@ -65,7 +64,6 @@ public class Mapper
         irsdkSharper.Data.GetFloat("RFwearR") * 100
         );
         data.LocalCarTelemetry.RearLeftTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("LRcoldPressure"),
             irsdkSharper.Data.GetFloat("LRtempCL"),
             irsdkSharper.Data.GetFloat("LRtempCM"),
             irsdkSharper.Data.GetFloat("LRtempCR"),
@@ -74,7 +72,6 @@ public class Mapper
             irsdkSharper.Data.GetFloat("LRwearR") * 100
         );
         data.LocalCarTelemetry.RearRightTyre = new Tyre(
-            irsdkSharper.Data.GetFloat("RRcoldPressure"),
             irsdkSharper.Data.GetFloat("RRtempCL"),
             irsdkSharper.Data.GetFloat("RRtempCM"),
             irsdkSharper.Data.GetFloat("RRtempCR"),
@@ -83,8 +80,8 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRwearR") * 100
         );
         
-        // Map Dampers
-        data.LocalCarTelemetry.FrontLeftDamper = new Damper(
+        // Map Dampers *Removed for performance resone because currently not needed
+        /*data.LocalCarTelemetry.FrontLeftDamper = new Damper(
             irsdkSharper.Data.GetFloat("LFshockDefl"),
             irsdkSharper.Data.GetFloat("LFshockDefl_ST"),
             irsdkSharper.Data.GetFloat("LFshockVel"),
@@ -107,7 +104,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRshockDefl_ST"),
             irsdkSharper.Data.GetFloat("RRshockVel"),
             irsdkSharper.Data.GetFloat("RRshockVel_ST")
-        );
+        );*/
         
         // Gear, RPM, Speed and Steering
         data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
@@ -116,7 +113,6 @@ public class Mapper
         
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
-        data.LocalCarTelemetry.FuelPressure = irsdkSharper.Data.GetFloat("FuelPress");
         try
         {
             data.LocalCarTelemetry.FuelCapacity = irsdkSharper.Data.SessionInfo.DriverInfo.DriverCarFuelMaxLtr;
@@ -127,14 +123,11 @@ public class Mapper
         }
        
         
-        // Oil Temp, Press and level
+        // Oil Temp
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
-        data.LocalCarTelemetry.OilPressure = irsdkSharper.Data.GetFloat("OilPress");
-        data.LocalCarTelemetry.OilLevel = irsdkSharper.Data.GetFloat("OilLevel");
         
-        // Water Temp and level
+        // Water Temp
         data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
-        data.LocalCarTelemetry.WaterLevel = irsdkSharper.Data.GetFloat("WaterLevel");
         
         // Energy Level (GPT Only)
         try
@@ -251,30 +244,28 @@ public class Mapper
                     // Skip the Pace Car
                     continue;
                 }
+
                 drivers.Add(
                     new DriverModel(
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).UserName,
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).IRating,
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).LicString,
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarNumberRaw,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassShortName,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarScreenNameShort,
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx,
-                        irsdkSharper.Data.GetFloat("CarIdxLapDistPct", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx) *100,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassEstLapTime,
-                        irsdkSharper.Data.GetInt("CarIdxPosition", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetInt("CarIdxClassPosition", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetInt("CarIdxLap", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetFloat("CarIdxLastLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetFloat("CarIdxBestLapTime", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetBool("CarIdxOnPitRoad", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetFloat("CarIdxF2Time", irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetInt("CarIdxPosition",
+                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetInt("CarIdxClassPosition",
+                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetInt("CarIdxLap",
+                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
+                        irsdkSharper.Data.GetBool("CarIdxOnPitRoad",
+                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
                         irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor
                     )
                 );
             }
 
-            data.SessionData.SOF = CalcSOF(drivers, drivers.Count);
+            data.SessionData.SOF = CalcSOF(drivers);
         }
         catch (Exception e)
         {
@@ -310,26 +301,26 @@ public class Mapper
         return data;
     }
     
-    private static int CalcSOF(List<DriverModel> drivers, int numberOfPlayers)
+    private static int CalcSOF(List<DriverModel> drivers)
     {
-        // N is the number of players
-        double N = numberOfPlayers;
-        if (N == 0)
+        double starters = drivers.Count();
+
+        double sof = LogNumber * Math.Log(starters / drivers.Sum(r => Math.Exp(-r.iRating / LogNumber)));
+        
+        // Calculate the rating change for each driver Implement later
+        /*foreach (var result in drivers)
         {
-            return 0;
-        }
-    
-        // Calculate the sum in the denominator: sum of 2^(-Ri/1600)
-        double sum = 0;
-        foreach (DriverModel driver in drivers)
-        {
-            sum += Math.Pow(2, -driver.iRating / 1600);
-        }
-    
-        // Calculate the complete formula: (1600/ln(2)) * ln(N/sum)
-        double result = (1600 / Math.Log(2)) * Math.Log(N / sum);
-    
-        return (int) result;
+            var expectedScore = drivers.Sum(r => (1 - Math.Exp(-result.iRating / LogNumber))
+                                                 * Math.Exp(-r.iRating / LogNumber)
+                                                 / ((1 - Math.Exp(-r.iRating / LogNumber)) * Math.Exp(-result.iRating / LogNumber) + (1 - Math.Exp(-result.iRating / LogNumber))
+                                                     * Math.Exp(-r.iRating / LogNumber))) - 0.5;
+
+            var fudgeFactor = (starters / 2 - result.ClassPosition) / 100;
+
+            result.RatingChange = (starters - result.ClassPosition - expectedScore - fudgeFactor) * 200 / starters;
+        }*/
+        
+        return (int) sof;
     }
     
 }
