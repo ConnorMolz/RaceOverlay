@@ -115,7 +115,13 @@ public partial class Standings : Overlay
                 DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
                 string interval;
                 
-                if(i < 1 || driver == null)
+                if (driver == null)
+                {
+                    
+                    continue;
+                }
+                
+                if(i > 1)
                 {
                     interval = TimeSpan.FromMilliseconds(
                         _data.GetGapBetweenMs(
@@ -127,11 +133,8 @@ public partial class Standings : Overlay
                     interval = "Leader";
                 }
                 
-                if (driver == null)
-                {
-                    
-                    continue;
-                }
+                
+                
 
                 if (driver.Idx == _playerCarIdx)
                 {
