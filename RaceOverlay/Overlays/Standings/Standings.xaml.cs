@@ -122,7 +122,8 @@ public partial class Standings : Overlay
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
                         driver.iRating, 
-                        driver.ClassColorCode);
+                        driver.ClassColorCode,
+                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx));
                     playerRow.SetToPlayerRow();
                     Grid.SetRow(playerRow, row);
                     Body.Children.Add(playerRow);
@@ -135,7 +136,9 @@ public partial class Standings : Overlay
                         driver.ClassPosition, 
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
-                        driver.iRating, driver.ClassColorCode);
+                        driver.iRating, 
+                        driver.ClassColorCode,
+                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx));
                     Grid.SetRow(driverRow, row);
                     Body.Children.Add(driverRow);
                 }
