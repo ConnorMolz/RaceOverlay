@@ -30,9 +30,19 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
         shell: bash
 
+      - name: Calculate checksums
+        run: |
+          $filePath = "RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\RaceOverlay.exe"
+          $hash = Get-FileHash -Path $filePath -Algorithm SHA256
+          $checksumContent = "SHA256: $($hash.Hash) - RaceOverlay.exe"
+          $checksumContent | Out-File -FilePath "checksum.txt" -Encoding utf8
+          Write-Output "Checksum calculated and saved to checksum.txt"
+        shell: pwsh
+
       - name: Test directory contents
         run: |
           dir RaceOverlay\bin\Release\net9.0-windows\win-x64\publish\
+          dir *.txt
 
       - name: Create Release
         id: create_release
@@ -41,6 +51,8 @@ jobs:
           name: RaceOverlay ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
-          files: RaceOverlay/bin/Release/net9.0-windows/win-x64/publish/RaceOverlay.exe
+          files: |
+            RaceOverlay/bin/Release/net9.0-windows/win-x64/publish/RaceOverlay.exe
+            checksum.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

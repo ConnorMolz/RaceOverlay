@@ -11,7 +11,7 @@
         <PublishReadyToRun>true</PublishReadyToRun>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <Version>0.7.1</Version>
+        <Version>0.7.2</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,6 +40,8 @@
         <EmbeddedResource Include="API\Overlays\LaptimeDelta\BestLaptimeDelta.html" />
         <None Remove="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
         <EmbeddedResource Include="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
+        <None Remove="API\Overlays\WeatherInfo\WeatherInfo.html" />
+        <EmbeddedResource Include="API\Overlays\WeatherInfo\WeatherInfo.html" />
     </ItemGroup>
 
     <ItemGroup>

@@ -8,7 +8,7 @@ public class StandingsRow: Grid
 {
     
     public string DriverName { get; set; }
-    public int Position { get; set; }
+    public string Position { get; set; }
     public float LastLap { get; set; }
     public float BestLap { get; set; }
     public int IRating { get; set;}
@@ -20,10 +20,15 @@ public class StandingsRow: Grid
         Height = 30;
         
         DriverName = driverName;
-        Position = position;
+        Position = position.ToString();
         LastLap = lastLap;
         BestLap = bestLap;
         IRating = rating;
+        
+        if (Position == "0")
+        {
+            Position = "-";
+        }
         
         RowDefinitions.Add(new RowDefinition());
         
