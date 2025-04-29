@@ -57,6 +57,7 @@ public class StandingsRow: Grid
         ColumnDefinitions.Add(lastLapColumnDefinition);
         ColumnDefinitions.Add(bestLapColumnDefinition);
         ColumnDefinitions.Add(ratingColumnDefinition);
+        ColumnDefinitions.Add(gapColumnDefinition);
         ColumnDefinitions.Add(intervalColumnDefinition);
         
         TextBlock positionTextBlock = new TextBlock();
@@ -82,8 +83,9 @@ public class StandingsRow: Grid
         
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
-        driverNameTextBlock.TextAlignment = TextAlignment.Center;
-        driverNameTextBlock.Width = 200;
+        driverNameTextBlock.TextAlignment = TextAlignment.Left;
+        driverNameTextBlock.Margin = new Thickness(5, 0, 0, 0);
+        driverNameTextBlock.Width = 195;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
@@ -129,7 +131,7 @@ public class StandingsRow: Grid
         Children.Add(iRatingTextBlock);
         
         TextBlock gapTextBlock = new TextBlock();
-        gapTextBlock.Text = gapToLeader.ToString();
+        gapTextBlock.Text = TimeSpan.FromMilliseconds(gapToLeader).ToString(@"ss\.f");
         gapTextBlock.TextAlignment = TextAlignment.Center;
         gapTextBlock.Width = 45;
         
@@ -142,7 +144,7 @@ public class StandingsRow: Grid
         intervalTextBlock.TextAlignment = TextAlignment.Center;
         intervalTextBlock.Width = 45;
         
-        intervalTextBlock.SetValue(Grid.ColumnProperty, 6);
+        intervalTextBlock.SetValue(Grid.ColumnProperty, 7);
         intervalTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(intervalTextBlock);
     }
