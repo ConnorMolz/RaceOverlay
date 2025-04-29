@@ -247,7 +247,7 @@ public partial class Standings : Overlay
         grid.RowDefinitions.Add(new RowDefinition());
         
         
-        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("ShowSessionTypeHeader", _showSessionTypeHeader);
+        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("Show Session Type", _showSessionTypeHeader);
         showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSessionTypeHeader = true;
@@ -266,7 +266,7 @@ public partial class Standings : Overlay
         grid.Children.Add(showSessionTypeHeader);
         
         
-        CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("ShowRaceDistanceHeader", _showRaceDistanceHeader);
+        CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("Show Race Distance", _showRaceDistanceHeader);
         showRaceDistanceHeader.CheckBox.Checked += (sender, args) =>
         {
             _showRaceDistanceHeader = true;
@@ -284,7 +284,7 @@ public partial class Standings : Overlay
         showRaceDistanceHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showRaceDistanceHeader);
         
-        CheckBoxElement showAirTempHeader = new CheckBoxElement("ShowAirTempHeader", _showAirTempHeader);
+        CheckBoxElement showAirTempHeader = new CheckBoxElement("Show Air Temp", _showAirTempHeader);
         showAirTempHeader.CheckBox.Checked += (sender, args) =>
         {
             _showAirTempHeader = true;
@@ -302,7 +302,7 @@ public partial class Standings : Overlay
         showAirTempHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showAirTempHeader);
         
-        CheckBoxElement showTrackTempHeader = new CheckBoxElement("ShowTrackTempHeader", _showTrackTempHeader);
+        CheckBoxElement showTrackTempHeader = new CheckBoxElement("Show Track Temp", _showTrackTempHeader);
         showTrackTempHeader.CheckBox.Checked += (sender, args) =>
         {
             _showTrackTempHeader = true;
@@ -320,7 +320,7 @@ public partial class Standings : Overlay
         showTrackTempHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showTrackTempHeader);
         
-        CheckBoxElement showIncidentsHeader = new CheckBoxElement("ShowIncidentsHeader", _showIncidentsHeader);
+        CheckBoxElement showIncidentsHeader = new CheckBoxElement("Show Incidents", _showIncidentsHeader);
         showIncidentsHeader.CheckBox.Checked += (sender, args) =>
         {
             _showIncidentsHeader = true;
@@ -338,7 +338,7 @@ public partial class Standings : Overlay
         showIncidentsHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showIncidentsHeader);
         
-        CheckBoxElement showSOFHeader = new CheckBoxElement("ShowSOFHeader", _showSOFHeader);
+        CheckBoxElement showSOFHeader = new CheckBoxElement("Show SOF", _showSOFHeader);
         showSOFHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSOFHeader = true;
@@ -356,7 +356,7 @@ public partial class Standings : Overlay
         showSOFHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showSOFHeader);
 
-        CheckBoxElement showFuelHeader = new CheckBoxElement("ShowFuelHeader", _showFuelHeader);
+        CheckBoxElement showFuelHeader = new CheckBoxElement("Show Fuellevel", _showFuelHeader);
         showFuelHeader.CheckBox.Checked += (sender, args) =>
         {
             _showFuelHeader = true;
@@ -374,7 +374,7 @@ public partial class Standings : Overlay
         showFuelHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showFuelHeader);
         
-        CheckBoxElement showIsWetHeader = new CheckBoxElement("ShowIsWetHeader", _showIsWetHeader);
+        CheckBoxElement showIsWetHeader = new CheckBoxElement("Show Is Wet", _showIsWetHeader);
         showIsWetHeader.CheckBox.Checked += (sender, args) =>
         {
             _showIsWetHeader = true;
@@ -392,7 +392,7 @@ public partial class Standings : Overlay
         showIsWetHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showIsWetHeader);
 
-        CheckBoxElement showSimTimeHeader = new CheckBoxElement("ShowSimTimeHeader", _showSimTimeHeader);
+        CheckBoxElement showSimTimeHeader = new CheckBoxElement("Show in sim Time", _showSimTimeHeader);
         showSimTimeHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSimTimeHeader = true;

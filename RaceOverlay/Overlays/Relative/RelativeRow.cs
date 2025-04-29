@@ -7,7 +7,7 @@ namespace RaceOverlay.Overlays.Relative;
 public class RelativeRow: Grid
 {
     public string DriverName { get; set; }
-    public int Position { get; set; }
+    public string Position { get; set; }
     public float CarNr { get; set; }
     public float Distance { get; set; }
     
@@ -18,9 +18,14 @@ public class RelativeRow: Grid
         Height = 20;
         
         DriverName = driverName;
-        Position = position;
+        Position = position.ToString();
         Distance = distance;
         CarNr = carNr;
+
+        if (Position == "0")
+        {
+            Position = "-";
+        }
         
         RowDefinitions.Add(new RowDefinition());
         

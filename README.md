@@ -1,10 +1,10 @@
 # Race Overlay
 
-Race Overlay is an Open Source alternative of Race Labs for iRacing Overlays. The Core of the project will be genrale 
+Race Overlay is an Open Source alternative of Race Labs for iRacing Overlays. The Core of the project will be general 
 car and track information which is usable on most cars and tracks.
 
 ## Currently available overlays
-- Electronic Infos (TC, ABS, BB)
+- Electronic Infos (TC, ABS, BB, ABR)
 - Energy Info (Only for GTP)
 - Fuel Info
 - Input Telemetry

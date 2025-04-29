@@ -251,41 +251,19 @@ public partial class Relative : Overlay
     public override Grid GetConfigs()
     {
         Grid grid = new Grid();
-
+        
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-
+        
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
         grid.RowDefinitions.Add(new RowDefinition());
-
-        InputElement additionalDrivers = new InputElement("AdditionalRows",  _additionalDrivers.ToString());
-        additionalDrivers.Margin = new Thickness(0, 0, 0, 10);
-        additionalDrivers.SetValue(Grid.RowProperty, 0);
-
-        void ParseAdditionalDriversInput(object sender, TextChangedEventArgs e)
-        {
-            if (int.TryParse(additionalDrivers.InputField.Text, out int maxValue))
-            {
-                _additionalDrivers = maxValue;
-                _setIntConfig("_additionalRows", _additionalDrivers);
-                _setWindowSize(336, calcHeight());
-                _scaleWindow(_scale);
-            }
-        }
-
-        additionalDrivers.InputField.TextChanged += ParseAdditionalDriversInput;
-
-        Grid.SetRow(additionalDrivers, 0);
-        Grid.SetColumn(additionalDrivers, 0);
-        Grid.SetColumnSpan(additionalDrivers, 2);
-        grid.Children.Add(additionalDrivers);
-
-
-        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("ShowSessionTypeHeader", _showSessionTypeHeader);
+        
+        
+        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("Show Session Type", _showSessionTypeHeader);
         showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSessionTypeHeader = true;
@@ -298,13 +276,13 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSessionTypeHeader", false);
             _updateHeader();
         };
-
+        
         showSessionTypeHeader.SetValue(Grid.RowProperty, 1);
         showSessionTypeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSessionTypeHeader);
-
-
-        CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("ShowRaceDistanceHeader", _showRaceDistanceHeader);
+        
+        
+        CheckBoxElement showRaceDistanceHeader = new CheckBoxElement("Show Race Distance", _showRaceDistanceHeader);
         showRaceDistanceHeader.CheckBox.Checked += (sender, args) =>
         {
             _showRaceDistanceHeader = true;
@@ -317,12 +295,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showRaceDistanceHeader", false);
             _updateHeader();
         };
-
+        
         showRaceDistanceHeader.SetValue(Grid.RowProperty, 1);
         showRaceDistanceHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showRaceDistanceHeader);
-
-        CheckBoxElement showAirTempHeader = new CheckBoxElement("ShowAirTempHeader", _showAirTempHeader);
+        
+        CheckBoxElement showAirTempHeader = new CheckBoxElement("Show Air Temp", _showAirTempHeader);
         showAirTempHeader.CheckBox.Checked += (sender, args) =>
         {
             _showAirTempHeader = true;
@@ -335,12 +313,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showAirTempHeader", false);
             _updateHeader();
         };
-
+        
         showAirTempHeader.SetValue(Grid.RowProperty, 2);
         showAirTempHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showAirTempHeader);
-
-        CheckBoxElement showTrackTempHeader = new CheckBoxElement("ShowTrackTempHeader", _showTrackTempHeader);
+        
+        CheckBoxElement showTrackTempHeader = new CheckBoxElement("Show Track Temp", _showTrackTempHeader);
         showTrackTempHeader.CheckBox.Checked += (sender, args) =>
         {
             _showTrackTempHeader = true;
@@ -353,12 +331,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showTrackTempHeader", false);
             _updateHeader();
         };
-
+        
         showTrackTempHeader.SetValue(Grid.RowProperty, 2);
         showTrackTempHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showTrackTempHeader);
-
-        CheckBoxElement showIncidentsHeader = new CheckBoxElement("ShowIncidentsHeader", _showIncidentsHeader);
+        
+        CheckBoxElement showIncidentsHeader = new CheckBoxElement("Show Incidents", _showIncidentsHeader);
         showIncidentsHeader.CheckBox.Checked += (sender, args) =>
         {
             _showIncidentsHeader = true;
@@ -371,12 +349,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIncidentsHeader", false);
             _updateHeader();
         };
-
+        
         showIncidentsHeader.SetValue(Grid.RowProperty, 3);
         showIncidentsHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showIncidentsHeader);
-
-        CheckBoxElement showSOFHeader = new CheckBoxElement("ShowSOFHeader", _showSOFHeader);
+        
+        CheckBoxElement showSOFHeader = new CheckBoxElement("Show SOF", _showSOFHeader);
         showSOFHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSOFHeader = true;
@@ -389,12 +367,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSOFHeader", false);
             _updateHeader();
         };
-
+        
         showSOFHeader.SetValue(Grid.RowProperty, 3);
         showSOFHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showSOFHeader);
 
-        CheckBoxElement showFuelHeader = new CheckBoxElement("ShowFuelHeader", _showFuelHeader);
+        CheckBoxElement showFuelHeader = new CheckBoxElement("Show Fuellevel", _showFuelHeader);
         showFuelHeader.CheckBox.Checked += (sender, args) =>
         {
             _showFuelHeader = true;
@@ -407,12 +385,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showFuelHeader", false);
             _updateHeader();
         };
-
+        
         showFuelHeader.SetValue(Grid.RowProperty, 4);
         showFuelHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showFuelHeader);
-
-        CheckBoxElement showIsWetHeader = new CheckBoxElement("ShowIsWetHeader", _showIsWetHeader);
+        
+        CheckBoxElement showIsWetHeader = new CheckBoxElement("Show Is Wet", _showIsWetHeader);
         showIsWetHeader.CheckBox.Checked += (sender, args) =>
         {
             _showIsWetHeader = true;
@@ -425,12 +403,12 @@ public partial class Relative : Overlay
             _setBoolConfig("_showIsWetHeader", false);
             _updateHeader();
         };
-
+        
         showIsWetHeader.SetValue(Grid.RowProperty, 4);
         showIsWetHeader.SetValue(Grid.ColumnProperty, 1);
         grid.Children.Add(showIsWetHeader);
 
-        CheckBoxElement showSimTimeHeader = new CheckBoxElement("ShowSimTimeHeader", _showSimTimeHeader);
+        CheckBoxElement showSimTimeHeader = new CheckBoxElement("Show in sim Time", _showSimTimeHeader);
         showSimTimeHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSimTimeHeader = true;
@@ -443,11 +421,11 @@ public partial class Relative : Overlay
             _setBoolConfig("_showSimTimeHeader", false);
             _updateHeader();
         };
-
+        
         showSimTimeHeader.SetValue(Grid.RowProperty, 5);
         showSimTimeHeader.SetValue(Grid.ColumnProperty, 0);
         grid.Children.Add(showSimTimeHeader);
-
+        
         return grid;
     }
 
