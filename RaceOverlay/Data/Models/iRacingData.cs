@@ -65,4 +65,29 @@ public class iRacingData
         return (int)(delta * 1000);
     }
     
+    public int GetGapBetweenMs(int driver1, int driver2 )
+    {
+        var _iRacingSDK = MainWindow.getRSDK();
+        float bestForDriver1 = _iRacingSDK.Data.GetFloat("CarIdxBestLapTime", driver1);
+        if (bestForDriver1 == 0)
+            bestForDriver1 = _iRacingSDK.Data.SessionInfo.DriverInfo.Drivers[driver1].CarClassEstLapTime;
+
+        float C = _iRacingSDK.Data.GetFloat("CarIdxEstTime", driver2);
+        float S = _iRacingSDK.Data.GetFloat("CarIdxEstTime", driver1);
+
+        // Does the delta between us and the other car span across the start/finish line?
+        bool wrap = Math.Abs(_iRacingSDK.Data.GetFloat("CarIdxLapDistPct", driver2) - _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", driver1)) > 0.5f;
+        float delta;
+        if (wrap)
+        {
+            delta = S > C ? (C - S) + bestForDriver1 : (C - S) - bestForDriver1;
+            // lapDelta += S > C ? -1 : 1;
+        }
+        else
+        {
+            delta = C - S;
+        }
+        return (int)(delta * 1000);
+    }
+    
 }
