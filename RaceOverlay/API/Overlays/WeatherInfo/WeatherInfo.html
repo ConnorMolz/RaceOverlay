@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Info</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .overlay-container {
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto 1fr;
+            gap: 5px;
+        }
+
+        .grid-item {
+            padding: 5px;
+        }
+
+        .left-align {
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .right-align {
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .wet-indicator-container {
+            grid-column: span 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blue;
+            width: 100px;
+            height: 40px;
+            margin: 10px auto;
+        }
+
+        .wet-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1E1E1E;
+            width: 80px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay-container">
+    <div class="grid">
+        <div class="grid-item left-align">Air Temp:</div>
+        <div class="grid-item right-align" id="AirTempText">40.2 C°</div>
+
+        <div class="grid-item left-align">Track Temp:</div>
+        <div class="grid-item right-align" id="TrackTempText">55.4 C°</div>
+
+        <div class="grid-item left-align">Precipitation:</div>
+        <div class="grid-item right-align" id="PrecipitationText">100%</div>
+
+        <div class="wet-indicator-container" id="IsWetBorder">
+            <div class="wet-indicator">
+                <span id="IsWetText">WET</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    async function update() {
+        try {
+            const response = await fetch('/overlay/weather-info/data');
+            const data = await response.json();
+
+            
+        } catch (error) {
+            console.error('Failed to update weather-info:', error);
+        }
+    }
+
+    // Update every 200ms (approximately 5fps)
+    setInterval(update, 200);
+</script>
+</body>
+</html>
