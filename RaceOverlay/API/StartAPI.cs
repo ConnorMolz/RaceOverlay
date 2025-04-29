@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RaceOverlay.API.Overlays.EnergyInfo;
 using RaceOverlay.API.Overlays.SetupHider;
+using RaceOverlay.API.Overlays.WeatherInfo;
 
 namespace RaceOverlay.API;
 
@@ -141,6 +142,35 @@ public class StartAPI
                             {
                                 Debug.WriteLine("GetEnergyInfoOverlayData");
                                 EnergyInfoModel data = new EnergyInfoModel();
+                                return Results.Ok(data);
+                            });
+                            
+                            
+                            //
+                            // Weather Info
+                            //
+                            
+                            endpoints.MapGet("/overlay/weather-info", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.WeatherInfo.WeatherInfo.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetWeatherInfoOverlay");
+
+                            endpoints.MapGet("/overlay/weather-info/data", () =>
+                            {
+                                Debug.WriteLine("GetWeatherInfoOverlayData");
+                                WeatherInfoModel data = new WeatherInfoModel();
                                 return Results.Ok(data);
                             });
                             
