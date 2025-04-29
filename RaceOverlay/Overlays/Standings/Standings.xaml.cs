@@ -44,7 +44,7 @@ public partial class Standings : Overlay
     public Standings(): base("Standings", "This overlay displays the current standings (from the last Lap which is completed)")
     {
         InitializeComponent();
-        _setWindowSize(440, 175);
+        _setWindowSize(485, 175);
         _getConfig();
         _updateHeader();
         
@@ -113,6 +113,20 @@ public partial class Standings : Overlay
             {
                 Body.RowDefinitions.Add(new RowDefinition());
                 DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
+                string interval;
+                
+                if(i < 1 || driver == null)
+                {
+                    interval = TimeSpan.FromMilliseconds(
+                        _data.GetGapBetweenMs(
+                            _getDriverOnClassPosition(i - 1, playerCarClass).Idx,
+                            driver.Idx)).ToString(@"ss\.f");
+                }
+                else
+                {
+                    interval = "Leader";
+                }
+                
                 if (driver.Idx == _playerCarIdx)
                 {
                     StandingsRow playerRow = new StandingsRow(
@@ -123,7 +137,8 @@ public partial class Standings : Overlay
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
                         driver.iRating, 
                         driver.ClassColorCode,
-                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx));
+                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
+                        interval);
                     playerRow.SetToPlayerRow();
                     Grid.SetRow(playerRow, row);
                     Body.Children.Add(playerRow);
@@ -138,7 +153,8 @@ public partial class Standings : Overlay
                         MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
                         driver.iRating, 
                         driver.ClassColorCode,
-                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx));
+                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
+                        interval);
                     Grid.SetRow(driverRow, row);
                     Body.Children.Add(driverRow);
                 }
