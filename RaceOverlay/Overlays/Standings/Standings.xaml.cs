@@ -44,7 +44,7 @@ public partial class Standings : Overlay
     public Standings(): base("Standings", "This overlay displays the current standings (from the last Lap which is completed)")
     {
         InitializeComponent();
-        _setWindowSize(521, 175);
+        _setWindowSize(556, 175);
         _getConfig();
         _updateHeader();
         
@@ -147,7 +147,9 @@ public partial class Standings : Overlay
                         driver.iRating, 
                         driver.ClassColorCode,
                         _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
-                        interval);
+                        interval,
+                        driver.License);
+
                     playerRow.SetToPlayerRow();
                     Grid.SetRow(playerRow, row);
                     Body.Children.Add(playerRow);
@@ -163,7 +165,9 @@ public partial class Standings : Overlay
                         driver.iRating, 
                         driver.ClassColorCode,
                         _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
-                        interval);
+                        interval,
+                        driver.License);
+
                     Grid.SetRow(driverRow, row);
                     Body.Children.Add(driverRow);
                 }
