@@ -15,7 +15,7 @@ public class StandingsRow: Grid
     
     TextBlock driverNameTextBlock { get; set; }
 
-    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode)
+    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode, int gapToLeader, string interval)
     {
         Height = 20;
         
@@ -45,12 +45,20 @@ public class StandingsRow: Grid
         ColumnDefinition ratingColumnDefinition = new ColumnDefinition();
         ratingColumnDefinition.Width = GridLength.Auto;
         
+        ColumnDefinition gapColumnDefinition = new ColumnDefinition();
+        gapColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition intervalColumnDefinition = new ColumnDefinition();
+        intervalColumnDefinition.Width = GridLength.Auto;
+        
         ColumnDefinitions.Add(positionColumnDefinition);
         ColumnDefinitions.Add(carNrColumnDefinition);
         ColumnDefinitions.Add(driverNameColumnDefinition);
         ColumnDefinitions.Add(lastLapColumnDefinition);
         ColumnDefinitions.Add(bestLapColumnDefinition);
         ColumnDefinitions.Add(ratingColumnDefinition);
+        ColumnDefinitions.Add(gapColumnDefinition);
+        ColumnDefinitions.Add(intervalColumnDefinition);
         
         TextBlock positionTextBlock = new TextBlock();
         positionTextBlock.Text = Position.ToString();
@@ -75,8 +83,9 @@ public class StandingsRow: Grid
         
         driverNameTextBlock = new TextBlock();
         driverNameTextBlock.Text = DriverName;
-        driverNameTextBlock.TextAlignment = TextAlignment.Center;
-        driverNameTextBlock.Width = 200;
+        driverNameTextBlock.TextAlignment = TextAlignment.Left;
+        driverNameTextBlock.Margin = new Thickness(5, 0, 0, 0);
+        driverNameTextBlock.Width = 195;
         
         driverNameTextBlock.SetValue(Grid.ColumnProperty, 2);
         driverNameTextBlock.SetValue(Grid.RowProperty, 0);
@@ -120,6 +129,24 @@ public class StandingsRow: Grid
         iRatingTextBlock.SetValue(Grid.ColumnProperty, 5);
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(iRatingTextBlock);
+        
+        TextBlock gapTextBlock = new TextBlock();
+        gapTextBlock.Text = TimeSpan.FromMilliseconds(gapToLeader).ToString(@"ss\.f");
+        gapTextBlock.TextAlignment = TextAlignment.Center;
+        gapTextBlock.Width = 45;
+        
+        gapTextBlock.SetValue(Grid.ColumnProperty, 6);
+        gapTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(gapTextBlock);
+  
+        TextBlock intervalTextBlock = new TextBlock();
+        intervalTextBlock.Text = interval;
+        intervalTextBlock.TextAlignment = TextAlignment.Center;
+        intervalTextBlock.Width = 45;
+        
+        intervalTextBlock.SetValue(Grid.ColumnProperty, 7);
+        intervalTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(intervalTextBlock);
     }
     
     private SolidColorBrush _getClassColorBrush(string classColorCode)
