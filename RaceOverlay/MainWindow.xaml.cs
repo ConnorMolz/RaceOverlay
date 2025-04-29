@@ -18,6 +18,7 @@ using RaceOverlay.Overlays.PitstopInfo;
 using RaceOverlay.Overlays.Relative;
 using RaceOverlay.Overlays.WeatherInfo;
 using RaceOverlay.Overlays.SessionInfo;
+using RaceOverlay.StreamOverlay.LaptimeDelta;
 using RaceOverlay.StreamOverlay.SetupHider;
 using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 
@@ -76,9 +77,13 @@ public partial class MainWindow : Window
         
         // Add here every Stream Overlay
         //StreamOverlays.Add(new Test());
-        StreamOverlays.Add(new SetupHider());
-        StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
+        StreamOverlays.Add(new BestLaptimeDelta());
         StreamOverlays.Add(new StreamOverlay.EnergyInfo.EnergyInfo());
+        StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
+        StreamOverlays.Add(new LastLaptimeDelta());
+        StreamOverlays.Add(new SetupHider());
+        
+        
         
         StreamOverlays = StreamOverlays.OrderBy(o => o.Title).ToList();
         StreamOverlayList.ItemsSource = MainWindow.StreamOverlays;
