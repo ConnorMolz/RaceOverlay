@@ -65,4 +65,39 @@ public class iRacingData
         return (int)(delta * 1000);
     }
     
+    public int GetGapToClassLeaderMS(int classLeaderIdx, int targetCarIdx)
+    {
+        var _iRacingSDK = MainWindow.getRSDK();
+        float bestForLeader = _iRacingSDK.Data.GetFloat("CarIdxBestLapTime", classLeaderIdx);
+        if (bestForLeader == 0)
+            bestForLeader = _iRacingSDK.Data.SessionInfo.DriverInfo.Drivers[classLeaderIdx].CarClassEstLapTime;
+
+        float C = _iRacingSDK.Data.GetFloat("CarIdxEstTime", targetCarIdx);
+        float S = _iRacingSDK.Data.GetFloat("CarIdxEstTime", classLeaderIdx);
+        
+        float targetCarLapDist = _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", targetCarIdx);
+        float classLeaderLapDist = _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", classLeaderIdx);
+        float targetCarLap = _iRacingSDK.Data.GetFloat("CarIdxLap", targetCarIdx);
+        float classLeaderLap = _iRacingSDK.Data.GetFloat("CarIdxLap", classLeaderIdx);
+
+        if (targetCarLapDist < classLeaderLapDist && targetCarLap < classLeaderLap)
+        {
+            return (int) (targetCarLap - classLeaderLap) ;
+        }
+
+        // Does the delta between us and the other car span across the start/finish line?
+        bool wrap = Math.Abs(targetCarLapDist - classLeaderLapDist) > 0.5f;
+        float delta;
+        if (wrap)
+        {
+            delta = S > C ? (C - S) + bestForLeader : (C - S) - bestForLeader;
+            // lapDelta += S > C ? -1 : 1;
+        }
+        else
+        {
+            delta = C - S;
+        }
+        return (int)(delta * 1000);
+    }
+    
 }
