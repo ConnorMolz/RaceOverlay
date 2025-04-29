@@ -15,7 +15,7 @@ public class StandingsRow: Grid
     
     TextBlock driverNameTextBlock { get; set; }
 
-    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode, string interval)
+    public StandingsRow(string driverName, int carNr, int position, float lastLap, float bestLap, int rating, string classColorCode, int gapToLeader, string interval)
     {
         Height = 30;
         
@@ -44,6 +44,9 @@ public class StandingsRow: Grid
         
         ColumnDefinition ratingColumnDefinition = new ColumnDefinition();
         ratingColumnDefinition.Width = GridLength.Auto;
+        
+        ColumnDefinition gapColumnDefinition = new ColumnDefinition();
+        gapColumnDefinition.Width = GridLength.Auto;
         
         ColumnDefinition intervalColumnDefinition = new ColumnDefinition();
         intervalColumnDefinition.Width = GridLength.Auto;
@@ -125,7 +128,15 @@ public class StandingsRow: Grid
         iRatingTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(iRatingTextBlock);
         
+        TextBlock gapTextBlock = new TextBlock();
+        gapTextBlock.Text = gapToLeader.ToString();
+        gapTextBlock.TextAlignment = TextAlignment.Center;
+        gapTextBlock.Width = 45;
         
+        gapTextBlock.SetValue(Grid.ColumnProperty, 6);
+        gapTextBlock.SetValue(Grid.RowProperty, 0);
+        Children.Add(gapTextBlock);
+  
         TextBlock intervalTextBlock = new TextBlock();
         intervalTextBlock.Text = interval;
         intervalTextBlock.TextAlignment = TextAlignment.Center;
