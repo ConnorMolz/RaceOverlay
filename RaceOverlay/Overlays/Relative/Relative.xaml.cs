@@ -263,7 +263,7 @@ public partial class Relative : Overlay
         grid.RowDefinitions.Add(new RowDefinition());
         
         
-        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("Show SessionType", _showSessionTypeHeader);
+        CheckBoxElement showSessionTypeHeader = new CheckBoxElement("Show Session Type", _showSessionTypeHeader);
         showSessionTypeHeader.CheckBox.Checked += (sender, args) =>
         {
             _showSessionTypeHeader = true;
