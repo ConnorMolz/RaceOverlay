@@ -76,10 +76,6 @@
 </div>
 
 <script>
-    // Add JavaScript here to handle dynamic binding and functionality
-    // This would replace the XAML binding system
-
-    // Example of how you might update the delta bars dynamically:
     function updateDelta(deltaValue) {
         const deltaText = document.getElementById('deltaText');
         const deltaBarPositive = document.getElementById('deltaBarPositive');
@@ -98,11 +94,17 @@
         }
     }
 
-    // Example initialization
-    // updateDelta(-0.500);
+    async function update() {
+        try {
+            const response = await fetch('/overlay/best-lap/data');
+            const data = await response.json();
+            updateDelta(data.delta);
+        } catch (error) {
+            console.error('Error fetching delta data:', error);
+        }
+    }
 
-    // In a real implementation, you would need to connect to your data source
-    // and call updateDelta whenever new data is available
+    setInterval(update, 16);
 </script>
 </body>
 </html>
