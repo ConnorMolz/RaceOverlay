@@ -207,9 +207,14 @@ public partial class FuelCalculator : Overlay
         }
 
         var neededFuel = _lapsToFinish * _fuelPerLap + (_fuelPerLap * _marginLaps);
-        if (neededFuel > _data.LocalCarTelemetry.FuelCapacity)
+        
+        // The value is multiplied by 1.5 so that the driver can look if its possible to save fuel and 
+        // stop one time less in endurance races or similar
+        var maxFuel = _data.LocalCarTelemetry.FuelCapacity * 1.5f; 
+        
+        if (neededFuel > maxFuel)
         {
-            return _data.LocalCarTelemetry.FuelCapacity;
+            return _data.LocalCarTelemetry.FuelCapacity * 1.5f;
         }
         return neededFuel;
     }
