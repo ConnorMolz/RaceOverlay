@@ -194,7 +194,7 @@ public class StartAPI
                                     var htmlContent = reader.ReadToEnd();
                                     return Results.Content(htmlContent, "text/html");
                                 })
-                                .WithName("GetBestLaptimeDeltaOverlay");
+                                .WithName("GetLastLaptimeDeltaOverlay");
 
                             endpoints.MapGet("/overlay/last-lap/data", () =>
                             {
