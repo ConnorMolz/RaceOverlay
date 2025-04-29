@@ -96,7 +96,7 @@
 
     async function update() {
         try {
-            const response = await fetch('/overlay/best-lap/data');
+            const response = await fetch('/overlay/last-lap/data');
             const data = await response.json();
             updateDelta(data.delta);
         } catch (error) {
