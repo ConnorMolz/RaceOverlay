@@ -113,6 +113,20 @@ public partial class Standings : Overlay
             {
                 Body.RowDefinitions.Add(new RowDefinition());
                 DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
+                string interval;
+                
+                if(i < 1 || driver == null)
+                {
+                    interval = TimeSpan.FromMilliseconds(
+                        _data.GetGapBetweenMs(
+                            _getDriverOnClassPosition(i - 1, playerCarClass).Idx,
+                            driver.Idx)).ToString(@"ss\.f");
+                }
+                else
+                {
+                    interval = "Leader";
+                }
+                
                 if (driver.Idx == _playerCarIdx)
                 {
                     StandingsRow playerRow = new StandingsRow(
