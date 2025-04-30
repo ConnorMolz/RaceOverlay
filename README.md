@@ -19,6 +19,7 @@ car and track information which is usable on most cars and tracks.
 - Input Telemetry
 - Lap Time Delta (to best lap and to last lap)
 - Setup Hider
+- Weather Information
 
 ![Inputs Overlay](/.github/images/Inputs.png)
 ![Weather Overlay](/.github/images/Wheater.png)
