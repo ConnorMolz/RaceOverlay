@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RaceOverlay.API.Overlays.EnergyInfo;
+using RaceOverlay.API.Overlays.LaptimeDelta;
 using RaceOverlay.API.Overlays.SetupHider;
+using RaceOverlay.API.Overlays.WeatherInfo;
 
 namespace RaceOverlay.API;
 
@@ -144,7 +146,94 @@ public class StartAPI
                                 return Results.Ok(data);
                             });
                             
+                            
+                            //
+//
+                            // Weather Info
+                            //
+                            
+                            endpoints.MapGet("/overlay/weather-info", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.WeatherInfo.WeatherInfo.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetWeatherInfoOverlay");
+
+                            endpoints.MapGet("/overlay/weather-info/data", () =>
+                            {
+                                Debug.WriteLine("GetWeatherInfoOverlayData");
+                                WeatherInfoModel data = new WeatherInfoModel();
+                                return Results.Ok(data);
+                            });
+                          
+                          
+                            //
+                            // Best Lap time Delta
+                            //
+                            
+                            endpoints.MapGet("/overlay/best-lap", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.LaptimeDelta.BestLaptimeDelta.html";
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetBestLaptimeDeltaOverlay");
+
+                            endpoints.MapGet("/overlay/best-lap/data", () =>
+                            {
+                                Debug.WriteLine("GetBestLapDeltaData");
+                                LaptimeDeltaModel data = new LaptimeDeltaModel(MainWindow.IRacingData.LocalDriver.BestLapDelta);
+                                return Results.Ok(data);
+                            });
+                            
+                            
+                            //
+                            // Last Lap time Delta
+                            //
+                            
+                            endpoints.MapGet("/overlay/last-lap", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.LaptimeDelta.LastLaptimeDelta.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetLastLaptimeDeltaOverlay");
+
+                            endpoints.MapGet("/overlay/last-lap/data", () =>
+                            {
+                                Debug.WriteLine("GetLastLapDeltaData");
+                                LaptimeDeltaModel data = new LaptimeDeltaModel(MainWindow.IRacingData.LocalDriver.LastLapDelta);
+                                return Results.Ok(data);
+                            });
                         });
+                        
                     })
                     .UseUrls("http://localhost:5480");
             })
