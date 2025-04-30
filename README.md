@@ -17,6 +17,7 @@ car and track information which is usable on most cars and tracks.
 ## Currently available overlays with streaming support
 - Energy Info (Only for GTP)
 - Input Telemetry
+- Lap Time Delta (to best lap and to last lap)
 - Setup Hider
 
 ![Inputs Overlay](/.github/images/Inputs.png)
