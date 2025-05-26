@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Electronics</title>
+        <style>
+            body {
+            background-color: transparent;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            }
+            
+            .container {
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            padding: 10px;
+            transform: scale(1); /* Corresponds to ScaleTransform */
+            }
+            
+            .grid {
+            display: grid;
+            grid-template-columns: repeat(6, auto);
+            grid-template-rows: repeat(2, auto);
+            text-align: center;
+            }
+            
+            .grid-item {
+            padding: 10px;
+            }
+            
+        </style>
+    </head>
+    <body>
+    
+    <div class="container">
+        <div class="grid">
+            <div class="grid-item" style="grid-column: 1; grid-row: 1;">ABS</div>
+            <div class="grid-item" style="grid-column: 1; grid-row: 2;" id="absValue">5</div>
+            
+            <div class="grid-item" style="grid-column: 2; grid-row: 1;">TC1</div>
+            <div class="grid-item" style="grid-column: 2; grid-row: 2;" id="tc1Value">3</div>
+            
+            <div class="grid-item" style="grid-column: 3; grid-row: 1;">TC2</div>
+            <div class="grid-item" style="grid-column: 3; grid-row: 2;" id="tc2Value">1</div>
+            
+            <div class="grid-item" style="grid-column: 4; grid-row: 1;">BB</div>
+            <div class="grid-item" style="grid-column: 4; grid-row: 2;" id="bbValue">54.2</div>
+            
+            <div class="grid-item" style="grid-column: 5; grid-row: 1;">ARB F</div>
+            <div class="grid-item" style="grid-column: 5; grid-row: 2;" id="ARBFValue">4</div>
+            
+            <div class="grid-item" style="grid-column: 6; grid-row: 1;">ARB R</div>
+            <div class="grid-item" style="grid-column: 6; grid-row: 2;" id="ARBRValue">2</div>
+    </div>
+    
+    </div>
+
+    <script>
+        async function updateInputs() {
+            try {
+                const response = await fetch('/overlay/electronics/data');
+                const data = await response.json();
+
+                // Update pedal bars
+                document.getElementById('absValue').textContent = data.abs_value;
+
+                // Update gear
+                document.getElementById('tc1Value').textContent = data.tc1;
+
+                // Update gear
+                document.getElementById('tc2Value').textContent = data.tc2;
+
+                // Update gear
+                document.getElementById('bbValue').textContent = data.bb;
+
+                // Update gear
+                document.getElementById('ARBFValue').textContent = data.abrf;
+
+                // Update gear
+                document.getElementById('ARBRValue').textContent = data.abrr;
+                
+            } catch (error) {
+                console.error('Failed to update EnergyInfo:', error);
+            }
+        }
+
+        // Update every 16ms (approximately 60fps)
+        setInterval(updateInputs, 16);
+    </script>
+    
+    </body>
+</html>

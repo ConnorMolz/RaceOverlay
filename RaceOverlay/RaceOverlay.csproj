@@ -42,6 +42,8 @@
         <EmbeddedResource Include="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
         <None Remove="API\Overlays\WeatherInfo\WeatherInfo.html" />
         <EmbeddedResource Include="API\Overlays\WeatherInfo\WeatherInfo.html" />
+        <None Remove="API\Overlays\Electronics\Electronics.html" />
+        <EmbeddedResource Include="API\Overlays\Electronics\Electronics.html" />
     </ItemGroup>
 
     <ItemGroup>
