@@ -28,7 +28,7 @@ public partial class WeatherInfo : Overlay
     {
         InitializeComponent();
         
-        _setWindowSize(150, 130);
+        _setWindowSize(120, 135);
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         updateThread.IsBackground = true;
