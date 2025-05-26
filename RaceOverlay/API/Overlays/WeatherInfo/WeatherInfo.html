@@ -34,6 +34,8 @@
 
         .grid-item {
             padding: 5px;
+            display: flex;
+            align-items: center;
         }
 
         .left-align {
@@ -44,6 +46,21 @@
         .right-align {
             text-align: right;
             vertical-align: middle;
+            justify-content: flex-end;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            margin-right: 5px;
+        }
+
+        .thermometer-icon {
+            width: 20px;
+            height: 24px;
+            fill: white;
+            margin-right: 5px;
         }
 
         .wet-indicator-container {
@@ -70,13 +87,29 @@
 <body>
 <div class="overlay-container">
     <div class="grid">
-        <div class="grid-item left-align">Air Temp:</div>
+        <div class="grid-item left-align">
+            <svg class="icon" viewBox="0 0 17 16">
+                <path d="M14.0729979,0 L9.03234845,5.5313194e-08 L9.03234845,1.04200006 L7.958,1.042 L7.958,0 L3.083,0 L1.083,16 L16.005493,16 L14.0729979,0 Z M9,15 L8,15 L8,12 L9,12 L9,15 L9,15 Z M9,10.042 L8,10.042 L8,7 L9,7 L9,10.042 L9,10.042 Z M7.958,4.959 L7.958,2.959 L8.958,2.959 L8.958,4.959 L7.958,4.959 Z"/>
+            </svg>
+            Air Temp:
+        </div>
         <div class="grid-item right-align" id="AirTempText">40.2 C°</div>
 
-        <div class="grid-item left-align">Track Temp:</div>
+        <div class="grid-item left-align">
+            <svg class="thermometer-icon" viewBox="0 0 16 16">
+                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415"/>
+                <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
+            </svg>
+            Track Temp:
+        </div>
         <div class="grid-item right-align" id="TrackTempText">55.4 C°</div>
 
-        <div class="grid-item left-align">Precipitation:</div>
+        <div class="grid-item left-align">
+            <svg class="icon" viewBox="0 0 16 16">
+                <path d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2"/>
+            </svg>
+            Precipitation:
+        </div>
         <div class="grid-item right-align" id="PrecipitationText">100%</div>
 
         <div class="wet-indicator-container" id="IsWetBorder">
@@ -91,7 +124,7 @@
         try {
             const response = await fetch('/overlay/weather-info/data');
             const data = await response.json();
-            
+
             // Update the text elements with the fetched data
             document.getElementById('AirTempText').innerText = `${data.airTemp.toFixed(1)} C°`;
             document.getElementById('TrackTempText').innerText = `${data.trackTemp.toFixed(1)} C°`;
@@ -99,7 +132,7 @@
             document.getElementById('IsWetText').innerText = data.isWet ? 'WET' : 'DRY';
             document.getElementById('IsWetBorder').style.backgroundColor = data.isWet ? '#0000ff' : '#00ff00';
 
-            
+
         } catch (error) {
             console.error('Failed to update weather-info:', error);
         }
