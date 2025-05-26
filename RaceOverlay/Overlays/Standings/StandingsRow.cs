@@ -163,7 +163,7 @@ public class StandingsRow: Grid
         gapTextBlock.TextAlignment = TextAlignment.Center;
         gapTextBlock.Width = 45;
         
-        gapTextBlock.SetValue(Grid.ColumnProperty, 6);
+        gapTextBlock.SetValue(Grid.ColumnProperty, 7);
         gapTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(gapTextBlock);
   
@@ -172,7 +172,7 @@ public class StandingsRow: Grid
         intervalTextBlock.TextAlignment = TextAlignment.Center;
         intervalTextBlock.Width = 45;
         
-        intervalTextBlock.SetValue(Grid.ColumnProperty, 7);
+        intervalTextBlock.SetValue(Grid.ColumnProperty, 8);
         intervalTextBlock.SetValue(Grid.RowProperty, 0);
         Children.Add(intervalTextBlock);
     }
