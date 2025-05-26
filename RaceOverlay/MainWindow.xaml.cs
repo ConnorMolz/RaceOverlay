@@ -78,6 +78,7 @@ public partial class MainWindow : Window
         // Add here every Stream Overlay
         //StreamOverlays.Add(new Test());
         StreamOverlays.Add(new BestLaptimeDelta());
+        StreamOverlays.Add(new StreamOverlay.Electronics.Electronics());
         StreamOverlays.Add(new StreamOverlay.EnergyInfo.EnergyInfo());
         StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
         StreamOverlays.Add(new LastLaptimeDelta());
