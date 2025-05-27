@@ -117,7 +117,7 @@ public partial class Standings : Overlay
                     DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
                     string interval;
 
-                    if (driver == null)
+                    if (driver == null || driver.ClassPosition == 0)
                     {
 
                         continue;
