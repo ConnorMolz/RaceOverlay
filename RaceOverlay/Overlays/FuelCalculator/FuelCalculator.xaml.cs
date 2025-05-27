@@ -35,7 +35,7 @@ public partial class FuelCalculator : Overlay
     public FuelCalculator() : base("Fuel Calculator","This Overlay calculates the fuel needed to finish")
     {
         InitializeComponent();
-        _setWindowSize(170, 100);
+        _setWindowSize(190, 100);
         
         _getConfig();
         
@@ -81,9 +81,15 @@ public partial class FuelCalculator : Overlay
         TimeInStintText.Text = (new TimeSpan(DateTime.Now.Ticks) - _lastTimeEnteredTrack).ToString(@"hh\:mm\:ss");
         FuelInTank.Text = _currentFuel.ToString("F2");
         LapsText.Text = fuelLaps.ToString("F1");
-        TimeLeftText.Text = "~" + TimeSpan.FromMilliseconds(fuelLaps * _avgLapTime).ToString(@"hh\:mm\:ss");
-        
-        
+        try
+        {
+            TimeLeftText.Text = "~" + TimeSpan.FromSeconds(fuelLaps * _avgLapTime).ToString(@"hh\:mm\:ss");
+        }
+        catch (Exception)
+        {
+            TimeLeftText.Text = "NaN";
+        }
+
     }
 
     public override void _getData()
@@ -92,7 +98,7 @@ public partial class FuelCalculator : Overlay
         
         _currentFuel = _data.LocalCarTelemetry.FuelLevel;
         Lap = _data.LocalCarTelemetry.Lap;
-        OnTrack = !_data.Pitstop.InPit;
+        OnTrack = !_data.Pitstop.InPit || _data.InGarage;
 
     }
 

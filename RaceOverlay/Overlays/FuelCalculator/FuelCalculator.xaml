@@ -43,10 +43,10 @@
             <TextBlock Name="TimeInStintText" Grid.Column="1" Grid.Row="2"></TextBlock>
             
             <TextBlock Grid.Column="0" Grid.Row="3" Text="Laps in Tank: "></TextBlock>
-            <TextBlock Name="LapsText" Grid.Column="1" Grid.Row="2"></TextBlock>
+            <TextBlock Name="LapsText" Grid.Column="1" Grid.Row="3"></TextBlock>
             
             <TextBlock Grid.Column="0" Grid.Row="4" Text="Time in Tank: "></TextBlock>
-            <TextBlock Name="TimeLeftText" Grid.Column="1" Grid.Row="2"></TextBlock>
+            <TextBlock Name="TimeLeftText" Grid.Column="1" Grid.Row="4"></TextBlock>
             
             
         </Grid>
