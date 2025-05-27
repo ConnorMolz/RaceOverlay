@@ -12,7 +12,10 @@ public partial class FirstStartPage : Window
         InitializeComponent();
         LoadLicense();
     }
-
+    
+    /// <summary>
+    /// Loads the LICENSE and Manual resources from the assembly and displays them in the respective text blocks.
+    /// </summary>
     private void LoadLicense()
     {
         try
@@ -58,6 +61,12 @@ public partial class FirstStartPage : Window
         }
     }
     
+    /// <summary>
+    /// Handle the click event of the Accept button.
+    /// Safes the settings to indicate that the first run has been completed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void On_Accept_Button(object sender, RoutedEventArgs e)
     {
         string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
