@@ -241,6 +241,11 @@ public partial class Standings : Overlay
             return -2;
         }
 
+        if (position == 0)
+        {
+            return -3;
+        }
+
         if (position == driverCount - 1)
         {
             return -1;
