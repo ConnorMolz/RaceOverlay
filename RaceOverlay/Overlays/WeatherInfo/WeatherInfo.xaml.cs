@@ -37,8 +37,8 @@ public partial class WeatherInfo : Overlay
         Thread blinkAnimationThread = new Thread(BlinkAnimationMethod);
         blinkAnimationThread.IsBackground = true;
         blinkAnimationThread.Start();
-        
-        _loadConfig();
+
+        _getConfig();
     }
 
     public override void _getData()
@@ -179,7 +179,7 @@ public partial class WeatherInfo : Overlay
         return grid;
     }
 
-    protected override void _loadConfig()
+    protected override void _getConfig()
     {
         _blinkingIsActiv = _getBoolConfig("_blinkingIsActiv");
     }
