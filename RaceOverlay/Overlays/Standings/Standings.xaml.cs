@@ -111,74 +111,77 @@ public partial class Standings : Overlay
 
             for (int i = playerPosition - 2 + offset; i < playerPosition + 2 + offset; i++)
             {
-                Body.RowDefinitions.Add(new RowDefinition());
-                DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
-                string interval;
-                
-                if (driver == null || driver.ClassPosition == 0)
+                try
                 {
-                    
-                    continue;
-                }
-                
-                if(i > 1)
-                {
-                    interval = TimeSpan.FromMilliseconds(
-                        _data.GetGapBetweenMs(
-                            _getDriverOnClassPosition(i - 1, playerCarClass).Idx,
-                            driver.Idx)).ToString(@"ss\.f");
-                }
-                else
-                {
-                    interval = "Leader";
-                }
-                
-                
-                
+                    Body.RowDefinitions.Add(new RowDefinition());
+                    DriverModel driver = _getDriverOnClassPosition(i, playerCarClass);
+                    string interval;
 
-                if (driver.Idx == _playerCarIdx)
-                {
-                    StandingsRow playerRow = new StandingsRow(
-                        driver.Name,
-                        driver.CarNumber,
-                        driver.ClassPosition,
-                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
-                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
-                        driver.iRating, 
-                        driver.ClassColorCode,
-                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
-                        interval,
-                        driver.License);
+                    if (driver == null)
+                    {
 
-                    playerRow.SetToPlayerRow();
-                    Grid.SetRow(playerRow, row);
-                    Body.Children.Add(playerRow);
+                        continue;
+                    }
+
+                    if (i > 1)
+                    {
+                        interval = TimeSpan.FromMilliseconds(
+                            _data.GetGapBetweenMs(
+                                _getDriverOnClassPosition(i - 1, playerCarClass).Idx,
+                                driver.Idx)).ToString(@"ss\.f");
+                    }
+                    else
+                    {
+                        interval = "Leader";
+                    }
+
+                    if (driver.Idx == _playerCarIdx)
+                    {
+                        StandingsRow playerRow = new StandingsRow(
+                            driver.Name,
+                            driver.CarNumber,
+                            driver.ClassPosition,
+                            MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
+                            MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
+                            driver.iRating,
+                            driver.ClassColorCode,
+                            _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
+                            interval,
+                            driver.License);
+
+                        playerRow.SetToPlayerRow();
+                        Grid.SetRow(playerRow, row);
+                        Body.Children.Add(playerRow);
+                    }
+                    else
+                    {
+                        StandingsRow driverRow = new StandingsRow(
+                            driver.Name,
+                            driver.CarNumber,
+                            driver.ClassPosition,
+                            MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
+                            MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
+                            driver.iRating,
+                            driver.ClassColorCode,
+                            _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
+                            interval,
+                            driver.License);
+
+                        Grid.SetRow(driverRow, row);
+                        Body.Children.Add(driverRow);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    StandingsRow driverRow = new StandingsRow(
-                        driver.Name,
-                        driver.CarNumber,
-                        driver.ClassPosition, 
-                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLastLapTime", driver.Idx),
-                        MainWindow.IrsdkSharper.Data.GetFloat("CarIdxBestLapTime", driver.Idx),
-                        driver.iRating, 
-                        driver.ClassColorCode,
-                        _data.GetGapToClassLeaderMS(_getDriverOnClassPosition(1, playerCarClass).Idx, driver.Idx),
-                        interval,
-                        driver.License);
-
-                    Grid.SetRow(driverRow, row);
-                    Body.Children.Add(driverRow);
+                    Debug.WriteLine(e);
                 }
-
                 row++;
             }
             
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Debug.WriteLine(e);
         }
 
     }
@@ -233,7 +236,7 @@ public partial class Standings : Overlay
     
     private int getDriverOffset(int position, int driverCount)
     {
-        if (position == driverCount || position == 0)
+        if (position == driverCount)
         {
             return -2;
         }
