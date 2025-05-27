@@ -11,6 +11,13 @@ using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
+/// <summary>
+/// Method for Overlays.
+/// Following Method need to be implemented: <br/>
+/// - _updateWindow() <see cref="_updateWindow"/> <br/>
+/// - _getData() <see cref="_getData"/> <br/>
+/// - _scaleWindow(double scale) <see cref="_scaleWindow"/> <br/>
+/// </summary>
 public abstract class Overlay: Window, INotifyPropertyChanged
 {
      // Window size, scaling, opacity
