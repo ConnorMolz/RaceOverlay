@@ -1,11 +1,13 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
 
@@ -565,6 +567,42 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
      {
           PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+     }
+     
+     protected void LoadEmbeddedImage(Canvas targetCanvas, string manifestResourceName)
+     {
+          if (targetCanvas == null) return;
+
+          // Get the current assembly where the code is executing
+          var assembly = Assembly.GetExecutingAssembly();
+
+          // The 'using' statement ensures the stream is properly closed and disposed of
+          using (var stream = assembly.GetManifestResourceStream(manifestResourceName))
+          {
+               if (stream == null)
+               {
+                    // If the stream is null, the resource was not found.
+                    // This is a critical debugging step!
+                    Console.WriteLine($"ERROR: Embedded resource not found: {manifestResourceName}");
+                    return;
+               }
+
+               var image = new BitmapImage();
+                
+               // --- This is the standard way to load a BitmapImage from a stream ---
+               image.BeginInit();
+               image.StreamSource = stream;
+               image.CacheOption = BitmapCacheOption.OnLoad; // Important for closing the stream
+               image.EndInit();
+               // ---------------------------------------------------------------------
+
+               var brush = new ImageBrush(image) { Stretch = Stretch.Uniform };
+                
+               // Freeze for performance
+               brush.Freeze();
+
+               targetCanvas.Background = brush;
+          }
      }
      
      

@@ -42,6 +42,10 @@
         <EmbeddedResource Include="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
         <None Remove="API\Overlays\WeatherInfo\WeatherInfo.html" />
         <EmbeddedResource Include="API\Overlays\WeatherInfo\WeatherInfo.html" />
+        <None Remove="Overlays\FlagPanel\checkered_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\checkered_flag.png" />
+        <None Remove="Overlays\FlagPanel\dsq_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\dsq_flag.png" />
     </ItemGroup>
 
     <ItemGroup>
