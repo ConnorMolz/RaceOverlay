@@ -124,22 +124,22 @@ public partial class Relative : Overlay
                     var row = new RelativeRow(
                         _driverModels[i].Name,
                         _driverModels[i].ClassPosition,
-                        _data.GetGapToPlayerMs(_driverModels[i].Idx),
+                        _data.GetGapBetweenMs(_data.PlayerIdx, _driverModels[i].Idx),
                         _driverModels[i].CarNumber,
-                        MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor,
+                        _driverModels[i].ClassColorCode,
                         _driverModels[i].License);
                     Grid.SetRow(row, i);
                     Body.Children.Add(row);
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e);
+                    Console.WriteLine(e);
                 }
             }
         }
         catch (Exception e)
         {
-            Debug.WriteLine(e);
+            Console.WriteLine(e);
         }
     }
 
