@@ -78,11 +78,12 @@ public partial class FuelCalculator : Overlay
             FuelNeededText.Text = _fuelToFinish.ToString("F2");
         }
         var fuelLaps = CalcFuelLaps();
+        TimeInStintText.Text = (new TimeSpan(DateTime.Now.Ticks) - _lastTimeEnteredTrack).ToString(@"hh\:mm\:ss");
         FuelInTank.Text = _currentFuel.ToString("F2");
         LapsText.Text = fuelLaps.ToString("F1");
         TimeLeftText.Text = "~" + TimeSpan.FromMilliseconds(fuelLaps * _avgLapTime).ToString(@"hh\:mm\:ss");
         
-        TimeInStintText.Text = (new TimeSpan(DateTime.Now.Ticks) - _lastTimeEnteredTrack).ToString(@"hh\:mm\:ss");
+        
     }
 
     public override void _getData()
