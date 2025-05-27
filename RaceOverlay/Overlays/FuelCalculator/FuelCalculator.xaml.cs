@@ -19,6 +19,8 @@ public partial class FuelCalculator : Overlay
     private float _currentFuel;
     private iRacingData _data;
     private int _lap;
+    private TimeSpan _lastTimeEnteredTrack;
+    private bool _isOnTrack = false;
     
     // Calculated values
     private float _fuelPerLap;
@@ -33,10 +35,11 @@ public partial class FuelCalculator : Overlay
     public FuelCalculator() : base("Fuel Calculator","This Overlay calculates the fuel needed to finish")
     {
         InitializeComponent();
-        _setWindowSize(160, 60);
+        _setWindowSize(190, 100);
         
         _getConfig();
         
+        _lastTimeEnteredTrack = TimeSpan.Zero;
         _lastLapFuel = new List<float>();
         _lastLapTimes = new List<float>();
         
@@ -74,8 +77,19 @@ public partial class FuelCalculator : Overlay
             FuelNeededText.Background = Brushes.Red;
             FuelNeededText.Text = _fuelToFinish.ToString("F2");
         }
+        var fuelLaps = CalcFuelLaps();
+        TimeInStintText.Text = (new TimeSpan(DateTime.Now.Ticks) - _lastTimeEnteredTrack).ToString(@"hh\:mm\:ss");
         FuelInTank.Text = _currentFuel.ToString("F2");
-        LapsText.Text = CalcFuelLaps().ToString("F1");
+        LapsText.Text = fuelLaps.ToString("F1");
+        try
+        {
+            TimeLeftText.Text = "~" + TimeSpan.FromSeconds(fuelLaps * _avgLapTime).ToString(@"hh\:mm\:ss");
+        }
+        catch (Exception)
+        {
+            TimeLeftText.Text = "NaN";
+        }
+
     }
 
     public override void _getData()
@@ -84,7 +98,8 @@ public partial class FuelCalculator : Overlay
         
         _currentFuel = _data.LocalCarTelemetry.FuelLevel;
         Lap = _data.LocalCarTelemetry.Lap;
-        
+        OnTrack = !_data.Pitstop.InPit || _data.InGarage;
+
     }
 
     public override void UpdateThreadMethod()
@@ -138,6 +153,24 @@ public partial class FuelCalculator : Overlay
             }
         }
     }
+    
+    public bool OnTrack
+    {
+        get => _isOnTrack;
+        set
+        {
+            if (_isOnTrack != value)
+            {
+                _isOnTrack = value;
+                OnPropertyChanged();
+                if (_isOnTrack)
+                {
+                    _lastTimeEnteredTrack = new TimeSpan(DateTime.Now.Ticks);
+                }
+            }
+        }
+    }
+    
 
     private void OnLapChanged()
     {
