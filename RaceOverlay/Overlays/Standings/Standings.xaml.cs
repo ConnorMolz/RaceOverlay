@@ -233,7 +233,7 @@ public partial class Standings : Overlay
     
     private int getDriverOffset(int position, int driverCount)
     {
-        if (position == driverCount)
+        if (position == driverCount || position == 0)
         {
             return -2;
         }
