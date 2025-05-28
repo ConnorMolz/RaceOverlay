@@ -3,12 +3,16 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using RaceOverlay.Data;
 using RaceOverlay.Internals;
 
 namespace RaceOverlay.Overlays.FlagPanel;
 
 public partial class FlagPanel : Overlay
 {
+
+    private IrsdkFlags _flag;
+    private bool _wasGreen;
     public FlagPanel(): base("Flag Panel", "This Overlay shows the current flag state")
     {
         InitializeComponent();
@@ -16,16 +20,81 @@ public partial class FlagPanel : Overlay
         LoadEmbeddedImage(CheckeredFlag, "RaceOverlay.Overlays.FlagPanel.checkered_flag.png");
         LoadEmbeddedImage(DsqFlag, "RaceOverlay.Overlays.FlagPanel.dsq_flag.png");
         SetGreen();
+        
+        Thread updateThread = new Thread(UpdateThreadMethod);
+        
+        updateThread.IsBackground = true;
+        updateThread.Start();
     }
 
     public override void _updateWindow()
     {
-        throw new NotImplementedException();
+        if (_flag.HasFlag(IrsdkFlags.Disqualify))
+        {
+            SetDsq();
+            _wasGreen = false;
+            return;
+        }
+        
+        if (_flag.HasFlag(IrsdkFlags.Black) || _flag.HasFlag(IrsdkFlags.Furled))
+        {
+            SetBlack();
+            _wasGreen = false;
+            return;
+        }
+
+        if (_flag.HasFlag(IrsdkFlags.Red))
+        {
+            SetRed();
+            _wasGreen = false;
+            return;
+        }
+        
+        if (_flag.HasFlag(IrsdkFlags.Blue))
+        {
+            SetBlue();
+            _wasGreen = false;
+            return;
+        }
+
+        if (_flag.HasFlag(IrsdkFlags.CautionWaving) || _flag.HasFlag(IrsdkFlags.Caution) || _flag.HasFlag(IrsdkFlags.Yellow) || _flag.HasFlag(IrsdkFlags.YellowWaving))
+        {
+            SetYellow();
+            _wasGreen = false;
+            return;
+        }
+
+        if (_flag.HasFlag(IrsdkFlags.White))
+        {
+            SetWhite();
+            _wasGreen = false;
+            return;
+        }
+        
+        if (_flag.HasFlag(IrsdkFlags.Green) || 
+            (!(
+                _flag.HasFlag(IrsdkFlags.Disqualify) || 
+                _flag.HasFlag(IrsdkFlags.Black) || 
+                _flag.HasFlag(IrsdkFlags.Furled) || 
+                _flag.HasFlag(IrsdkFlags.Red) || 
+                _flag.HasFlag(IrsdkFlags.Blue) ||
+                _flag.HasFlag(IrsdkFlags.CautionWaving) || 
+                _flag.HasFlag(IrsdkFlags.Caution) || 
+                _flag.HasFlag(IrsdkFlags.Yellow) || 
+                _flag.HasFlag(IrsdkFlags.YellowWaving) ||
+                _flag.HasFlag(IrsdkFlags.White)
+                ) && !_wasGreen)
+            )
+        {
+            _wasGreen = true;
+            SetGreen();
+            return;
+        }
     }
 
     public override void _getData()
     {
-        throw new NotImplementedException();
+        _flag = MainWindow.IRacingData.LocalDriver.CurrentIrsdkFlags;
     }
 
     protected override void _scaleWindow(double scale)
