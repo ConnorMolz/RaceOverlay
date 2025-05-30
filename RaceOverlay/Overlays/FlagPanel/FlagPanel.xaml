@@ -42,7 +42,11 @@
                     <Canvas Width="80" Height="80" Margin="10" Name="DsqFlag" Visibility="Collapsed">
                         
                     </Canvas>
-                </Canvas>
+                    <Canvas Width="80" Height="80" Margin="10" Name="RepairFlag" Visibility="Collapsed">
+                    </Canvas>
+                    <Canvas Width="80" Height="80" Margin="10" Name="DebrisFlag" Visibility="Collapsed">
+                    </Canvas>
+                    </Canvas>
                 
                 
             </Grid>

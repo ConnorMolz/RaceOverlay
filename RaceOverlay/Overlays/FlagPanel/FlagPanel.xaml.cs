@@ -19,6 +19,8 @@ public partial class FlagPanel : Overlay
         _setWindowSize(100, 100);
         LoadEmbeddedImage(CheckeredFlag, "RaceOverlay.Overlays.FlagPanel.checkered_flag.png");
         LoadEmbeddedImage(DsqFlag, "RaceOverlay.Overlays.FlagPanel.dsq_flag.png");
+        LoadEmbeddedImage(RepairFlag, "RaceOverlay.Overlays.FlagPanel.repair_flag.png");
+        LoadEmbeddedImage(DebrisFlag, "RaceOverlay.Overlays.FlagPanel.debris_flag.png");
         SetGreen();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
@@ -135,6 +137,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Background = Brushes.Lime;
         
         Thread setOutThread = new Thread(() =>
@@ -146,6 +150,8 @@ public partial class FlagPanel : Overlay
                 CheckeredFlag.Visibility = Visibility.Collapsed;
                 DsqFlag.Visibility = Visibility.Collapsed;
                 FlagCanvas.Visibility = Visibility.Visible;
+                DebrisFlag.Visibility = Visibility.Collapsed;
+                RepairFlag.Visibility = Visibility.Collapsed;
             });
         });
         setOutThread.Start();
@@ -157,6 +163,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
     
     private void SetYellow()
@@ -165,6 +173,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
     
     private void SetBlue()
@@ -173,6 +183,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
     
     private void SetWhite()
@@ -181,6 +193,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
     
     private void SetBlack()
@@ -189,6 +203,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Visible;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
     
     private void SetCheckered()
@@ -196,6 +212,8 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Visible;
         DsqFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Visibility = Visibility.Collapsed;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
 
     private void SetDsq()
@@ -203,5 +221,25 @@ public partial class FlagPanel : Overlay
         CheckeredFlag.Visibility = Visibility.Collapsed;
         DsqFlag.Visibility = Visibility.Visible;
         FlagCanvas.Visibility = Visibility.Collapsed;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Collapsed;
+    }
+    
+    private void SetRepair()
+    {
+        CheckeredFlag.Visibility = Visibility.Collapsed;
+        DsqFlag.Visibility = Visibility.Collapsed;
+        FlagCanvas.Visibility = Visibility.Collapsed;
+        DebrisFlag.Visibility = Visibility.Collapsed;
+        RepairFlag.Visibility = Visibility.Visible;
+    }
+    
+    private void SetDebris()
+    {
+        CheckeredFlag.Visibility = Visibility.Collapsed;
+        DsqFlag.Visibility = Visibility.Collapsed;
+        FlagCanvas.Visibility = Visibility.Collapsed;
+        DebrisFlag.Visibility = Visibility.Visible;
+        RepairFlag.Visibility = Visibility.Collapsed;
     }
 }

@@ -46,6 +46,10 @@
         <EmbeddedResource Include="Overlays\FlagPanel\checkered_flag.png" />
         <None Remove="Overlays\FlagPanel\dsq_flag.png" />
         <EmbeddedResource Include="Overlays\FlagPanel\dsq_flag.png" />
+        <None Remove="Overlays\FlagPanel\meetball_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\meetball_flag.png" />
+        <None Remove="Overlays\FlagPanel\debries_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\debris_flag.png" />
     </ItemGroup>
 
     <ItemGroup>
