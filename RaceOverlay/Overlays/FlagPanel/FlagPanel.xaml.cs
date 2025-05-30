@@ -19,7 +19,7 @@ public partial class FlagPanel : Overlay
         _setWindowSize(100, 100);
         LoadEmbeddedImage(CheckeredFlag, "RaceOverlay.Overlays.FlagPanel.checkered_flag.png");
         LoadEmbeddedImage(DsqFlag, "RaceOverlay.Overlays.FlagPanel.dsq_flag.png");
-        LoadEmbeddedImage(RepairFlag, "RaceOverlay.Overlays.FlagPanel.repair_flag.png");
+        LoadEmbeddedImage(RepairFlag, "RaceOverlay.Overlays.FlagPanel.meetball_flag.png");
         LoadEmbeddedImage(DebrisFlag, "RaceOverlay.Overlays.FlagPanel.debris_flag.png");
         SetGreen();
         
@@ -54,12 +54,13 @@ public partial class FlagPanel : Overlay
         if (_flag.HasFlag(IrsdkFlags.Debris))
         {
             _wasGreen = false;
-            
+            SetDebris();
         }
 
         if (_flag.HasFlag(IrsdkFlags.Repair))
         {
             _wasGreen = false;
+            SetRepair();
         }
 
         if (_flag.HasFlag(IrsdkFlags.Red))
@@ -90,8 +91,13 @@ public partial class FlagPanel : Overlay
             return;
         }
         
-        if (_flag.HasFlag(IrsdkFlags.Green) || 
-            (!(
+        if (_flag.HasFlag(IrsdkFlags.Green))
+        {
+            SetGreen();
+            return;
+        }
+
+        if (!(
                 _flag.HasFlag(IrsdkFlags.Disqualify) || 
                 _flag.HasFlag(IrsdkFlags.Black) || 
                 _flag.HasFlag(IrsdkFlags.Furled) || 
@@ -104,18 +110,29 @@ public partial class FlagPanel : Overlay
                 _flag.HasFlag(IrsdkFlags.White) ||
                 _flag.HasFlag(IrsdkFlags.Checkered) ||
                 _flag.HasFlag(IrsdkFlags.Debris) ||
-                _flag.HasFlag(IrsdkFlags.Repair)
-                ) && !_wasGreen)
-            )
+                _flag.HasFlag(IrsdkFlags.Repair) ||
+                _flag.HasFlag(IrsdkFlags.Green)
+            ) )
         {
-            _wasGreen = true;
-            SetGreen();
-            return;
+            FlagCanvas.Background = new BrushConverter().ConvertFromString("#FF393939") as SolidColorBrush;
+            CheckeredFlag.Visibility = Visibility.Collapsed;
+            DsqFlag.Visibility = Visibility.Collapsed;
+            FlagCanvas.Visibility = Visibility.Visible;
+            DebrisFlag.Visibility = Visibility.Collapsed;
+            RepairFlag.Visibility = Visibility.Collapsed;
         }
     }
 
     public override void _getData()
     {
+        if (!_devMode)
+        {
+            InCar = MainWindow.IRacingData.InCar;
+        }
+        else
+        {
+            InCar = true;
+        }
         _flag = MainWindow.IRacingData.LocalDriver.CurrentIrsdkFlags;
     }
 
@@ -140,21 +157,6 @@ public partial class FlagPanel : Overlay
         DebrisFlag.Visibility = Visibility.Collapsed;
         RepairFlag.Visibility = Visibility.Collapsed;
         FlagCanvas.Background = Brushes.Lime;
-        
-        Thread setOutThread = new Thread(() =>
-        {
-            Thread.Sleep(5000);
-            Dispatcher.Invoke(() =>
-            {
-                FlagCanvas.Background = new BrushConverter().ConvertFromString("#FF393939") as SolidColorBrush;
-                CheckeredFlag.Visibility = Visibility.Collapsed;
-                DsqFlag.Visibility = Visibility.Collapsed;
-                FlagCanvas.Visibility = Visibility.Visible;
-                DebrisFlag.Visibility = Visibility.Collapsed;
-                RepairFlag.Visibility = Visibility.Collapsed;
-            });
-        });
-        setOutThread.Start();
     }
 
     private void SetRed()
