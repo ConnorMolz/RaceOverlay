@@ -35,12 +35,29 @@ public partial class FlagPanel : Overlay
             _wasGreen = false;
             return;
         }
+
+        if (_flag.HasFlag(IrsdkFlags.Checkered))
+        {
+            SetCheckered();
+            _wasGreen = false;
+        }
         
         if (_flag.HasFlag(IrsdkFlags.Black) || _flag.HasFlag(IrsdkFlags.Furled))
         {
             SetBlack();
             _wasGreen = false;
             return;
+        }
+
+        if (_flag.HasFlag(IrsdkFlags.Debris))
+        {
+            _wasGreen = false;
+            
+        }
+
+        if (_flag.HasFlag(IrsdkFlags.Repair))
+        {
+            _wasGreen = false;
         }
 
         if (_flag.HasFlag(IrsdkFlags.Red))
@@ -82,7 +99,10 @@ public partial class FlagPanel : Overlay
                 _flag.HasFlag(IrsdkFlags.Caution) || 
                 _flag.HasFlag(IrsdkFlags.Yellow) || 
                 _flag.HasFlag(IrsdkFlags.YellowWaving) ||
-                _flag.HasFlag(IrsdkFlags.White)
+                _flag.HasFlag(IrsdkFlags.White) ||
+                _flag.HasFlag(IrsdkFlags.Checkered) ||
+                _flag.HasFlag(IrsdkFlags.Debris) ||
+                _flag.HasFlag(IrsdkFlags.Repair)
                 ) && !_wasGreen)
             )
         {
