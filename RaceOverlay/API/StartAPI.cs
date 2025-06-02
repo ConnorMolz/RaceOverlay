@@ -81,7 +81,7 @@ public class StartAPI
                             
                             
                             //
-                            // Setuphider
+                            // Setup hider
                             //
                             
                             endpoints.MapGet("/overlay/setup_hider", () =>
@@ -105,6 +105,7 @@ public class StartAPI
                                 {
                                     Debug.WriteLine("GetSetupHiderOverlayData");
                                     SetupHiderModel data = new SetupHiderModel();
+                                    data.InGarage = true;
                                     return Results.Ok(data);
                                 })
                                 .WithName("GetSetupHiderOverlayData");
