@@ -24,7 +24,7 @@ public class SetupHider: Internals.StreamOverlay
         // Create the main button
             Button uploadButton = new Button
             {
-                Width = 120,
+                Width = 240,
                 Height = 40,
                 Background = new SolidColorBrush(Color.FromRgb(51, 51, 51)), // Dark gray
                 BorderBrush = Brushes.Transparent,
