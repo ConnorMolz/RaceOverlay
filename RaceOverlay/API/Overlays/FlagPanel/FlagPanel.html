@@ -18,15 +18,21 @@
         .overlay-container {
             background-color: #1E1E1E;
             border-radius: 10px;
-            position: relative;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flag-canvas {
+            border-radius: 5px;
+            display: block;
         }
     </style>
 </head>
 <body>
 <div class="overlay-container">
-    <canvas id="canvas" width="100" height="100">
-        <canvas id="flag-canvas" width="80" height="80" style="position: absolute; left: 10px; top: 10px;"></canvas>
-    </canvas>
+    <canvas id="canvas" class="flag-canvas" width="80" height="80"></canvas>
 </div>
 <script>
     let dsqFlag = new Image();
@@ -42,7 +48,7 @@
         } catch (error) {
             console.error('Failed to get image:', error);
         }
-        
+
         try {
             const responseCheck = await fetch('/overlay/flag_panel/checkered_flag');
             const dataCheck = await responseCheck.json();
@@ -67,21 +73,82 @@
             console.error('Failed to get image:', error);
         }
     }
-    
-    async function updateInputs() {
+
+    async function updateFlagPanel() {
         try {
             const response = await fetch('/overlay/flag_panel/data');
             const data = await response.json();
 
             const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            switch (data.flag) {
+                case "dsq": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(dsqFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "checkered": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(checkeredFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "debris": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(debrisFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "meetball": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(meetball_flag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "green": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#00FF00"; // Green background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "yellow": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FFFF00"; // Yellow background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "red": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FF0000"; // Red background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "blue": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#0000FF"; // Blue background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "white": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FFFFFF"; // White background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+
+                default: {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#393939"; // Default background color
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+            }
         } catch (error) {
-            console.error('Failed to update EnergyInfo:', error);
+            console.error('Failed to update FlagPanel:', error);
         }
     }
 
     getImages();
     // Update every 16ms (approximately 60fps)
-    setInterval(updateInputs, 16);
+    setInterval(updateFlagPanel, 16);
 </script>
 </body>
 </html>
