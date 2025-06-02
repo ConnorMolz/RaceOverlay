@@ -20,7 +20,7 @@ public partial class FlagPanel : Overlay
         LoadEmbeddedImage(CheckeredFlag, "RaceOverlay.Overlays.FlagPanel.checkered_flag.png");
         LoadEmbeddedImage(DsqFlag, "RaceOverlay.Overlays.FlagPanel.dsq_flag.png");
         LoadEmbeddedImage(RepairFlag, "RaceOverlay.Overlays.FlagPanel.meetball_flag.png");
-        LoadEmbeddedImage(DebrisFlag, "RaceOverlay.Overlays.FlagPanel.debris_flag.png");
+                LoadEmbeddedImage(DebrisFlag, "RaceOverlay.Overlays.FlagPanel.debris_flag.png");
         SetGreen();
         
         Thread updateThread = new Thread(UpdateThreadMethod);

@@ -52,6 +52,8 @@
         <EmbeddedResource Include="Overlays\FlagPanel\meetball_flag.png" />
         <None Remove="Overlays\FlagPanel\debries_flag.png" />
         <EmbeddedResource Include="Overlays\FlagPanel\debris_flag.png" />
+        <None Remove="API\Overlays\FlagPanel\FlagPanel.html" />
+        <EmbeddedResource Include="API\Overlays\FlagPanel\FlagPanel.html" />
     </ItemGroup>
 
     <ItemGroup>

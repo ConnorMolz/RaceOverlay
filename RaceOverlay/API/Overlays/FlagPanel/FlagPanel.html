@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Panel</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .overlay-container {
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flag-canvas {
+            border-radius: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay-container">
+    <canvas id="canvas" class="flag-canvas" width="80" height="80"></canvas>
+</div>
+<script>
+    let dsqFlag = new Image();
+    let checkeredFlag = new Image();
+    let debrisFlag = new Image();
+    let meetball_flag = new Image();
+
+    async function getImages() {
+        try {
+            const responseDsq = await fetch('/overlay/flag_panel/dsq_flag');
+            const dataDsq = await responseDsq.json();
+            dsqFlag.src = dataDsq.image;
+        } catch (error) {
+            console.error('Failed to get image:', error);
+        }
+
+        try {
+            const responseCheck = await fetch('/overlay/flag_panel/checkered_flag');
+            const dataCheck = await responseCheck.json();
+            checkeredFlag.src = dataCheck.image;
+        } catch (error) {
+            console.error('Failed to get image:', error);
+        }
+
+        try {
+            const responseDeb = await fetch('/overlay/flag_panel/debris_flag');
+            const dataDeb = await responseDeb.json();
+            debrisFlag.src = dataDeb.image;
+        } catch (error) {
+            console.error('Failed to get image:', error);
+        }
+
+        try {
+            const responseMeet = await fetch('/overlay/flag_panel/meetball_flag');
+            const dataMeet = await responseMeet.json();
+            meetball_flag.src = dataMeet.image;
+        } catch (error) {
+            console.error('Failed to get image:', error);
+        }
+    }
+
+    async function updateFlagPanel() {
+        try {
+            const response = await fetch('/overlay/flag_panel/data');
+            const data = await response.json();
+
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            switch (data.flag) {
+                case "dsq": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(dsqFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "checkered": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(checkeredFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "debris": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(debrisFlag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "repair": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(meetball_flag, 0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "green": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#00FF00"; // Green background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "yellow": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FFFF00"; // Yellow background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "red": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FF0000"; // Red background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "blue": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#0000FF"; // Blue background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+                case "white": {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#FFFFFF"; // White background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+
+                default: {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "#393939"; // Default background color
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    break;
+                }
+            }
+        } catch (error) {
+            console.error('Failed to update FlagPanel:', error);
+        }
+    }
+
+    getImages();
+    // Update every 16ms (approximately 60fps)
+    setInterval(updateFlagPanel, 16);
+</script>
+</body>
+</html>
