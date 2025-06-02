@@ -7,6 +7,8 @@ namespace RaceOverlay.Overlays.P2PInfo;
 public partial class P2PInfo : Overlay
 {
     private float _p2pLeft;
+    private bool _p2pOn;
+    
     public P2PInfo(): base("P2P Info", "Displays the current P2P status and remaining time.")
     {
         InitializeComponent();
@@ -18,7 +20,7 @@ public partial class P2PInfo : Overlay
 
     public override void _updateWindow()
     {
-        if (_p2pLeft < 201)
+        if (_p2pLeft > 200)
         {
             P2PBar.Width = 200;
         }
@@ -26,9 +28,19 @@ public partial class P2PInfo : Overlay
         {
             P2PBar.Width = _p2pLeft;
         }
-        
-        
-        
+
+        P2PText.Text = _p2pLeft.ToString("f0");
+        if (_p2pOn)
+        {
+            P2PActive.Visibility = Visibility.Visible;
+            P2PInactive.Visibility = Visibility.Collapsed;
+        }
+        {
+            P2PActive.Visibility = Visibility.Collapsed;
+            P2PInactive.Visibility = Visibility.Visible;
+        }
+
+
     }
 
     public override void _getData()
@@ -43,6 +55,7 @@ public partial class P2PInfo : Overlay
         }
 
         _p2pLeft = MainWindow.IRacingData.LocalCarTelemetry.P2PLeft;
+        _p2pOn = MainWindow.IRacingData.LocalCarTelemetry.P2POn;
     }
 
     protected override void _scaleWindow(double scale)
