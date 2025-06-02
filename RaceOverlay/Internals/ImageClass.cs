@@ -1,4 +1,4 @@
-namespace RaceOverlay.API.Overlays.SetupHider;
+namespace RaceOverlay.Internals;
 
 public class ImageClass
 {

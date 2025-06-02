@@ -12,6 +12,7 @@ using RaceOverlay.API.Overlays.EnergyInfo;
 using RaceOverlay.API.Overlays.LaptimeDelta;
 using RaceOverlay.API.Overlays.SetupHider;
 using RaceOverlay.API.Overlays.WeatherInfo;
+using RaceOverlay.Internals;
 
 namespace RaceOverlay.API;
 
@@ -262,6 +263,147 @@ public class StartAPI
                                 LaptimeDeltaModel data = new LaptimeDeltaModel(MainWindow.IRacingData.LocalDriver.LastLapDelta);
                                 return Results.Ok(data);
                             });
+                            
+                            
+                            //
+                            // Flag Panel
+                            //
+                            endpoints.MapGet("/overlay/flag_panel", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.FlagPanel.FlagPanel.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetFlagPanelOverlay");
+
+                            endpoints.MapGet("/overlay/flag_panel/data", () =>
+                                {
+                                    Debug.WriteLine("GetSetupHiderOverlayData");
+                                    SetupHiderModel data = new SetupHiderModel();
+                                    return Results.Ok(data);
+                                })
+                                .WithName("GetFlagPanelData");
+                            
+                            endpoints.MapGet("/overlay/flag_panel/dsq_flag", () =>
+                            {
+                                Debug.WriteLine("GetMeetballFlagImage");
+    
+                                var assembly = typeof(StartAPI).Assembly;
+                                var resourceName = "RaceOverlay.Overlays.FlagPanel.dsq_flag.png";
+    
+                                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                                {
+                                    if (stream == null)
+                                    {
+                                        Debug.WriteLine($"Resource nicht gefunden: {resourceName}");
+                                        return Results.NotFound("Flag-Bild nicht gefunden");
+                                    }
+        
+                                    using (var memoryStream = new MemoryStream())
+                                    {
+                                        stream.CopyTo(memoryStream);
+                                        byte[] imageBytes = memoryStream.ToArray();
+                                        string base64String = Convert.ToBase64String(imageBytes);
+                                        string mimeType = "image/png"; // Anpassen je nach Bildformat
+            
+                                        ImageClass data = new ImageClass($"data:{mimeType};base64,{base64String}");
+                                        return Results.Ok(data);
+                                    }
+                                }
+                            }).WithName("GetFlagPanelDSQImage");
+                            
+                            endpoints.MapGet("/overlay/flag_panel/checkered_flag", () =>
+                            {
+                                Debug.WriteLine("GetMeetballFlagImage");
+    
+                                var assembly = typeof(StartAPI).Assembly;
+                                var resourceName = "RaceOverlay.Overlays.FlagPanel.checkered_flag.png";
+    
+                                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                                {
+                                    if (stream == null)
+                                    {
+                                        Debug.WriteLine($"Resource nicht gefunden: {resourceName}");
+                                        return Results.NotFound("Flag-Bild nicht gefunden");
+                                    }
+        
+                                    using (var memoryStream = new MemoryStream())
+                                    {
+                                        stream.CopyTo(memoryStream);
+                                        byte[] imageBytes = memoryStream.ToArray();
+                                        string base64String = Convert.ToBase64String(imageBytes);
+                                        string mimeType = "image/png"; // Anpassen je nach Bildformat
+            
+                                        ImageClass data = new ImageClass($"data:{mimeType};base64,{base64String}");
+                                        return Results.Ok(data);
+                                    }
+                                }
+                            }).WithName("GetFlagPanelCheckeredImage");
+                            
+                            endpoints.MapGet("/overlay/flag_panel/debris_flag", () =>
+                            {
+                                Debug.WriteLine("GetMeetballFlagImage");
+    
+                                var assembly = typeof(StartAPI).Assembly;
+                                var resourceName = "RaceOverlay.Overlays.FlagPanel.debris_flag.png";
+    
+                                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                                {
+                                    if (stream == null)
+                                    {
+                                        Debug.WriteLine($"Resource nicht gefunden: {resourceName}");
+                                        return Results.NotFound("Flag-Bild nicht gefunden");
+                                    }
+        
+                                    using (var memoryStream = new MemoryStream())
+                                    {
+                                        stream.CopyTo(memoryStream);
+                                        byte[] imageBytes = memoryStream.ToArray();
+                                        string base64String = Convert.ToBase64String(imageBytes);
+                                        string mimeType = "image/png"; // Anpassen je nach Bildformat
+            
+                                        ImageClass data = new ImageClass($"data:{mimeType};base64,{base64String}");
+                                        return Results.Ok(data);
+                                    }
+                                }
+                            }).WithName("GetFlagPanelDebrisImage");
+                            
+                            endpoints.MapGet("/overlay/flag_panel/meetball_flag", () =>
+                            {
+                                Debug.WriteLine("GetMeetballFlagImage");
+    
+                                var assembly = typeof(StartAPI).Assembly;
+                                var resourceName = "RaceOverlay.Overlays.FlagPanel.meetball_flag.png";
+    
+                                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                                {
+                                    if (stream == null)
+                                    {
+                                        Debug.WriteLine($"Resource nicht gefunden: {resourceName}");
+                                        return Results.NotFound("Flag-Bild nicht gefunden");
+                                    }
+        
+                                    using (var memoryStream = new MemoryStream())
+                                    {
+                                        stream.CopyTo(memoryStream);
+                                        byte[] imageBytes = memoryStream.ToArray();
+                                        string base64String = Convert.ToBase64String(imageBytes);
+                                        string mimeType = "image/png"; // Anpassen je nach Bildformat
+            
+                                        ImageClass data = new ImageClass($"data:{mimeType};base64,{base64String}");
+                                        return Results.Ok(data);
+                                    }
+                                }
+                            }).WithName("GetMeetballFlagImage");
                         });
                         
                     })
