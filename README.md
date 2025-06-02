@@ -6,6 +6,7 @@ car and track information which is usable on most cars and tracks.
 ## Currently available overlays
 - Electronic Infos (TC, ABS, BB, ABR)
 - Energy Info (Only for GTP)
+- Flag Panel
 - Fuel Info
 - Input Telemetry
 - Lap Time Delta (to best lap or to last lap)
