@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RaceOverlay.API.Overlays.Electronics;
 using RaceOverlay.API.Overlays.EnergyInfo;
+using RaceOverlay.API.Overlays.FlagPanel;
 using RaceOverlay.API.Overlays.LaptimeDelta;
 using RaceOverlay.API.Overlays.SetupHider;
 using RaceOverlay.API.Overlays.WeatherInfo;
@@ -288,7 +289,7 @@ public class StartAPI
                             endpoints.MapGet("/overlay/flag_panel/data", () =>
                                 {
                                     Debug.WriteLine("GetSetupHiderOverlayData");
-                                    SetupHiderModel data = new SetupHiderModel();
+                                    FlagPanelModel data = new FlagPanelModel();
                                     return Results.Ok(data);
                                 })
                                 .WithName("GetFlagPanelData");
