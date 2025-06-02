@@ -26,7 +26,8 @@ using Inputs = RaceOverlay.Overlays.Inputs.Inputs;
 namespace RaceOverlay;
 
 /// <summary>
-/// Interaction Printing for MainWindow.xaml
+/// Main Window for the RaceOverlay application.
+/// This window initializes the iRacing SDK, sets up overlays, and handles user interactions.
 /// </summary>
 
 #pragma warning disable CA2211 // Non-constant fields should not be visible
@@ -40,6 +41,9 @@ public partial class MainWindow : Window
     public static bool ShutdownIsTriggerd = false;
     
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    /// </summary>
     public MainWindow()
     {
         InitializeComponent();
@@ -50,6 +54,9 @@ public partial class MainWindow : Window
         
     }
 
+    /// <summary>
+    /// Add all overlays to the OverlayList and StreamOverlays to the StreamOverlayList.
+    /// </summary>
     private void _initOverlays()
     {
         // Overlay
@@ -80,6 +87,7 @@ public partial class MainWindow : Window
         // Add here every Stream Overlay
         //StreamOverlays.Add(new Test());
         StreamOverlays.Add(new BestLaptimeDelta());
+        StreamOverlays.Add(new StreamOverlay.Electronics.Electronics());
         StreamOverlays.Add(new StreamOverlay.EnergyInfo.EnergyInfo());
         StreamOverlays.Add(new StreamOverlay.Inputs.Inputs());
         StreamOverlays.Add(new LastLaptimeDelta());
@@ -93,6 +101,9 @@ public partial class MainWindow : Window
         
     }
 
+    /// <summary>
+    /// Init the iRacing SDK and set up event handlers for telemetry data and session info.
+    /// </summary>
     private void _initIRacingData()
     {
         Debug.Print( "Initializing iRacing data..." );
@@ -112,40 +123,52 @@ public partial class MainWindow : Window
         // let's go!
         IrsdkSharper.Start();
     }
-    
-    private void Window_Closing( object sender, CancelEventArgs e )
-    {
-        IrsdkSharper.Stop();
-    }
 
+    /// <summary>
+    /// Throws an exception if the iRacing SDK encounters an error.
+    /// </summary>
+    /// <param name="exception"></param>
     private static void OnException( Exception exception )
     {
         Debug.Print( "OnException() fired!" );
     }
 
+    /// <summary>
+    /// Send Debug info when the iRacing SDK is connected.
+    /// </summary>
     private static void OnConnected()
     {
         Debug.Print( "OnConnected() fired!" );
     }
 
+    /// <summary>
+    /// Sends Debug info when the iRacing SDK is disconnected.
+    /// </summary>
     private static void OnDisconnected()
     {
         Debug.Print( "OnDisconnected() fired!" );
-        
-        
     }
 
+    /// <summary>
+    /// When the session info is received, this method is called and present Debug info about the track name.
+    /// </summary>
     private static void OnSessionInfo()
     {
         var trackName = IrsdkSharper.Data.SessionInfo.WeekendInfo.TrackName;
         Debug.Print( $"OnSessionInfo fired! Track name is {trackName}." );
     }
 
+    /// <summary>
+    /// Method to map the telemetry data from the iRacing SDK to the iRacingData model.
+    /// </summary>
     private static void OnTelemetryData()
     {
         IRacingData = Mapper.MapData(IrsdkSharper);
     }
 
+    /// <summary>
+    /// Stops data mapping and resets the iRacingData model when the iRacing SDK stops. (User closed iRacing)
+    /// </summary>
     private static void OnStopped()
     {
         Debug.Print( "OnStopped() fired!" );
@@ -155,7 +178,11 @@ public partial class MainWindow : Window
     }
     
     
-    
+    /// <summary>
+    /// Method to toggle the overlay of the selected item in the OverlayList.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Toggle_Overlay(object sender, RoutedEventArgs e)
     {
         Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
@@ -167,6 +194,10 @@ public partial class MainWindow : Window
     }
     
 
+    /// <summary>
+    /// Method to close the application when the window is closed.
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
@@ -176,6 +207,12 @@ public partial class MainWindow : Window
         Application.Current.Shutdown();
     }
 
+    /// <summary>
+    /// Change the shown content to the selected overlay in the OverlayList. (Conflict with StreamOverlayList if both
+    /// are selected, this remove the selection from the other list)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         Overlay? selectedOverlay = OverlayList.SelectedItem as Overlay;
@@ -202,16 +239,31 @@ public partial class MainWindow : Window
         }
     }
     
+    /// <summary>
+    /// Custom Minimize Button to minimize the window.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void minimizeButton_Click(object sender, RoutedEventArgs e)
     {
         WindowState = WindowState.Minimized;
     }
     
+    /// <summary>
+    /// Custom Close button.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void closeButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
     }
 
+    /// <summary>
+    /// This Method open the information and License page. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void goToInfoButton_Click(object sender, RoutedEventArgs e)
     {
         MainPage.Visibility = Visibility.Hidden;
@@ -225,6 +277,11 @@ public partial class MainWindow : Window
         
     }
     
+    /// <summary>
+    /// This method is called when the user clicks the "Go to Main" button on the InfoPage.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void goToMainButton_Click(object sender, RoutedEventArgs e)
     {
         MainPage.Visibility = Visibility.Visible;
@@ -236,11 +293,19 @@ public partial class MainWindow : Window
         InfoPage.Visibility = Visibility.Hidden;
     }
 
+    /// <summary>
+    /// This method allows the user to drag the window by clicking and holding the left mouse button anywhere on the window.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         DragMove();
     }
     
+    /// <summary>
+    /// Loading the LICENSE and Quick Guide from the embedded resources.
+    /// </summary>
     private void _loadLicenseAndQuickGuide()
     {
         try
@@ -286,6 +351,12 @@ public partial class MainWindow : Window
         }
     }
     
+    /// <summary>
+    /// Method to handle the value change of the ScaleSlider and scale the selected overlay accordingly.
+    /// (This method is triggered by the ScaleInput_TextChanged event as well, so it will update the text box value if the slider is changed manually.)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         double scale = ScaleSlider.Value;
@@ -304,6 +375,12 @@ public partial class MainWindow : Window
         ScaleInput.TextChanged += ScaleInput_TextChanged;
     }
     
+    /// <summary>
+    /// This method is called when the text in the ScaleInput TextBox changes and change the scale of the selected overlay accordingly.
+    /// (This method is triggered by the ScaleSlider_ValueChanged event as well, so it will update the slider value if the text is changed manually.)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ScaleInput_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (ConfigGrid.Visibility != Visibility.Visible)
@@ -331,11 +408,21 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Static getter to get iRacingSdk instance to safe resources.
+    /// </summary>
+    /// <returns></returns>
     public static IRacingSdk getRSDK()
     {
         return IrsdkSharper;
     }
     
+    /// <summary>
+    /// This method is called when the value of the OpacitySlider changes and updates the opacity of the selected overlay accordingly.
+    /// (This method is triggered by the OpacityInput_TextChanged event as well, so it will update the text box value if the slider is changed manually.)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OpacitySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         double opacity = OpacitySlider.Value;
@@ -354,6 +441,12 @@ public partial class MainWindow : Window
         OpacityInput.TextChanged += OpacityInput_TextChanged;
     }
     
+    /// <summary>
+    /// This method is called when the text in the OpacityInput TextBox changes and updates the opacity of the selected overlay accordingly.
+    /// (This method is triggered by the OpacitySlider_ValueChanged event as well, so it will update the slider value if the text is changed manually.)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OpacityInput_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (ConfigGrid.Visibility != Visibility.Visible)
@@ -381,6 +474,12 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Change the shown content to the selected stream overlay in the StreamOverlayList. (Conflict with OverlayList if both
+    /// are selected, this remove the selection from the other list)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void StreamOverlayList_OnSelectionChangedOverlaySelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         Internals.StreamOverlay? selectedOverlay = StreamOverlayList.SelectedItem as Internals.StreamOverlay;
@@ -404,6 +503,11 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Handle the click event of the CopyLinkButton to copy the link from the LinkTextBox to the clipboard.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CopyLinkButtonMethod(object sender, RoutedEventArgs e)
     {
         Console.WriteLine("Hello");
