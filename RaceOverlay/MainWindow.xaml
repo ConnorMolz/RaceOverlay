@@ -159,14 +159,14 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Name="ScaleStack" Margin="10">
                             <TextBlock Text="Scale Factor:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <TextBox x:Name="ScaleInput" Width="50" Text="1.0" TextChanged="ScaleInput_TextChanged"/>
                             <Slider x:Name="ScaleSlider" Width="150" Minimum="0.5" Maximum="2.0" Value="1.0" 
                                     Margin="10,0,0,0" TickFrequency="0.1" IsSnapToTickEnabled="True"
                                     ValueChanged="ScaleSlider_ValueChanged"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+                        <StackPanel Grid.Row="1" DockPanel.Dock="Top" Orientation="Horizontal" Name="OpacityStack" Margin="10">
                             <TextBlock Text="Set Opacity:" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
                             <TextBox x:Name="OpacityInput" Width="50" Text="1.0" TextChanged="OpacityInput_TextChanged"/>
                             <Slider x:Name="OpacitySlider" Width="150" Minimum="0.1" Maximum="1.0" Value="1.0" 
