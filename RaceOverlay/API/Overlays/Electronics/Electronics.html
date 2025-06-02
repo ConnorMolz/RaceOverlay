@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Electronics</title>
-        <style>
-            body {
-            background-color: transparent;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics</title>
+    <style>
+        body {
+            background-color: transparent; /* Or a visible color like #333 for testing */
             color: white;
             font-family: sans-serif;
             display: flex;
@@ -15,85 +14,128 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            }
-            
-            .container {
+        }
+
+        .container {
             background-color: #1E1E1E;
             border-radius: 10px;
             padding: 10px;
-            transform: scale(1); /* Corresponds to ScaleTransform */
-            }
-            
-            .grid {
-            display: grid;
-            grid-template-columns: repeat(6, auto);
-            grid-template-rows: repeat(2, auto);
-            text-align: center;
-            }
-            
-            .grid-item {
-            padding: 10px;
-            }
-            
-        </style>
-    </head>
-    <body>
-    
-    <div class="container">
-        <div class="grid">
-            <div class="grid-item" style="grid-column: 1; grid-row: 1;">ABS</div>
-            <div class="grid-item" style="grid-column: 1; grid-row: 2;" id="absValue">5</div>
-            
-            <div class="grid-item" style="grid-column: 2; grid-row: 1;">TC1</div>
-            <div class="grid-item" style="grid-column: 2; grid-row: 2;" id="tc1Value">3</div>
-            
-            <div class="grid-item" style="grid-column: 3; grid-row: 1;">TC2</div>
-            <div class="grid-item" style="grid-column: 3; grid-row: 2;" id="tc2Value">1</div>
-            
-            <div class="grid-item" style="grid-column: 4; grid-row: 1;">BB</div>
-            <div class="grid-item" style="grid-column: 4; grid-row: 2;" id="bbValue">54.2</div>
-            
-            <div class="grid-item" style="grid-column: 5; grid-row: 1;">ARB F</div>
-            <div class="grid-item" style="grid-column: 5; grid-row: 2;" id="ARBFValue">4</div>
-            
-            <div class="grid-item" style="grid-column: 6; grid-row: 1;">ARB R</div>
-            <div class="grid-item" style="grid-column: 6; grid-row: 2;" id="ARBRValue">2</div>
-    </div>
-    
-    </div>
-
-    <script>
-        async function updateInputs() {
-            try {
-                const response = await fetch('/overlay/electronics/data');
-                const data = await response.json();
-
-                // Update pedal bars
-                document.getElementById('absValue').textContent = data.abs_value;
-
-                // Update gear
-                document.getElementById('tc1Value').textContent = data.tc1;
-
-                // Update gear
-                document.getElementById('tc2Value').textContent = data.tc2;
-
-                // Update gear
-                document.getElementById('bbValue').textContent = data.bb.toFixed(2);
-
-                // Update gear
-                document.getElementById('ARBFValue').textContent = data.abrf;
-
-                // Update gear
-                document.getElementById('ARBRValue').textContent = data.abrr;
-                
-            } catch (error) {
-                console.error('Failed to update EnergyInfo:', error);
-            }
+            transform: scale(1); /* Corresponds to ScaleTransform, kept from original */
+            width: fit-content; /* Crucial for width scaling with content */
+            box-sizing: border-box; /* Ensures padding is included correctly with fit-content */
         }
 
-        // Update every 16ms (approximately 60fps)
-        setInterval(updateInputs, 16);
-    </script>
-    
-    </body>
+        .grid {
+            display: grid;
+            /* grid-template-columns will be set by JavaScript */
+            grid-template-rows: auto auto; /* Two rows: one for headers, one for values */
+            grid-auto-flow: column;    /* Fills columns first, essential for the layout */
+            text-align: center;
+            gap: 10px; /* Spacing between columns (and rows, if more than 2 fixed rows) */
+        }
+
+        .grid-item {
+            padding: 10px; /* Padding within each item (header or value cell) */
+            /* border: 1px solid #555; /* Uncomment for debugging item boundaries */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="grid">
+        <div class="grid-item" id="absHeader">ABS</div>
+        <div class="grid-item" id="absValue">5</div>
+
+        <div class="grid-item" id="tc1Header">TC1</div>
+        <div class="grid-item" id="tc1Value">3</div>
+
+        <div class="grid-item" id="tc2Header">TC2</div>
+        <div class="grid-item" id="tc2Value">1</div>
+
+        <div class="grid-item" id="bbHeader">BB</div>
+        <div class="grid-item" id="bbValue">54.2</div>
+
+        <div class="grid-item" id="ARBFHeader">ARB F</div>
+        <div class="grid-item" id="ARBFValue">4</div>
+
+        <div class="grid-item" id="ARBRHeader">ARB R</div>
+        <div class="grid-item" id="ARBRValue">2</div>
+    </div>
+</div>
+
+<script>
+    // Configuration for items, mapping data keys to element IDs
+    const electronicsItemsConfig = [
+        { dataKey: 'show_abs', headerId: 'absHeader', valueId: 'absValue', dataValueKey: 'abs_value' },
+        { dataKey: 'show_tc1', headerId: 'tc1Header', valueId: 'tc1Value', dataValueKey: 'tc1' },
+        { dataKey: 'show_tc2', headerId: 'tc2Header', valueId: 'tc2Value', dataValueKey: 'tc2' },
+        { dataKey: 'show_brake_bias', headerId: 'bbHeader', valueId: 'bbValue', dataValueKey: 'bb', toFixed: 2 },
+        { dataKey: 'show_arb_front', headerId: 'ARBFHeader', valueId: 'ARBFValue', dataValueKey: 'abrf' },
+        { dataKey: 'show_arb_rear', headerId: 'ARBRHeader', valueId: 'ARBRValue', dataValueKey: 'abrr' }
+    ];
+
+    async function updateInputs() {
+        try {
+            const response = await fetch('/overlay/electronics/data');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            let visibleColumnCount = 0;
+
+            electronicsItemsConfig.forEach(item => {
+                const headerElement = document.getElementById(item.headerId);
+                const valueElement = document.getElementById(item.valueId);
+                const shouldShow = data[item.dataKey];
+
+                if (headerElement && valueElement) { // Ensure elements exist
+                    if (shouldShow) {
+                        headerElement.style.display = ''; // Use '' to revert to default display (block/grid-item)
+                        valueElement.style.display = '';
+                        visibleColumnCount++;
+
+                        // Update text content
+                        let value = data[item.dataValueKey];
+                        if (typeof item.toFixed === 'number') {
+                            value = parseFloat(value).toFixed(item.toFixed);
+                        }
+                        valueElement.textContent = value;
+
+                    } else {
+                        headerElement.style.display = 'none';
+                        valueElement.style.display = 'none';
+                    }
+                }
+            });
+
+            const grid = document.querySelector('.grid');
+            const container = document.querySelector('.container');
+
+            if (visibleColumnCount === 0) {
+                grid.style.display = 'none'; // Hide the grid if no items are visible
+                // Optional: If you want the entire container (including padding) to disappear:
+                // container.style.display = 'none'; 
+            } else {
+                grid.style.display = 'grid';   // Ensure grid is visible
+                // container.style.display = ''; // Ensure container is visible if it was hidden
+                grid.style.gridTemplateColumns = `repeat(${visibleColumnCount}, auto)`;
+            }
+
+        } catch (error) {
+            console.error('Failed to update Electronics Overlay:', error);
+            // Optionally hide the grid or container on error to prevent broken display
+            const grid = document.querySelector('.grid');
+            if (grid) grid.style.display = 'none';
+        }
+    }
+
+    // Set an interval to update the overlay.
+    // Call initially if you want data loaded on page load without waiting for the first interval.
+    // document.addEventListener('DOMContentLoaded', updateInputs); // Good practice for initial call
+    setInterval(updateInputs, 16); // Approximately 60 FPS
+</script>
+
+</body>
 </html>

@@ -226,6 +226,8 @@ public partial class MainWindow : Window
             OverlayDescriptionText.Text = selectedOverlay.OverlayDescription;
             ToggleOverlayButton.Visibility = Visibility.Visible;
             ConfigGrid.Visibility = Visibility.Visible;
+            OpacityStack.Visibility = Visibility.Visible;
+            ScaleStack.Visibility = Visibility.Visible;
             ScaleInput.Text = selectedOverlay.getScale().ToString("F1");
             ScaleSlider.Value = selectedOverlay.getScale();
             
@@ -491,15 +493,17 @@ public partial class MainWindow : Window
             Debug.WriteLine(selectedOverlay.Title);
             OverlayNameText.Text = selectedOverlay.Title;
             OverlayDescriptionText.Text = selectedOverlay.Description;
-            ToggleOverlayButton.Visibility = Visibility.Collapsed;
-            ConfigGrid.Visibility = Visibility.Collapsed;
-            
+            ConfigGrid.Visibility = Visibility.Visible;
             LinkStackPanel.Visibility = Visibility.Visible;
             LinkTextBox.Visibility = Visibility.Visible;
-            LinkTextBox.Text = selectedOverlay.Link;
+            OpacityStack.Visibility = Visibility.Collapsed;
+            ScaleStack.Visibility = Visibility.Collapsed;
             
+            LinkTextBox.Text = selectedOverlay.Link;
             CustomConfigContainer.Children.Clear();
-
+            CustomConfigContainer.Children.Add(selectedOverlay.GetConfig());
+            
+            ToggleOverlayButton.Visibility = Visibility.Collapsed;
         }
     }
 
