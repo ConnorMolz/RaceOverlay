@@ -42,6 +42,7 @@ public partial class FlagPanel : Overlay
         {
             SetCheckered();
             _wasGreen = false;
+            return;
         }
         
         if (_flag.HasFlag(IrsdkFlags.Black) || _flag.HasFlag(IrsdkFlags.Furled))
@@ -55,12 +56,14 @@ public partial class FlagPanel : Overlay
         {
             _wasGreen = false;
             SetDebris();
+            return;
         }
 
         if (_flag.HasFlag(IrsdkFlags.Repair))
         {
             _wasGreen = false;
             SetRepair();
+            return;
         }
 
         if (_flag.HasFlag(IrsdkFlags.Red))
