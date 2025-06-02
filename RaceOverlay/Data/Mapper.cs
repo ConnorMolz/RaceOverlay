@@ -170,6 +170,17 @@ public class Mapper
             // ignored
         }
         
+        // P2P (Indycar Only)
+        try
+        {
+            data.LocalCarTelemetry.P2PLeft = irsdkSharper.Data.GetFloat("P2P_Count");
+            data.LocalCarTelemetry.P2POn = irsdkSharper.Data.GetBool("P2P_Status");
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+        
         
         // Lap Data
         data.LocalCarTelemetry.Lap = irsdkSharper.Data.GetInt("Lap");
