@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RaceOverlay.API.Overlays.Electronics;
 using RaceOverlay.API.Overlays.EnergyInfo;
 using RaceOverlay.API.Overlays.LaptimeDelta;
 using RaceOverlay.API.Overlays.SetupHider;
@@ -143,6 +144,35 @@ public class StartAPI
                             {
                                 Debug.WriteLine("GetEnergyInfoOverlayData");
                                 EnergyInfoModel data = new EnergyInfoModel();
+                                return Results.Ok(data);
+                            });
+                            
+                            
+                            //
+                            // Last Lap time Delta
+                            //
+                            
+                            endpoints.MapGet("/overlay/electronics", () =>
+                                {
+                                    var assembly = typeof(StartAPI).Assembly;
+                                    var resourceName = "RaceOverlay.API.Overlays.Electronics.Electronics.html";
+
+                                    using var stream = assembly.GetManifestResourceStream(resourceName);
+                                    if (stream == null)
+                                    {
+                                        return Results.NotFound("Overlay file not found");
+                                    }
+
+                                    using var reader = new StreamReader(stream);
+                                    var htmlContent = reader.ReadToEnd();
+                                    return Results.Content(htmlContent, "text/html");
+                                })
+                                .WithName("GetElectronicsOverlay");
+
+                            endpoints.MapGet("/overlay/electronics/data", () =>
+                            {
+                                Debug.WriteLine("GetElectronicsData");
+                                ElectronicsModel data = new ElectronicsModel();
                                 return Results.Ok(data);
                             });
                             

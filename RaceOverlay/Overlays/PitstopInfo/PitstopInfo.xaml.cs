@@ -40,7 +40,7 @@ public partial class PitstopInfo : Overlay
         
         _setWindowSize(240, 370);
         
-        _loadConfig();
+        _getConfig();
         
         Thread updateThread = new Thread(UpdateThreadMethod);
         updateThread.IsBackground = true;
@@ -191,7 +191,7 @@ public partial class PitstopInfo : Overlay
         return grid;
     }
 
-    protected override void _loadConfig()
+    protected override void _getConfig()
     {
        _enableTyreInfo = _getBoolConfig("_enableTyreInfo");
        _marginLaps = _getFloatConfig("_marginLaps");

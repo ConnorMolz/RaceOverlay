@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:RaceOverlay.Overlays.WeatherInfo"
         xmlns:internals="clr-namespace:RaceOverlay.Internals"
+        xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         mc:Ignorable="d"
         Title="Weather Info"  Height="{Binding _windowHeight}" Width="{Binding _windowWidth}"
         Background="Transparent"
@@ -29,11 +30,8 @@
                 <ScaleTransform x:Name="ContentScaleTransform" ScaleX="1" ScaleY="1" />
             </Grid.LayoutTransform>
             
-            <TextBlock Grid.Column="0" Grid.Row="0"
-                       Text="Air Temp:"
-                       Padding="5"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"></TextBlock>
+            
+            <Path Stretch="Uniform" Fill="White" Width="20" Height="20" Data="M14.0729979,0 L9.03234845,5.5313194e-08 L9.03234845,1.04200006 L7.958,1.042 L7.958,0 L3.083,0 L1.083,16 L16.005493,16 L14.0729979,0 Z M9,15 L8,15 L8,12 L9,12 L9,15 L9,15 Z M9,10.042 L8,10.042 L8,7 L9,7 L9,10.042 L9,10.042 Z M7.958,4.959 L7.958,2.959 L8.958,2.959 L8.958,4.959 L7.958,4.959 Z"></Path>
             <TextBlock Grid.Column="1" Grid.Row="0"
                        Padding="5"
                        Name="AirTempText"
@@ -41,11 +39,11 @@
                        HorizontalAlignment="Right"
                        Text="40.2 C°"></TextBlock>
             
-            <TextBlock Grid.Column="0" Grid.Row="1"
-                       Text="Track Temp:"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       Padding="5"></TextBlock>
+            
+                <Path Grid.Row="1" Grid.Column="0" Fill="White" Height="18" Width="20" Stretch="Uniform" Data="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415"/>
+                <Path Grid.Row="1" Grid.Column="0"  Fill="White" Height="24" Width="24" Stretch="Uniform" Data="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
+            
+            
             <TextBlock Grid.Column="1" Grid.Row="1"
                        Padding="5"
                        VerticalAlignment="Center"
@@ -53,11 +51,7 @@
                        Name="TrackTempText"
                        Text="55.4 C°"></TextBlock>
             
-            <TextBlock Grid.Column="0" Grid.Row="2"
-                       Text="Precipitation:"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       Padding="5"></TextBlock>
+            <Path Grid.Column="0" Grid.Row="2" Stretch="Uniform" Fill="White" Width="20" Height="20" Data="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2"></Path>
             <TextBlock Grid.Column="1" Grid.Row="2"
                        Padding="5"
                        VerticalAlignment="Center"

@@ -1,64 +1,86 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Newtonsoft.Json.Linq;
 using RaceOverlay.Data;
 
 namespace RaceOverlay.Internals;
 
+/// <summary>
+/// Method for Overlays.
+/// Following Method need to be implemented: <br/>
+/// - _updateWindow() <see cref="_updateWindow"/> <br/>
+/// - _getData() <see cref="_getData"/> <br/>
+/// - _scaleWindow(double scale) <see cref="_scaleWindow"/> <br/>
+/// </summary>
 public abstract class Overlay: Window, INotifyPropertyChanged
 {
+     // Window size, scaling, opacity
      private int _windowWidth = 300;
      private int _windowHeight = 200;
-     protected bool _devMode = false;
+     
      protected double _scale = 1;
      protected double _opacity = 1;
+     
+     // Controlling visibility and state
      protected bool _windowIsActive;
      protected bool _inCar = false;
+     
+     // Specific properties for the overlay in development cases
      protected bool _isTest = false;
-     public String OverlayName { get; set; }
-     public String OverlayDescription { get; set; }
-     public bool PositionIsLocked { get; set; } = true;
-
-     public abstract void _updateWindow();
-     public abstract void _getData();
-     protected virtual void _getConfig(){}
-
-     public virtual void UpdateThreadMethod()
-     {
-          
-          while (true)
-          {
-               try
-               {
-                    _getData();
-                    if (IsVisible)
-                    {
-
-                         // Use Dispatcher to update UI from background thread
-                         Dispatcher.Invoke(() => { _updateWindow(); });
-                    }
-
-                    // Add a small delay to prevent high CPU usage
-                    Thread.Sleep(16); // ~60 updates per second
-               }
-               catch (Exception e)
-               {
-                    Debug.WriteLine(e);
-               }
-          }
-          
-     }
+     protected bool _devMode = false;
+     
+     // Variables for drag and drop functionality
      public Grid DragGrid { get; set; }
      private MouseButtonEventHandler _dragMoveHandler;
      
-     // Declare the event using EventHandler
+     /// <summary>
+     /// Overlay name which is used to identify the overlay in settings and UI.
+     /// </summary>
+     public String OverlayName { get; set; }
+     /// <summary>
+     /// Description of the overlay, used for display purposes.
+     /// </summary>
+     public String OverlayDescription { get; set; }
+     
+     /// <summary>
+     /// Status which is used to lock the position of the overlay and prevent it from being moved by the user.
+     /// </summary>
+     public bool PositionIsLocked { get; set; } = true;
 
+     /// <summary>
+     /// Method to update the overlay window.
+     /// </summary>
+     public abstract void _updateWindow();
+     
+     /// <summary>
+     /// Method which will get the data for the overlay from the mapped iRacing Data <see cref="Data.Models.iRacingData"/>
+     /// </summary>
+     public abstract void _getData();
+     
+     /// <summary>
+     /// Method which should be implemented to load the configuration for the overlay if needed.
+     /// Scaling and opacity are handled by the base class and should not be loaded here.
+     /// </summary>
+     protected virtual void _getConfig(){}
+     
+     /// <summary>
+     /// Method for Overlays.
+     /// Following Method need to be implemented: <br/>
+     /// - _updateWindow() <see cref="_updateWindow"/> <br/>
+     /// - _getData() <see cref="_getData"/> <br/>
+     /// - _scaleWindow(double scale) <see cref="_scaleWindow"/> <br/>
+     /// </summary>
+     /// <param name="overlayName">Overlay name which will identify the overlay</param>
+     /// <param name="overlayDescription">Description to tell the user what the overlay will do</param>
+     /// <param name="isTest">For Unit testing purpose to not loading Config from non existing file</param>
      public Overlay(String overlayName, String overlayDescription, bool? isTest = null)
      {
           AllowsTransparency = true;
@@ -144,13 +166,54 @@ public abstract class Overlay: Window, INotifyPropertyChanged
                ScaleValueChanges(_scale);
           }
 
-}
+     }   
 
+     /// <summary>
+     /// Method which will be run in a separate thread to update the overlay window.
+     /// Edit this method if needed to change the update frequency or logic.
+     /// Has no exit purposely, as it should run until the application is closed.
+     /// </summary>
+     public virtual void UpdateThreadMethod()
+     {
+          
+          while (true)
+          {
+               try
+               {
+                    _getData();
+                    if (IsVisible)
+                    {
+
+                         // Use Dispatcher to update UI from background thread
+                         Dispatcher.Invoke(() => { _updateWindow(); });
+                    }
+
+                    // Add a small delay to prevent high CPU usage
+                    Thread.Sleep(16); // ~60 updates per second
+               }
+               catch (Exception e)
+               {
+                    Debug.WriteLine(e);
+               }
+          }
+          
+     }
+     
+
+     /// <summary>
+     /// Getting the Scale of the overlay window (defined in the config).
+     /// </summary>
+     /// <returns>Scale value</returns>
      public double getScale()
      {
           return _scale;
      }
 
+     /// <summary>
+     /// Set window size to binding values in the xaml file and not hardcoding values there.
+     /// </summary>
+     /// <param name="width">Window Width</param>
+     /// <param name="height">Window Height</param>
      protected void _setWindowSize(int width, int height)
      {
           _windowWidth = width;
@@ -160,15 +223,39 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           Height = _windowHeight;
      }
 
+     /// <summary>
+     /// Needs to be implemented in the derived class to scale the window.<br/>
+     /// Example code:
+     /// <code>
+     /// try
+     /// {
+     ///    ContentScaleTransform.ScaleX = scale;
+     ///    ContentScaleTransform.ScaleY = scale;
+     /// }
+     /// catch (Exception e)
+     /// {
+     ///    Debug.WriteLine(e);
+     /// }
+     /// </code>
+     /// </summary>
+     /// <param name="scale">Scale value is provided by <see cref="MainWindow.ScaleSlider_ValueChanged"/> or <see cref="MainWindow.ScaleInput_TextChanged"/></param>
      protected abstract void _scaleWindow(double scale);
 
+     /// <summary>
+     /// Method which should return a Grid with the configuration options for the overlay.<br/>
+     /// Is shown after Overlay is selected in the MainWindow.<br/>
+     /// </summary>
      public virtual Grid GetConfigs()
      {
           return new Grid();
      }
 
-     protected virtual void _loadConfig(){}
-
+     
+     /// <summary>
+     /// Method to change the opacity of the window.<br/>
+     /// Example code:
+     /// </summary>
+     /// <param name="newOpacity">Scale value is provided by <see cref="MainWindow.OpacitySlider"/> or <see cref="MainWindow.OpacityInput"/></param>
      public void OpacityValueChanges(double newOpacity)
      {
           _setDoubleConfig("_opacity", newOpacity);
@@ -179,12 +266,20 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
      
+     /// <summary>
+     /// Method to set the opacity of the window.<br/>
+     /// Example code:
+     /// </summary>
+     /// <param name="newOpacity">Scale value is provided by <see cref="MainWindow.OpacitySlider"/> or <see cref="MainWindow.OpacityInput"/></param>
      private void _setOpacity(double newOpacity)
      {
           _opacity = newOpacity;
           Opacity = _opacity;
      }
      
+     /// <summary>
+     /// Method to change the scale of the window.<br/>
+     /// </summary>
      public void ScaleValueChanges(double newScale)
      {
           _setDoubleConfig("_scale", newScale);
@@ -195,12 +290,22 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
 
+     
+     /// <summary>
+     /// Mehtod to set the scale of the window.<br/>
+     /// </summary>
+     /// <param name="scale"></param>
      private void _scaleWindowSize(double scale)
      {
           Width = _windowWidth * scale;
           Height = _windowHeight * scale;
      }
      
+     /// <summary>
+     /// Mehtod to get a string configuration value from the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to save and load the config value</param>
+     /// <returns>String which is saved by the user or an empty string</returns>
      protected string _getStringConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -233,6 +338,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           return "";
      }
 
+     /// <summary>
+     /// Method to set a string configuration value in the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to safe and load the config value</param>
+     /// <param name="value">Value which will set into the config</param>
      protected void _setStringConfig(string key, string value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -243,6 +353,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
      
+     /// <summary>
+     /// Method to get an integer configuration value from the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to save and load the config value</param>
+     /// <returns>Int which is saved by the user or 0</returns>
      protected int _getIntConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -275,6 +390,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           return 0;
      }
 
+     /// <summary>
+     /// Method to set an integer configuration value in the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to safe and load the config value</param>
+     /// <param name="value">Value which will set into the config</param>
      protected void _setIntConfig(string key, int value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -285,6 +405,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
 
+     /// <summary>
+     /// Method to get a float configuration value from the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to save and load the config value</param>
+     /// <returns>float which is saved by the user or 0</returns>
      protected float _getFloatConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -317,6 +442,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           return 0;
      }
      
+     /// <summary>
+     /// Method to set a float configuration value in the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to safe and load the config value</param>
+     /// <param name="value">Value which will set into the config</param>
      protected void _setFloatConfig(string key, float value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -327,6 +457,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
      
+     /// <summary>
+     /// Method to get a double configuration value from the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to save and load the config value</param>
+     /// <returns>Double which is saved by the user or 0</returns>
      protected double _getDoubleConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -359,6 +494,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           return 0;
      }
      
+     /// <summary>
+     /// Method to set a double configuration value in the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to safe and load the config value</param>
+     /// <param name="value">Value which will set into the config</param>
      protected void _setDoubleConfig(string key, double value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -369,6 +509,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
      
+     /// <summary>
+     /// Method to get a boolean configuration value from the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to save and load the config value</param>
+     /// <returns>Bool which is saved by the user or false</returns>
      protected bool _getBoolConfig(string key)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -401,6 +546,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           return false;
      }
 
+     /// <summary>
+     /// Method to set a boolean configuration value in the settings.json file.<br/>
+     /// </summary>
+     /// <param name="key">Json key which will be used to safe and load the config value</param>
+     /// <param name="value">Value which will set into the config</param>
      protected void _setBoolConfig(string key, bool value)
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -413,6 +563,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      
      
 
+     /// <summary>
+     /// Method to toggle the visibility of the overlay and save the state of it.<br/>
+     /// </summary>
      public void ToggleOverlay()
      {
           string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -445,6 +598,11 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           File.WriteAllText(settingsFilePath, settingsObject.ToString());
      }
     
+     /// <summary>
+     /// Method to handle the key down event for the overlay window.<br/>
+     /// </summary>
+     /// <param name="sender"></param>
+     /// <param name="e"></param>
      private void Overlay_KeyDown(object sender, KeyEventArgs e)
      {
           // Check if F12 key was pressed
@@ -455,6 +613,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
      
+     /// <summary>
+     /// Mehtod to toggle the position lock of the overlay window and save it to the config.<br/>
+     /// </summary>
      private void TogglePositionLock()
      {
           if(PositionIsLocked)
@@ -478,6 +639,10 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           
      }
 
+     /// <summary>
+     /// Method to handle the closing event of the overlay window.<br/>
+     /// </summary>
+     /// <param name="e"></param>
      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
      {
           e.Cancel = true;
@@ -498,11 +663,18 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
 
+     /// <summary>
+     /// Method to turn the application off by hiding the overlay window.<br/>
+     /// </summary>
      public void TurnAppOff()
      {
           Hide();
      }
      
+     /// <summary>
+     /// Method to handle the content rendered event of the overlay window.<br/>
+     /// </summary>
+     /// <param name="e"></param>
      protected override void OnContentRendered(EventArgs e)
      {
           base.OnContentRendered(e);
@@ -515,6 +687,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
 
+     /// <summary>
+     /// Method to show the overlay window on telemetry data.<br/>
+     /// </summary>
      public void ShowOnTelemetry()
      {
           if (_windowIsActive)
@@ -523,6 +698,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
      
+     /// <summary>
+     ///  Method to hide the overlay window when telemetry data is not available or the window is closed.<br/>
+     /// </summary>
      public void HideOnClosed()
      {
           if (_windowIsActive)
@@ -531,6 +709,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
      
+     /// <summary>
+     /// Variable to track the inCar status of the overlay.<br/>
+     /// </summary>
      // Property to track the _inCar status
      public bool InCar
      {
@@ -546,6 +727,9 @@ public abstract class Overlay: Window, INotifyPropertyChanged
           }
      }
 
+     /// <summary>
+     /// Event handler for when the inCar status changes.<br/>
+     /// </summary>
      protected virtual void OnInCarChanged()
      {
           if (_inCar && _windowIsActive)
@@ -562,9 +746,49 @@ public abstract class Overlay: Window, INotifyPropertyChanged
      // Add INotifyPropertyChanged implementation
      public event PropertyChangedEventHandler? PropertyChanged;
     
+     /// <summary>
+     /// Rerender Window when a property changes. Need to be called for this<br/>
+     /// </summary>
+     /// <param name="propertyName"></param>
      protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
      {
           PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+     }
+     
+     protected void LoadEmbeddedImage(Canvas targetCanvas, string manifestResourceName)
+     {
+          if (targetCanvas == null) return;
+
+          // Get the current assembly where the code is executing
+          var assembly = Assembly.GetExecutingAssembly();
+
+          // The 'using' statement ensures the stream is properly closed and disposed of
+          using (var stream = assembly.GetManifestResourceStream(manifestResourceName))
+          {
+               if (stream == null)
+               {
+                    // If the stream is null, the resource was not found.
+                    // This is a critical debugging step!
+                    Console.WriteLine($"ERROR: Embedded resource not found: {manifestResourceName}");
+                    return;
+               }
+
+               var image = new BitmapImage();
+                
+               // --- This is the standard way to load a BitmapImage from a stream ---
+               image.BeginInit();
+               image.StreamSource = stream;
+               image.CacheOption = BitmapCacheOption.OnLoad; // Important for closing the stream
+               image.EndInit();
+               // ---------------------------------------------------------------------
+
+               var brush = new ImageBrush(image) { Stretch = Stretch.Uniform };
+                
+               // Freeze for performance
+               brush.Freeze();
+
+               targetCanvas.Background = brush;
+          }
      }
      
      

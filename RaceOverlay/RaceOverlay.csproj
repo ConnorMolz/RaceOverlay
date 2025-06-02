@@ -11,14 +11,14 @@
         <PublishReadyToRun>true</PublishReadyToRun>
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-        <Version>0.8.0</Version>
+        <Version>0.9.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="IRSDKSharper" Version="1.1.3" />
       <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
       <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     </ItemGroup>
@@ -42,6 +42,16 @@
         <EmbeddedResource Include="API\Overlays\LaptimeDelta\LastLaptimeDelta.html" />
         <None Remove="API\Overlays\WeatherInfo\WeatherInfo.html" />
         <EmbeddedResource Include="API\Overlays\WeatherInfo\WeatherInfo.html" />
+        <None Remove="API\Overlays\Electronics\Electronics.html" />
+        <EmbeddedResource Include="API\Overlays\Electronics\Electronics.html" />
+        <None Remove="Overlays\FlagPanel\checkered_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\checkered_flag.png" />
+        <None Remove="Overlays\FlagPanel\dsq_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\dsq_flag.png" />
+        <None Remove="Overlays\FlagPanel\meetball_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\meetball_flag.png" />
+        <None Remove="Overlays\FlagPanel\debries_flag.png" />
+        <EmbeddedResource Include="Overlays\FlagPanel\debris_flag.png" />
     </ItemGroup>
 
     <ItemGroup>

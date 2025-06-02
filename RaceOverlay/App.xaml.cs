@@ -12,7 +12,9 @@ using RaceOverlay.API;
 namespace RaceOverlay;
 
 /// <summary>
-/// Interaction logic for App.xaml
+/// Entry point for the RaceOverlay application.
+/// Initializes application settings, checks for first run, and starts the API service.
+/// 
 /// </summary>
 public partial class App : Application
 {
@@ -32,6 +34,9 @@ public partial class App : Application
 
     }
 
+    /// <summary>
+    /// Check if the application config file and folder is existing and create it if not.
+    /// </summary>
     private void CheckAppSettings()
     {
         // Get the local AppData path
@@ -67,6 +72,9 @@ public partial class App : Application
         }
     }
 
+    /// <summary>
+    /// Checks if this is the first run of the application by reading settings.json.
+    /// </summary>
     private void CheckForFirstRun()
     {
         string settingsFilePath = Path.Combine(App.AppDataPath, "settings.json");
@@ -81,6 +89,10 @@ public partial class App : Application
         }
     }
 
+    /// <summary>
+    /// Stops the API service when the application exits for an orderly shutdown.
+    /// </summary>
+    /// <param name="e"></param>
     protected override async void OnExit(ExitEventArgs e)
     {
         if (_apiHost != null)
@@ -92,6 +104,9 @@ public partial class App : Application
         base.OnExit(e);
     }
 
+    /// <summary>
+    /// Check if the SetupHider image exists in the AppData folder and copy the default Image if no image is avialble.
+    /// </summary>
     private void InitSetupHiderImage()
     {
         // Define the path to settings.json
@@ -107,6 +122,9 @@ public partial class App : Application
         }
     }
 
+    /// <summary>
+    /// Creating a new thread to start the API service decoupled from the UI threads.
+    /// </summary>
     public static void StartApiService()
     {
         Thread apiThread = new(() => _apiHost = StartAPI.StartApiServer());
