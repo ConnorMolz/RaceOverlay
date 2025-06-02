@@ -60,7 +60,7 @@ public class SetupHider: Internals.StreamOverlay
             // Create text label
             TextBlock uploadText = new TextBlock
             {
-                Text = "Upload",
+                Text = "Upload new Setup Hider Image",
                 Foreground = Brushes.White,
                 FontFamily = new FontFamily("Segoe UI"),
                 FontSize = 13,
