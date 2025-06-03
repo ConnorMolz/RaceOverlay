@@ -115,6 +115,7 @@ public partial class Relative : Overlay
         
         try
         {
+            var driver = _data.Drivers.ToList().Find(d => d.Idx == _data.PlayerIdx);
             Body.Children.Clear();
             for (int i = 0; i < _driverModels.Count; i++)
             {
@@ -122,7 +123,7 @@ public partial class Relative : Overlay
                 var row = new RelativeRow(
                     _driverModels[i].Name,
                     _driverModels[i].ClassPosition,
-                    _data.GetGapToPlayerMs(_driverModels[i].Idx),
+                    _data.GetGapToPlayerMs(driver, _driverModels[i]),
                     _driverModels[i].CarNumber,
                     MainWindow.IrsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor,
                     _driverModels[i].License);
@@ -489,7 +490,8 @@ public partial class Relative : Overlay
             .Select(c => c.Object)
             .Take(_additionalDrivers)
             .ToList();
-        List<DriverModel> result = new List<DriverModel>();
+        List<DriverModel> result = new List<DriverModel>(); 
+        finalAhead.Reverse();
         foreach (var driver in finalAhead)
         {
             result.Add(driver);

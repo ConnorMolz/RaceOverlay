@@ -44,34 +44,27 @@ public class iRacingData
         return null;
     }
 
-    public int GetGapToPlayerMs(int index)
+    public int GetGapToPlayerMs(DriverModel player, DriverModel target)
     {
-        var _iRacingSDK = MainWindow.getRSDK();
-        int playerCarIdx = PlayerIdx;
-        float bestForPlayer = _iRacingSDK.Data.GetFloat("CarIdxBestLapTime", playerCarIdx);
-        if (bestForPlayer == 0)
-            bestForPlayer = _iRacingSDK.Data.SessionInfo.DriverInfo.Drivers[playerCarIdx].CarClassEstLapTime;
-
-        float C = _iRacingSDK.Data.GetFloat("CarIdxEstTime", index);
-        float S = _iRacingSDK.Data.GetFloat("CarIdxEstTime", playerCarIdx);
-
-        // Does the delta between us and the other car span across the start/finish line?
-        bool wrap = Math.Abs(_iRacingSDK.Data.GetFloat("CarIdxLapDistPct", index) -
-                             _iRacingSDK.Data.GetFloat("CarIdxLapDistPct", playerCarIdx)) > 0.5f;
-        float delta;
-        if (wrap)
+        double gapPercentage = 0;
+        
+        if (player.Lap == target.Lap)
         {
-            delta = S > C ? (C - S) + bestForPlayer : (C - S) - bestForPlayer;
-            // lapDelta += S > C ? -1 : 1;
+            gapPercentage = target.LapPtc - player.LapPtc;
         }
-        else
+        else if (player.Lap > target.Lap)
         {
-            delta = C - S;
+            gapPercentage = (1 - player.LapPtc) + target.LapPtc;
         }
-
-        return (int)(delta * 1000);
+        else if (player.Lap < target.Lap)
+        {
+            gapPercentage = (1 - target.LapPtc) + player.LapPtc;
+        }
+        
+        double gapInSeconds = gapPercentage * target.EstLapTime;
+        
+        return (int)(gapInSeconds * 1000);
     }
-
 
     public int GetGapToClassLeaderMS(int classLeaderIdx, int targetCarIdx)
     {
@@ -186,3 +179,4 @@ public class iRacingData
         Drivers = newDrivers.ToArray();
     }
 }
+
