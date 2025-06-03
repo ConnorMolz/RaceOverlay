@@ -8,7 +8,7 @@ Setup Hider:
 
 The Setup hider is an websource which could be included in streaming programs like OBS as Websource.
 To change the used Image change the Image in the Folder "%AppData%/Roaming/RaceOverlay/SetupHider.jpg" 
-and name it "SetupHider.jpg". If you delete the Image the Setup Hider standard Picture will appear in the folder again
-be used.
+and name it "SetupHider.jpg" you can also use the Config in the App to do this. 
+If you delete the Image the Setup Hider standard Picture will appear in the folder again be used.
 
 The Setup Hider Image is taken from: https://unsplash.com/de/fotos/rennstrecke-mit-autos-C_J29bp8-4Y under the Unsplash License.
