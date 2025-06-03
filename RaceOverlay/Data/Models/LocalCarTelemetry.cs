@@ -41,6 +41,10 @@ public class LocalCarTelemetry
     // Battery (GPT Only)
     public float EngeryLevelPct { get; set; } = 0;
     
+    // Indy car Series Only
+    public float P2PLeft { get; set; } = 0; // P2P = Push to Pass, only available in Indy car series
+    public bool P2POn { get; set; } = false; // P2P = Push to Pass, only available in Indy car series   
+    
     // Lap data
     public int Lap { get; set; }
     
