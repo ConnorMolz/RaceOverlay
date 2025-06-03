@@ -164,6 +164,17 @@ public partial class MainWindow : Window
     /// </summary>
     private static void OnTelemetryData()
     {
+        if (!IrsdkSharper.IsConnected && IrsdkSharper.IsStarted)
+        {
+            return;
+        }
+
+
+        if (IrsdkSharper.Data.SessionInfo == null)
+        {
+            Debug.WriteLine("No session info available");
+            return;
+        }
         IRacingData = Mapper.MapData(IrsdkSharper, IRacingData);
     }
 
