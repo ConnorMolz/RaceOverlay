@@ -150,7 +150,7 @@ public partial class Relative : Overlay
         }
         if (_data == null)
             return;
-        _driverModels = GetRelative();
+        _driverModels = FindCyclicalNeighbors(_data.Drivers.ToList().Find(d => d.Idx == _data.PlayerIdx), _data.Drivers.ToList());
         _timeLeft = _data.SessionData.TimeLeft;
         _timeTotal = _data.SessionData.TimeTotal;
         _lapsLeft = _data.SessionData.LapsLeft;
@@ -180,57 +180,6 @@ public partial class Relative : Overlay
         {
             Debug.WriteLine(e);
         }
-    }
-
-    private List<DriverModel> GetRelative()
-    {
-        var relative = new List<DriverModel>();
-        var drivers = _data.Drivers.ToList();
-        if (drivers == null || drivers.Count == 0)
-            return relative;
-
-        // calculate live standings based on percentage of the current lap completed
-        drivers.Sort((a, b) =>
-        {
-
-            if (a == null) return -1;
-            if (b == null) return 1;
-
-            var aSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", a.Idx) *100;
-            var bSpline =  MainWindow.IrsdkSharper.Data.GetFloat("CarIdxLapDistPct", b.Idx) *100;
-
-            float aPosition = aSpline / 10;
-            float bPosition = bSpline / 10;
-            return aPosition.CompareTo(bPosition);
-        });
-
-        int playerEntryListIndex = -1;
-        int sortedListIndex = 0;
-        foreach (DriverModel car in drivers)
-        {
-            if (_data.PlayerIdx == car.Idx)
-            {
-                playerEntryListIndex = sortedListIndex;
-                break;
-            }
-            sortedListIndex++;
-        }
-
-
-        // Collect "additionalDrivers" in front of player and after. Limit to max 40secs difference.
-        int startIndex = (playerEntryListIndex - _additionalDrivers + drivers.Count) % drivers.Count;
-        int endIndex = (playerEntryListIndex + _additionalDrivers + 1 + drivers.Count) % drivers.Count;
-
-        for (int index = startIndex; index < endIndex; index++)
-        {
-
-            DriverModel carToAdd = drivers[index];
-
-            if (Math.Abs(_data.GetGapToPlayerMs(carToAdd.Idx)) > 40000) continue;
-            relative.Insert(0, carToAdd);
-        }
-
-        return relative;
     }
 
 
@@ -486,6 +435,74 @@ public partial class Relative : Overlay
         }
 
     }
+    
+     public List<DriverModel>  FindCyclicalNeighbors(
+        DriverModel myObject,
+        List<DriverModel> allObjects)
+    {
+        if (myObject == null) throw new ArgumentNullException(nameof(myObject));
+        if (allObjects == null) throw new ArgumentNullException(nameof(allObjects));
 
+        double myVal = myObject.LapPtc;
 
+        // Using ValueTuples to store candidates with their distances
+        var aheadCandidates = new List<(DriverModel Object, double Distance)>();
+        var behindCandidates = new List<(DriverModel Object, double Distance)>();
+
+        foreach (var obj in allObjects)
+        {
+            // Skip the object itself using reference equality
+            if (ReferenceEquals(obj, myObject))
+            {
+                continue;
+            }
+
+            double otherVal = obj.LapPtc;
+
+            // Calculate distance in the "ahead" direction (myVal -> otherVal, positive wrap)
+            // C# % operator: (a % n) can be negative if a is negative.
+            // (a % n + n) % n ensures a positive result.
+            // Here, (otherVal - myVal) can range from approx -100 to 100.
+            // So, (otherVal - myVal + 100.0) ranges from approx 0 to 200.
+            // Thus, (otherVal - myVal + 100.0) % 100.0 will correctly yield [0, 100).
+            double distAhead = (otherVal - myVal + 1.00) % 1.00;
+            aheadCandidates.Add((obj, distAhead));
+
+            // Calculate distance in the "behind" direction (myVal -> otherVal, negative wrap)
+            double distBehind = (myVal - otherVal + 1.00) % 1.00;
+            behindCandidates.Add((obj, distBehind));
+        }
+
+        // Filter out objects at the exact same percentage point (Distance == 0.0),
+        // then sort by distance and take up to the top 2.
+        // "Ahead" or "Behind" implies a different location.
+        List<DriverModel> finalAhead = aheadCandidates
+            .Where(c => c.Distance > 0.0) // Exclude objects at the exact same percentage
+            .OrderBy(c => c.Distance)
+            .Select(c => c.Object)
+            .Take(_additionalDrivers)
+            .ToList();
+
+        List<DriverModel> finalBehind = behindCandidates
+            .Where(c => c.Distance > 0.0) // Exclude objects at the exact same percentage
+            .OrderBy(c => c.Distance)
+            .Select(c => c.Object)
+            .Take(_additionalDrivers)
+            .ToList();
+        List<DriverModel> result = new List<DriverModel>();
+        foreach (var driver in finalAhead)
+        {
+            result.Add(driver);
+        }
+        result.Add(myObject);
+        foreach (var driver in finalBehind)
+        {
+            result.Add(driver);
+        }
+
+        return result;
+    }
+    
+    
+     
 }
