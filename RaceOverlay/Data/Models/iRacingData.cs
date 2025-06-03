@@ -169,6 +169,7 @@ public class iRacingData
                 current.LicString,
                 current.CarClassColor,
                 current.CarNumberRaw,
+                current.CarClassEstLapTime,
                 idx
             );
             newDrivers = new List<DriverModel>(Drivers) { newDriver };

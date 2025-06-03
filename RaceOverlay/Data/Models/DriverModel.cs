@@ -16,19 +16,16 @@ public class DriverModel
     public double RatingChange { get; set; }
     public double FastestLap { get; set; }
     public double LastLap { get; set; }
+    public double EstLapTime { get; set; }
 
-    public DriverModel(string name, int iRating, string license, string classColor, int carNumber, int idx)
+    public DriverModel(string name, int iRating, string license, string classColor, int carNumber, float estLapTime, int idx)
     {
         Name = name;
         this.iRating = iRating;
         License = license;
         ClassColorCode = classColor;
         CarNumber = carNumber;
+        EstLapTime = estLapTime;
         Idx = idx;
-    }
-
-    public DriverModel()
-    {
-        
     }
 }
