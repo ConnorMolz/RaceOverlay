@@ -164,7 +164,7 @@ public partial class MainWindow : Window
     /// </summary>
     private static void OnTelemetryData()
     {
-        IRacingData = Mapper.MapData(IrsdkSharper);
+        IRacingData = Mapper.MapData(IrsdkSharper, IRacingData);
     }
 
     /// <summary>

@@ -12,20 +12,18 @@ public class DriverModel
     public int Lap { get; set; }
     public bool OnPitRoad { get; set; }
     public string ClassColorCode { get; set; }
+    public float LapPtc { get; set; }
     public double RatingChange { get; set; }
+    public double FastestLap { get; set; }
+    public double LastLap { get; set; }
 
-    public DriverModel(string name, int iRating, string license, int carNumber, int idx, int position, int classPosition, int lap, bool onPitRoad, string classColor)
+    public DriverModel(string name, int iRating, string license, int carNumber, int idx)
     {
         Name = name;
         this.iRating = iRating;
         License = license;
         CarNumber = carNumber;
         Idx = idx;
-        Position = position;
-        ClassPosition = classPosition;
-        Lap = lap;
-        OnPitRoad = onPitRoad;
-        ClassColorCode = classColor;
     }
 
     public DriverModel()

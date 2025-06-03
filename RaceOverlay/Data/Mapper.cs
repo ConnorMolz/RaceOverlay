@@ -40,9 +40,12 @@ public enum IrsdkFlags : uint
 public class Mapper
 {
     public static double LogNumber { get; } = 1600 / Math.Log(2);
-    public static iRacingData MapData(IRacingSdk irsdkSharper)
+    public static iRacingData MapData(IRacingSdk irsdkSharper, iRacingData? data = null)
     {
-        iRacingData data = new();
+        if (data == null)
+        {
+            data = new iRacingData();
+        }
         
         // Getting Idx of the player
         data.PlayerIdx = irsdkSharper.Data.GetInt("PlayerCarIdx");
@@ -263,8 +266,7 @@ public class Mapper
         data.Pitstop.InPit = irsdkSharper.Data.GetBool("OnPitRoad");
         Debug.WriteLine(data.Pitstop.InPit);
         
-        // Map Driver Data
-        List<DriverModel> drivers = new List<DriverModel>();
+       // Map Driver Data
         try
         {
             for (int i = 0; i < irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.Count; i++)
@@ -275,34 +277,17 @@ public class Mapper
                     continue;
                 }
 
-                drivers.Add(
-                    new DriverModel(
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).UserName,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).IRating,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).LicString,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarNumberRaw,
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx,
-                        irsdkSharper.Data.GetInt("CarIdxPosition",
-                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetInt("CarIdxClassPosition",
-                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetInt("CarIdxLap",
-                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.GetBool("CarIdxOnPitRoad",
-                            irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx),
-                        irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarClassColor
-                    )
-                );
+                data.AddOrUpdateDriver(irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.ElementAt(i).CarIdx, irsdkSharper);
             }
 
-            data.SessionData.SOF = CalcSOF(drivers);
+            
         }
         catch (Exception e)
         {
             //ignored
         }
         
-        data.Drivers = drivers.ToArray();
+        data.SessionData.SOF = CalcSOF(data.Drivers.ToList());
 
 
         try

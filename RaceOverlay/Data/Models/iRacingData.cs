@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using IRSDKSharper;
+
 namespace RaceOverlay.Data.Models;
 
 public class iRacingData
@@ -132,5 +135,52 @@ public class iRacingData
         }
 
         return (int)(delta * 1000);
+    }
+    
+    public void AddOrUpdateDriver(int idx, IRacingSdk irsdkSharper)
+    {
+        int index = irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.FindIndex(d => d.CarIdx == idx);
+        List<DriverModel>? newDrivers = null;
+        var session = irsdkSharper.Data.SessionInfo.SessionInfo.Sessions
+            .Find(d => d.SessionNum == irsdkSharper.Data.GetInt("SessionNum"));
+        for (int i = 0; i < Drivers.Length; i++)
+        {
+            if (Drivers[i].Idx == idx)
+            {
+                var currentResult = session.ResultsPositions.Find(d => d.CarIdx == idx);
+                Drivers[i].Lap = currentResult.Lap;
+                Drivers[i].Position = currentResult.Position;
+                Drivers[i].ClassPosition = currentResult.ClassPosition;
+                Drivers[i].FastestLap = currentResult.FastestTime;
+                Drivers[i].LastLap = currentResult.LastTime;
+                Drivers[i].LapPtc = irsdkSharper.Data.GetFloat("CarIdxLapDistPct", idx);
+                Drivers[i].OnPitRoad = irsdkSharper.Data.GetBool("CarIdxOnPitRoad", idx);
+                return;
+            }
+        }
+
+        // If we reach here, the driver was not found, so we add it
+        try
+        {
+            var current = irsdkSharper.Data.SessionInfo.DriverInfo.Drivers.Find(d => d.CarIdx == idx);
+            var newDriver = new DriverModel(
+                current.TeamName,
+                current.IRating,
+                current.LicString,
+                current.CarNumberRaw,
+                idx
+            );
+            newDrivers = new List<DriverModel>(Drivers) { newDriver };
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e);
+        }
+
+        if (newDrivers == null)
+        {
+            return;
+        }
+        Drivers = newDrivers.ToArray();
     }
 }
