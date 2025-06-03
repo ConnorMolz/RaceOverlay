@@ -17,11 +17,12 @@ public class DriverModel
     public double FastestLap { get; set; }
     public double LastLap { get; set; }
 
-    public DriverModel(string name, int iRating, string license, int carNumber, int idx)
+    public DriverModel(string name, int iRating, string license, string classColor, int carNumber, int idx)
     {
         Name = name;
         this.iRating = iRating;
         License = license;
+        ClassColorCode = classColor;
         CarNumber = carNumber;
         Idx = idx;
     }

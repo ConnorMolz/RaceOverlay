@@ -167,6 +167,7 @@ public class iRacingData
                 current.TeamName,
                 current.IRating,
                 current.LicString,
+                current.CarClassColor,
                 current.CarNumberRaw,
                 idx
             );
