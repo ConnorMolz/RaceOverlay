@@ -50,20 +50,18 @@ public class iRacingData
         
         if (player.Lap == target.Lap)
         {
-            gapPercentage = target.LapPtc - player.LapPtc;
+            gapPercentage = target.EstLapTime - player.EstLapTime;
         }
         else if (player.Lap > target.Lap)
         {
-            gapPercentage = (1 - player.LapPtc) + target.LapPtc;
+            gapPercentage = (1 - player.EstLapTime) + target.EstLapTime;
         }
         else if (player.Lap < target.Lap)
         {
-            gapPercentage = (1 - target.LapPtc) + player.LapPtc;
+            gapPercentage = (1 - target.EstLapTime) + player.EstLapTime;
         }
         
-        double gapInSeconds = gapPercentage * target.EstLapTime;
-        
-        return (int)(gapInSeconds * 1000);
+        return (int)(gapPercentage * 1000);
     }
 
     public int GetGapToClassLeaderMS(int classLeaderIdx, int targetCarIdx)
@@ -162,7 +160,7 @@ public class iRacingData
                 current.LicString,
                 current.CarClassColor,
                 current.CarNumberRaw,
-                current.CarClassEstLapTime,
+                irsdkSharper.Data.GetFloat("CarIdxEstTime", idx),
                 idx
             );
             newDrivers = new List<DriverModel>(Drivers) { newDriver };
