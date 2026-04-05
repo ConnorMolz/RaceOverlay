@@ -43,10 +43,10 @@ public class Mapper
     public static iRacingData MapData(IRacingSdk irsdkSharper)
     {
         iRacingData data = new();
-        
+
         // Getting Idx of the player
         data.PlayerIdx = irsdkSharper.Data.GetInt("PlayerCarIdx");
-        
+
         // Map Session Data
         data.SessionData.TimeLeft = irsdkSharper.Data.GetDouble("SessionTimeRemain");
         data.SessionData.TimeTotal = irsdkSharper.Data.GetDouble("SessionTimeTotal");
@@ -65,17 +65,17 @@ public class Mapper
         }
 
         data.SessionData.Incidents = irsdkSharper.Data.GetInt("PlayerCarMyIncidentCount");
-        
+
         // Map Inputs
         data.Inputs.Clutch = irsdkSharper.Data.GetFloat("Clutch");
         data.Inputs.Throttle = irsdkSharper.Data.GetFloat("Throttle");
         data.Inputs.Brake = irsdkSharper.Data.GetFloat("Brake");
         data.Inputs.Steering = Single.RadiansToDegrees(irsdkSharper.Data.GetFloat("SteeringWheelAngle")) * -1;
         data.Inputs.Handbrake = irsdkSharper.Data.GetFloat("HandbrakeRaw"); // Todo: Need to check this
-        
-        
+
+
         // Map LocalCarTelemetry
-        
+
         // Map Tyres
         data.LocalCarTelemetry.FrontLeftTyre = new Tyre(
             irsdkSharper.Data.GetFloat("LFtempCL"),
@@ -109,7 +109,7 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRwearM") * 100,
             irsdkSharper.Data.GetFloat("RRwearR") * 100
         );
-        
+
         // Map Dampers *Removed for performance resone because currently not needed
         /*data.LocalCarTelemetry.FrontLeftDamper = new Damper(
             irsdkSharper.Data.GetFloat("LFshockDefl"),
@@ -135,12 +135,12 @@ public class Mapper
             irsdkSharper.Data.GetFloat("RRshockVel"),
             irsdkSharper.Data.GetFloat("RRshockVel_ST")
         );*/
-        
+
         // Gear, RPM, Speed and Steering
-        data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM"); 
+        data.LocalCarTelemetry.CurrentRPM = irsdkSharper.Data.GetInt("RPM");
         data.LocalCarTelemetry.Gear = irsdkSharper.Data.GetInt("Gear");
         data.LocalCarTelemetry.Speed = irsdkSharper.Data.GetFloat("Speed") * 3.6f;
-        
+
         // Fuel Level and Press
         data.LocalCarTelemetry.FuelLevel = irsdkSharper.Data.GetFloat("FuelLevel");
         try
@@ -151,33 +151,33 @@ public class Mapper
         {
             //ignored
         }
-       
-        
+
+
         // Oil Temp
         data.LocalCarTelemetry.OilTemp = irsdkSharper.Data.GetFloat("OilTemp");
-        
+
         // Water Temp
         data.LocalCarTelemetry.WaterTemp = irsdkSharper.Data.GetFloat("WaterTemp");
-        
+
         // Energy Level (GPT Only)
         try
         {
             // iRacing is expose a value between 1 and 0 by multiple with 100 the value is in Percent
-            data.LocalCarTelemetry.EngeryLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct") * 100;
+            data.LocalCarTelemetry.EnergyLevelPct = irsdkSharper.Data.GetFloat("EnergyERSBatteryPct") * 100;
         }
         catch (Exception e)
         {
             // ignored
         }
-        
-        
+
+
         // Lap Data
         data.LocalCarTelemetry.Lap = irsdkSharper.Data.GetInt("Lap");
-        
+
         // Lap Deltas
         data.LocalDriver.LastLapDelta = irsdkSharper.Data.GetFloat("LapDeltaToSessionLastlLap");
         data.LocalDriver.BestLapDelta = irsdkSharper.Data.GetFloat("LapDeltaToSessionBestLap");
-        
+
         // Drive Assistants
         try
         {
@@ -214,7 +214,7 @@ public class Mapper
         {
             // ignored
         }
-        
+
         try
         {
             data.LocalCarTelemetry.ARBFront = irsdkSharper.Data.GetFloat("dcAntiRollFront");
@@ -223,7 +223,7 @@ public class Mapper
         {
             // ignored
         }
-        
+
         try
         {
             data.LocalCarTelemetry.ARBRear = irsdkSharper.Data.GetFloat("dcAntiRollRear");
@@ -252,7 +252,7 @@ public class Mapper
         data.WeatherData.WeatherDeclaredWet = irsdkSharper.Data.GetBool("WeatherDeclaredWet");
         data.WeatherData.AirDensity = irsdkSharper.Data.GetFloat("AirDensity");
         data.WeatherData.AirPressure = irsdkSharper.Data.GetFloat("AirPressure");
-        
+
 
         // Get if driver is on Track
         data.InCar = irsdkSharper.Data.GetBool("IsOnTrack");
@@ -262,7 +262,7 @@ public class Mapper
         data.Pitstop.OptionalRepairTimeLeft = irsdkSharper.Data.GetFloat("PitOptRepairLeft");
         data.Pitstop.InPit = irsdkSharper.Data.GetBool("OnPitRoad");
         Debug.WriteLine(data.Pitstop.InPit);
-        
+
         // Map Driver Data
         List<DriverModel> drivers = new List<DriverModel>();
         try
@@ -301,7 +301,7 @@ public class Mapper
         {
             //ignored
         }
-        
+
         data.Drivers = drivers.ToArray();
 
 
@@ -327,20 +327,20 @@ public class Mapper
         data.InGarage = irsdkSharper.Data.GetBool("IsInGarage");
 
         var Flag = irsdkSharper.Data.GetValue("SessionFlags");
-        
+
         data.LocalDriver.CurrentIrsdkFlags = (IrsdkFlags)Flag;
         Console.WriteLine(data.LocalDriver.CurrentIrsdkFlags);
-        
+
         // Return Dataset
         return data;
     }
-    
+
     private static int CalcSOF(List<DriverModel> drivers)
     {
         double starters = drivers.Count();
 
         double sof = LogNumber * Math.Log(starters / drivers.Sum(r => Math.Exp(-r.iRating / LogNumber)));
-        
+
         // Calculate the rating change for each driver Implement later
         /*foreach (var result in drivers)
         {
@@ -353,8 +353,8 @@ public class Mapper
 
             result.RatingChange = (starters - result.ClassPosition - expectedScore - fudgeFactor) * 200 / starters;
         }*/
-        
+
         return (int) sof;
     }
-    
+
 }

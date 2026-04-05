@@ -9,6 +9,6 @@ public class EnergyInfoModel
     public EnergyInfoModel()
     {
         iRacingData iRacingData = MainWindow.IRacingData;
-        EnergyLevelPct = iRacingData.LocalCarTelemetry.EngeryLevelPct;
+        EnergyLevelPct = iRacingData.LocalCarTelemetry.EnergyLevelPct;
     }
 }

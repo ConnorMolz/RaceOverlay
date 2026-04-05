@@ -7,19 +7,19 @@ namespace RaceOverlay.Overlays.EnergyInfo;
 
 public partial class EnergyInfo : Overlay
 {
-    private float _energyLevelPct;  
-    
+    private float _energyLevelPct;
+
     private iRacingData _data;
-    
-    
-    public EnergyInfo(): base("Engery Info", "Displays the current energy level of the battery. (Only available in GPT)")
+
+
+    public EnergyInfo(): base("Energy Info", "Displays the current energy level of the battery. (Only available in GPT)")
     {
         InitializeComponent();
-        
+
         _setWindowSize(200, 35);
-        
+
         Thread updateThread = new Thread(UpdateThreadMethod);
-        
+
         updateThread.IsBackground = true;
         updateThread.Start();
     }
@@ -29,11 +29,11 @@ public partial class EnergyInfo : Overlay
         EnergyPctText.Text = _energyLevelPct.ToString("F1") + "%";
         EnergyBar.Width = _energyLevelPct * 2;
     }
-    
+
     public override void _getData()
     {
         _data = MainWindow.IRacingData;
-        _energyLevelPct = _data.LocalCarTelemetry.EngeryLevelPct * 1;
+        _energyLevelPct = _data.LocalCarTelemetry.EnergyLevelPct * 1;
         if (!_devMode)
         {
             InCar = _data.InCar;
@@ -43,7 +43,7 @@ public partial class EnergyInfo : Overlay
             InCar = true;
         }
     }
-    
+
     protected override void _scaleWindow(double scale)
     {
         try
